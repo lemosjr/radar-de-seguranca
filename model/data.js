@@ -1,0 +1,115 @@
+// Base de dados contendo as unidades de seguranca de Fortaleza
+// Coordenadas definidas em porcentagem para posicionamento relativo no mapa base
+const batalhoesMockados = [
+    // ==========================================
+    // POLICIA MILITAR
+    // ==========================================
+    
+    // Centro (Sercefor)
+    { id: 1, nome: "1º CRPM (Comando Regional Capital Oeste)", corporacao: "PM", regional: "Sercefor", lat: 25, lng: 48 },
+    { id: 2, nome: "Comando de Policiamento Especializado (CPE)", corporacao: "PM", regional: "Sercefor", lat: 27, lng: 50 },
+    { id: 3, nome: "5º BPM (Centro)", corporacao: "PM", regional: "Sercefor", lat: 26, lng: 52 },
+
+    // Regional I (SER I)
+    { id: 4, nome: "CPRAIO (São Gerardo)", corporacao: "PM", regional: "SER I", lat: 30, lng: 35 },
+    { id: 5, nome: "20º BPM (Cristo Redentor)", corporacao: "PM", regional: "SER I", lat: 25, lng: 25 },
+    { id: 6, nome: "Batalhão de Segurança Patrimonial (BSP)", corporacao: "PM", regional: "SER I", lat: 28, lng: 40 },
+
+    // Regional II (SER II)
+    { id: 7, nome: "Batalhão de Policiamento Turístico (BPTUR)", corporacao: "PM", regional: "SER II", lat: 25, lng: 60 },
+    { id: 8, nome: "Comando de Policiamento de Choque", corporacao: "PM", regional: "SER II", lat: 35, lng: 80 },
+    { id: 9, nome: "COTAM", corporacao: "PM", regional: "SER II", lat: 37, lng: 82 },
+    { id: 10, nome: "BOPE", corporacao: "PM", regional: "SER II", lat: 39, lng: 81 },
+    { id: 11, nome: "Batalhão de Polícia de Choque (BPCHOQUE)", corporacao: "PM", regional: "SER II", lat: 41, lng: 83 },
+    { id: 12, nome: "COPAC (Cais do Porto)", corporacao: "PM", regional: "SER II", lat: 20, lng: 70 },
+    { id: 13, nome: "8º BPM (Aldeota)", corporacao: "PM", regional: "SER II", lat: 28, lng: 65 },
+    { id: 14, nome: "22º BPM (Papicu)", corporacao: "PM", regional: "SER II", lat: 30, lng: 75 },
+    { id: 15, nome: "1ª CPG (Casa Militar)", corporacao: "PM", regional: "SER II", lat: 26, lng: 62 },
+    { id: 16, nome: "2ª CPG (Assembleia Legislativa)", corporacao: "PM", regional: "SER II", lat: 32, lng: 68 },
+
+    // Regional III (SER III)
+    { id: 17, nome: "18º BPM (Antônio Bezerra)", corporacao: "PM", regional: "SER III", lat: 45, lng: 30 },
+
+    // Regional IV (SER IV)
+    { id: 18, nome: "BPRE (Maraponga)", corporacao: "PM", regional: "SER IV", lat: 60, lng: 45 },
+    { id: 19, nome: "6º BPM (Parangaba)", corporacao: "PM", regional: "SER IV", lat: 55, lng: 40 },
+
+    // Regional V (SER V)
+    { id: 20, nome: "17º BPM (Conjunto Ceará)", corporacao: "PM", regional: "SER V", lat: 65, lng: 20 },
+    { id: 21, nome: "21º BPM (Conjunto Esperança)", corporacao: "PM", regional: "SER V", lat: 75, lng: 35 },
+
+    // Regional VI (SER VI)
+    { id: 22, nome: "Batalhão de Polícia de Meio Ambiente (BPMA)", corporacao: "PM", regional: "SER VI", lat: 55, lng: 65 },
+    { id: 23, nome: "Regimento de Policia Montada (RPMONT)", corporacao: "PM", regional: "SER VI", lat: 70, lng: 60 },
+    { id: 24, nome: "16º BPM (Messejana)", corporacao: "PM", regional: "SER VI", lat: 75, lng: 65 },
+    { id: 25, nome: "19º BPM (Tancredo Neves)", corporacao: "PM", regional: "SER VI", lat: 65, lng: 75 },
+    { id: 26, nome: "3ª CPG (Palácio da Justiça)", corporacao: "PM", regional: "SER VI", lat: 72, lng: 62 },
+
+    // ==========================================
+    // CORPO DE BOMBEIROS MILITAR
+    // ==========================================
+    
+    // Sercefor
+    { id: 27, nome: "Batalhão de Busca e Salvamento", corporacao: "CBM", regional: "Sercefor", lat: 21, lng: 48 },
+    { id: 28, nome: "1ª Cia de Busca e Salvamento", corporacao: "CBM", regional: "Sercefor", lat: 22, lng: 47 },
+    { id: 29, nome: "1ª Cia de Mergulho de Resgate", corporacao: "CBM", regional: "Sercefor", lat: 23, lng: 49 },
+
+    // Regional I (SER I)
+    { id: 30, nome: "1ª Cia do 1°BBM (Jacarecanga)", corporacao: "CBM", regional: "SER I", lat: 27, lng: 43 },
+
+    // Regional II (SER II)
+    { id: 31, nome: "2ª Cia do 1°BBM (Mucuripe)", corporacao: "CBM", regional: "SER II", lat: 18, lng: 72 },
+    { id: 32, nome: "Batalhão de Salvamento Marítimo (BSMar)", corporacao: "CBM", regional: "SER II", lat: 19, lng: 73 },
+    { id: 33, nome: "1ª Cia de Salvamento Marítimo (Praia do Futuro)", corporacao: "CBM", regional: "SER II", lat: 33, lng: 85 },
+    { id: 34, nome: "1ª Cia de Prevenção Institucional (Assembleia)", corporacao: "CBM", regional: "SER II", lat: 31, lng: 67 },
+
+    // Regional IV (SER IV)
+    { id: 35, nome: "Comando de Bombeiro da Capital (CBC)", corporacao: "CBM", regional: "SER IV", lat: 46, lng: 49 },
+    { id: 36, nome: "1º Batalhão de Bombeiros Militar", corporacao: "CBM", regional: "SER IV", lat: 47, lng: 50 },
+    { id: 37, nome: "7ª Cia do 1º BBM", corporacao: "CBM", regional: "SER IV", lat: 48, lng: 51 },
+    { id: 38, nome: "8ª Cia do 1º BBM", corporacao: "CBM", regional: "SER IV", lat: 49, lng: 52 },
+    { id: 39, nome: "Batalhão de Socorro de Urgência", corporacao: "CBM", regional: "SER IV", lat: 58, lng: 44 },
+    { id: 40, nome: "1ª Cia de Socorro de Urgência", corporacao: "CBM", regional: "SER IV", lat: 59, lng: 45 },
+
+    // Regional V (SER V)
+    { id: 41, nome: "4ª Cia do 1º BBM (José Walter)", corporacao: "CBM", regional: "SER V", lat: 78, lng: 40 },
+    { id: 42, nome: "5ª Cia do 1º BBM (Conjunto Ceará)", corporacao: "CBM", regional: "SER V", lat: 67, lng: 22 },
+    { id: 43, nome: "1ª Cia de Busca com Cães", corporacao: "CBM", regional: "SER V", lat: 79, lng: 42 },
+
+    // Regional VI (SER VI)
+    { id: 44, nome: "3ª Cia do 1°BBM (Messejana)", corporacao: "CBM", regional: "SER VI", lat: 78, lng: 68 },
+    { id: 45, nome: "2ª Cia de Busca e Salvamento (Cambeba)", corporacao: "CBM", regional: "SER VI", lat: 74, lng: 64 },
+    { id: 46, nome: "2ª Cia de Prevenção Institucional (Tribunal de Justiça)", corporacao: "CBM", regional: "SER VI", lat: 73, lng: 63 },
+
+    // ==========================================
+    // GUARDA MUNICIPAL
+    // ==========================================
+    
+    // Sercefor
+    { id: 47, nome: "Torre Lagoinha", corporacao: "GM", regional: "Sercefor", lat: 25, lng: 49 },
+    { id: 48, nome: "Torre Praia de Iracema", corporacao: "GM", regional: "Sercefor", lat: 15, lng: 55 },
+    
+    // Regional I (SER I)
+    { id: 49, nome: "Torre Goiabeiras", corporacao: "GM", regional: "SER I", lat: 20, lng: 20 },
+    { id: 50, nome: "Torre Vila Velha", corporacao: "GM", regional: "SER I", lat: 35, lng: 15 },
+    { id: 51, nome: "Torre Barra do Ceará", corporacao: "GM", regional: "SER I", lat: 25, lng: 22 },
+    
+    // Regional II (SER II)
+    { id: 52, nome: "Torre Caça e Pesca", corporacao: "GM", regional: "SER II", lat: 40, lng: 88 },
+    { id: 53, nome: "Torre Vicente Pizon", corporacao: "GM", regional: "SER II", lat: 25, lng: 80 },
+    
+    // Regional III (SER III)
+    { id: 54, nome: "Torre Bonsucesso", corporacao: "GM", regional: "SER III", lat: 55, lng: 25 },
+    
+    // Regional IV (SER IV)
+    { id: 55, nome: "Torre Pan Americano", corporacao: "GM", regional: "SER IV", lat: 48, lng: 38 },
+    
+    // Regional V (SER V)
+    { id: 56, nome: "Torre Canindezinho", corporacao: "GM", regional: "SER V", lat: 70, lng: 25 },
+    { id: 57, nome: "Torre Mondubim", corporacao: "GM", regional: "SER V", lat: 65, lng: 35 },
+    { id: 58, nome: "Torre José Walter", corporacao: "GM", regional: "SER V", lat: 80, lng: 45 },
+    
+    // Regional VI (SER VI)
+    { id: 59, nome: "Torre Jangurussu", corporacao: "GM", regional: "SER VI", lat: 85, lng: 55 },
+    { id: 60, nome: "Torre Pôr do Sol", corporacao: "GM", regional: "SER VI", lat: 80, lng: 65 }
+];

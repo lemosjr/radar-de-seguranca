@@ -1,0 +1,210 @@
+.dashboard_container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Painéis com bordas suaves e sombras do CISEC */
+.filters_panel, .kpi_panel {
+    display: flex;
+    gap: 20px;
+    background: #ffffff;
+    padding: 15px 20px;
+    border-radius: 6px; /* Borda levemente menor para imitar o original */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+}
+
+fieldset.filter_group {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+fieldset.filter_group label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff; 
+    /* Nota: no CISEC original os labels dos filtros ficam dentro de uma área verde, 
+       mas como nossa estrutura é branca, usaremos um tom verde escuro para os textos */
+    color: #008959; 
+}
+
+select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #333333;
+    min-width: 200px;
+}
+
+/* Estilos dos Indicadores Numéricos (Artigo kpi_card) */
+.kpi_card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+}
+
+.kpi_card h3 {
+    font-size: 14px;
+    font-weight: normal;
+    color: #666666;
+}
+
+/* Verde exato dos números de totalização do CISEC */
+.kpi_value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #008959; 
+}
+
+/* Seções Principais */
+.main_content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Container do Mapa */
+.map_container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    min-height: 500px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+}
+
+.placeholder_text {
+    color: #008959;
+    font-weight: bold;
+}
+
+/* Marcadores do mapa */
+.marker {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+
+.marker:hover {
+    transform: scale(1.2);
+    z-index: 10;
+}
+
+/* Estilos para a seção de gráficos (RF004) */
+.charts_panel {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.section_title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #666666;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.chart_container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Gráfico de Barras Vanilla CSS */
+.bar_chart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.bar_row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bar_label {
+    width: 40px;
+    font-weight: bold;
+    color: #555555;
+    font-size: 12px;
+}
+
+.bar_track {
+    flex-grow: 1;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.bar_fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Cores das Corporações */
+.bg-pm { background-color: #1976d2; }
+.bg-cbm { background-color: #d32f2f; }
+.bg-gm { background-color: #fbc02d; color: #333333 !important; }
+
+/* Legenda do Gráfico */
+.chart_legend {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding-top: 10px;
+    border-top: 1px solid #eeeeee;
+}
+
+.legend_item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #666666;
+}
+
+.legend_color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
