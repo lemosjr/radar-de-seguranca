@@ -1,0 +1,52 @@
+/* Resetação básica */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f2f5f5; /* Fundo levemente acinzentado do sistema original */
+    font-family: "Segoe UI", Roboto, Arial, sans-serif; /* Fontes modernas padrão de painéis web */
+    color: #333333;
+}
+
+/* Utilitário de Acessibilidade */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Novo Cabeçalho com Gradiente CISEC */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    /* Gradiente verde inspirado na barra superior da imagem */
+    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.header nav a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+}

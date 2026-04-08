@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Segurança de Fortaleza</title>
+    <meta name="description" content="Dashboard interativo para visualização das forças de segurança de Fortaleza (PM, CBM e GM) separadas por regionais.">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Forças de Segurança de Fortaleza</h1>
+        <nav aria-label="Menu Principal">
+            <a href="index.html" style="color: white; margin-right: 15px;">Dashboard</a>
+            <a href="sobre.html" style="color: white;">Sobre</a>
+        </nav>
+    </header>
+
+    <main class="dashboard_container">
+        
+        <form class="filters_panel" aria-label="Filtros de Mapa">
+            <fieldset class="filter_group">
+                <legend class="sr-only">Filtro por Corporação</legend>
+                <label for="corporation">Corporação:</label>
+                <select id="corporation" name="corporation">
+                    <option value="todas">Todas</option>
+                    <option value="PM">Polícia Militar (PM)</option>
+                    <option value="CBM">Corpo de Bombeiros (CBM)</option>
+                    <option value="GM">Guarda Municipal (GM)</option>
+                </select>
+            </fieldset>
+
+            <fieldset class="filter_group">
+                <legend class="sr-only">Filtro por Regional</legend>
+                <label for="regional">Regional:</label>
+                <select id="regional" name="regional">
+                    <option value="todas">Todas as Regionais</option>
+                    <option value="SER I">SER I</option>
+                    <option value="SER II">SER II</option>
+                    <option value="SER III">SER III</option>
+                    <option value="SER IV">SER IV</option>
+                    <option value="SER V">SER V</option>
+                    <option value="SER VI">SER VI</option>
+                    <option value="Sercefor">Centro (Sercefor)</option>
+                </select>
+            </fieldset>
+        </form>
+
+        <section class="kpi_panel" aria-labelledby="kpi_title">
+            <h2 id="kpi_title" class="sr-only">Indicadores Quantitativos</h2>
+            <article class="kpi_card">
+                <h3>Total de Batalhões Exibidos</h3>
+                <p id="total_batalhoes" class="kpi_value" aria-live="polite">0</p>
+            </article>
+        </section>
+
+        <section class="main_content" aria-label="Visualização Territorial">
+            <figure class="map_container" id="mapa_fortaleza">
+                <figcaption class="sr-only">Mapa interativo mostrando a localização espacial das unidades de segurança em Fortaleza.</figcaption>
+                <p class="placeholder_text" aria-hidden="true">Mapa interativo será renderizado aqui</p>
+                <div id="map_markers" aria-live="polite"></div>
+            </figure>
+        </section>
+
+        <section class="charts_panel" aria-labelledby="chart_title">
+            <h2 id="chart_title" class="section_title">Distribuição por Corporação</h2>
+            
+            <div class="chart_container">
+                <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
+                
+                <ul id="chart_legend" class="chart_legend" aria-live="polite">
+                    </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../model/data.js"></script>
+    <script src="../controller/script.js"></script>
+</body>
+</html>
