@@ -12,12 +12,13 @@
     <header class="header">
         <h1>Forças de Segurança de Fortaleza</h1>
         <nav aria-label="Menu Principal">
-            <a href="dashboard.html" style="color: white; margin-right: 15px;">Dashboard</a>
+            <a href="index.html" style="color: white; margin-right: 15px;">Dashboard</a>
             <a href="sobre.html" style="color: white;">Sobre</a>
         </nav>
     </header>
 
     <main class="dashboard_container">
+        
         <form class="filters_panel" aria-label="Filtros de Mapa">
             <fieldset class="filter_group">
                 <legend class="sr-only">Filtro por Corporação</legend>
@@ -60,19 +61,22 @@
                 <p class="placeholder_text" aria-hidden="true">Mapa interativo será renderizado aqui</p>
                 <div id="map_markers" aria-live="polite"></div>
             </figure>
-            
-            <section class="charts_panel" aria-labelledby="chart_title">
-                <h2 id="chart_title" class="section_title">Distribuição por Corporação</h2>
-                <div class="chart_container">
-                    <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
-                    <ul id="chart_legend" class="chart_legend" aria-live="polite">
-                    </ul>
-                </div>
-            </section>
         </section>
+
+        <section class="charts_panel" aria-labelledby="chart_title">
+            <h2 id="chart_title" class="section_title">Distribuição por Corporação</h2>
+            
+            <div class="chart_container">
+                <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
+                
+                <ul id="chart_legend" class="chart_legend" aria-live="polite">
+                    </ul>
+            </div>
+        </section>
+
     </main>
 
-    <script src="../js/data.js"></script>
-    <script src="../js/script.js"></script>
+    <script src="../model/data.js"></script>
+    <script src="../controller/script.js"></script>
 </body>
 </html>
