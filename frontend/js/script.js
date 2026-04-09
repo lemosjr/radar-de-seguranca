@@ -2,7 +2,9 @@ const AppState = {
     filtros: {
         corporacao: 'todas',
         regional: 'todas'
-    }
+    },
+    // Array para armazenar os dados vindos do banco
+    dadosCompletos: [] 
 };
 
 const ConfigCorporacoes = {
@@ -20,12 +22,26 @@ const elementosDOM = {
     containerLegenda: document.getElementById('chart_legend')
 };
 
-function obterDadosFiltrados() {
-    return batalhoesMockados.filter(batalhao => {
-        const atendeCorporacao = AppState.filtros.corporacao === 'todas' || batalhao.corporacao === AppState.filtros.corporacao;
-        const atendeRegional = AppState.filtros.regional === 'todas' || batalhao.regional === AppState.filtros.regional;
-        return atendeCorporacao && atendeRegional;
-    });
+// Função para buscar dados da API do Backend
+async function buscarDadosDoBanco() {
+    try {
+        const url = `http://localhost:3000/api/unidades?corporacao=${AppState.filtros.corporacao}&regional=${AppState.filtros.regional}`;
+        const resposta = await fetch(url);
+        
+        if (!resposta.ok) {
+            throw new Error(`Erro HTTP: ${resposta.status}`);
+        }
+        
+        const dados = await resposta.json();
+        AppState.dadosCompletos = dados;
+        
+        // Após buscar os dados, atualiza a tela
+        atualizarInterface(dados);
+        
+    } catch (erro) {
+        console.error("Erro ao buscar dados do PostgreSQL:", erro);
+        elementosDOM.containerMarcadores.innerHTML = '<p style="color: red; padding: 20px;">Erro de conexão com o banco de dados.</p>';
+    }
 }
 
 function renderizarMapa(dados) {
@@ -102,9 +118,7 @@ function renderizarGrafico(dados) {
     });
 }
 
-function atualizarInterface() {
-    const dados = obterDadosFiltrados();
-    
+function atualizarInterface(dados) {
     elementosDOM.textoTotalBatalhoes.textContent = dados.length;
     renderizarMapa(dados);
     renderizarGrafico(dados);
@@ -113,15 +127,16 @@ function atualizarInterface() {
 function iniciarAplicacao() {
     elementosDOM.selectCorporacao.addEventListener('change', (evento) => {
         AppState.filtros.corporacao = evento.target.value;
-        atualizarInterface();
+        buscarDadosDoBanco(); // Faz nova requisição ao banco
     });
 
     elementosDOM.selectRegional.addEventListener('change', (evento) => {
         AppState.filtros.regional = evento.target.value;
-        atualizarInterface();
+        buscarDadosDoBanco(); // Faz nova requisição ao banco
     });
 
-    atualizarInterface();
+    // Busca inicial ao carregar a página
+    buscarDadosDoBanco();
 }
 
 document.addEventListener('DOMContentLoaded', iniciarAplicacao);
