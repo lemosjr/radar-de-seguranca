@@ -7,13 +7,12 @@
     gap: 20px;
 }
 
-/* Painéis com bordas suaves e sombras do CISEC */
 .filters_panel, .kpi_panel {
     display: flex;
     gap: 20px;
     background: #ffffff;
     padding: 15px 20px;
-    border-radius: 6px; /* Borda levemente menor para imitar o original */
+    border-radius: 6px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border: 1px solid #e0e0e0;
 }
@@ -28,9 +27,6 @@ fieldset.filter_group {
 fieldset.filter_group label {
     font-size: 12px;
     font-weight: bold;
-    color: #ffffff; 
-    /* Nota: no CISEC original os labels dos filtros ficam dentro de uma área verde, 
-       mas como nossa estrutura é branca, usaremos um tom verde escuro para os textos */
     color: #008959; 
 }
 
@@ -44,7 +40,6 @@ select {
     min-width: 200px;
 }
 
-/* Estilos dos Indicadores Numéricos (Artigo kpi_card) */
 .kpi_card {
     display: flex;
     flex-direction: column;
@@ -58,21 +53,18 @@ select {
     color: #666666;
 }
 
-/* Verde exato dos números de totalização do CISEC */
 .kpi_value {
     font-size: 28px;
     font-weight: bold;
     color: #008959; 
 }
 
-/* Seções Principais */
 .main_content {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Container do Mapa */
 .map_container {
     background-color: #ffffff;
     padding: 20px;
@@ -93,7 +85,6 @@ select {
     font-weight: bold;
 }
 
-/* Marcadores do mapa */
 .marker {
     position: absolute;
     width: 24px;
@@ -110,7 +101,6 @@ select {
     z-index: 10;
 }
 
-/* Estilos para a seção de gráficos (RF004) */
 .charts_panel {
     background: #ffffff;
     padding: 20px;
@@ -137,7 +127,6 @@ select {
     gap: 20px;
 }
 
-/* Gráfico de Barras Vanilla CSS */
 .bar_chart {
     display: flex;
     flex-direction: column;
@@ -179,12 +168,10 @@ select {
     font-weight: bold;
 }
 
-/* Cores das Corporações */
 .bg-pm { background-color: #1976d2; }
 .bg-cbm { background-color: #d32f2f; }
 .bg-gm { background-color: #fbc02d; color: #333333 !important; }
 
-/* Legenda do Gráfico */
 .chart_legend {
     list-style: none;
     display: flex;
