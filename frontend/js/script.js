@@ -17,9 +17,15 @@ const elementosDOM = {
     selectCorporacao: document.getElementById('corporation'),
     selectRegional: document.getElementById('regional'),
     textoTotalBatalhoes: document.getElementById('total_batalhoes'),
+    textoTotalEfetivo: document.getElementById('total_efetivo'),
     containerMarcadores: document.getElementById('map_markers'),
+    // Elementos dos Gráficos
     containerGrafico: document.getElementById('bar_chart'),
-    containerLegenda: document.getElementById('chart_legend')
+    containerLegenda: document.getElementById('chart_legend'),
+    graficoRosca: document.getElementById('doughnut_efetivo'),
+    legendaRosca: document.getElementById('legend_doughnut'),
+    containerRegionais: document.getElementById('bar_chart_regionais'),
+    containerRanking: document.getElementById('ranking_efetivo')
 };
 
 // Função para buscar dados da API do Backend
@@ -62,7 +68,7 @@ function renderizarMapa(dados) {
         marcador.setAttribute('aria-label', infoTexto);
         
         marcador.addEventListener('click', () => {
-            alert(`Informações da Unidade:\nNome: ${unidade.nome}\nCorporação: ${unidade.corporacao}\nRegional: ${unidade.regional}`);
+            alert(`Informações da Unidade:\n\nNome: ${unidade.nome}\nCorporação: ${unidade.corporacao}\nRegional: ${unidade.regional}\nEfetivo Estimado: ${unidade.efetivo} agentes`);
         });
 
         marcador.addEventListener('keypress', (e) => {
@@ -76,52 +82,137 @@ function renderizarMapa(dados) {
     });
 }
 
-function renderizarGrafico(dados) {
+// Renderiza gráficos gerais (Unidades e Efetivo por Corporação)
+function renderizarGraficosCorporacao(dados) {
     elementosDOM.containerGrafico.innerHTML = '';
     elementosDOM.containerLegenda.innerHTML = '';
+    elementosDOM.legendaRosca.innerHTML = '';
 
-    const total = dados.length;
-    if (total === 0) {
-        elementosDOM.containerGrafico.innerHTML = '<p style="color: #999;">Nenhum dado para exibir no gráfico.</p>';
+    const totalUnidades = dados.length;
+    if (totalUnidades === 0) {
+        elementosDOM.containerGrafico.innerHTML = '<p style="color: #999;">Sem dados.</p>';
+        elementosDOM.graficoRosca.style.background = 'conic-gradient(#eee 0% 100%)';
         return;
     }
 
-    const contagem = { 'PM': 0, 'CBM': 0, 'GM': 0 };
-    dados.forEach(unidade => contagem[unidade.corporacao]++);
+    const contagem = { 'PM': { unid: 0, efetivo: 0 }, 'CBM': { unid: 0, efetivo: 0 }, 'GM': { unid: 0, efetivo: 0 } };
+    let totalEfetivo = 0;
+
+    dados.forEach(u => {
+        contagem[u.corporacao].unid++;
+        contagem[u.corporacao].efetivo += (u.efetivo || 0);
+        totalEfetivo += (u.efetivo || 0);
+    });
+
+    let conicGradientString = [];
+    let acumuloGraus = 0;
 
     Object.keys(contagem).forEach(corp => {
-        const quantidade = contagem[corp];
-        if (quantidade > 0 || AppState.filtros.corporacao === 'todas') {
-            const porcentagem = total > 0 ? Math.round((quantidade / total) * 100) : 0;
-            const config = ConfigCorporacoes[corp];
+        const stats = contagem[corp];
+        const config = ConfigCorporacoes[corp];
 
-            const barRow = document.createElement('div');
-            barRow.className = 'bar_row';
-            barRow.innerHTML = `
-                <span class="bar_label">${corp}</span>
-                <div class="bar_track">
-                    <div class="bar_fill ${config.corClass}" style="width: ${porcentagem}%">
-                        ${quantidade > 0 ? porcentagem + '%' : ''}
+        // 1. Gráfico de Barras (Unidades)
+        if (stats.unid > 0 || AppState.filtros.corporacao === 'todas') {
+            const porcentagemUnid = totalUnidades > 0 ? Math.round((stats.unid / totalUnidades) * 100) : 0;
+            
+            elementosDOM.containerGrafico.innerHTML += `
+                <div class="bar_row">
+                    <span class="bar_label">${corp}</span>
+                    <div class="bar_track">
+                        <div class="bar_fill ${config.corClass}" style="width: ${porcentagemUnid}%">
+                            ${stats.unid > 0 ? porcentagemUnid + '%' : ''}
+                        </div>
                     </div>
                 </div>
             `;
-            elementosDOM.containerGrafico.appendChild(barRow);
 
-            const legendItem = document.createElement('li');
-            legendItem.className = 'legend_item';
-            legendItem.innerHTML = `
-                <span class="legend_color ${config.corClass}"></span>
-                ${config.nome}: ${quantidade} unidade(s)
+            elementosDOM.containerLegenda.innerHTML += `
+                <li class="legend_item"><span class="legend_color ${config.corClass}"></span>${config.nome}: ${stats.unid}</li>
             `;
-            elementosDOM.containerLegenda.appendChild(legendItem);
         }
+
+        // 2. Gráfico de Rosca (Efetivo)
+        if (stats.efetivo > 0) {
+            const porcentagemEfetivo = (stats.efetivo / totalEfetivo) * 100;
+            const fimGraus = acumuloGraus + porcentagemEfetivo;
+            conicGradientString.push(`${config.corHex} ${acumuloGraus}% ${fimGraus}%`);
+            acumuloGraus = fimGraus;
+
+            elementosDOM.legendaRosca.innerHTML += `
+                <li class="legend_item"><span class="legend_color ${config.corClass}"></span>${corp}: ${stats.efetivo} ag.</li>
+            `;
+        }
+    });
+
+    // Aplica as cores no gráfico de rosca
+    elementosDOM.graficoRosca.style.background = `conic-gradient(${conicGradientString.join(', ')})`;
+}
+
+// Renderiza o Gráfico de Barras por Regionais
+function renderizarGraficoRegionais(dados) {
+    elementosDOM.containerRegionais.innerHTML = '';
+    
+    if (dados.length === 0) return;
+
+    const contagemRegionais = {};
+    dados.forEach(u => {
+        contagemRegionais[u.regional] = (contagemRegionais[u.regional] || 0) + 1;
+    });
+
+    // Ordena do maior para o menor
+    const regionaisOrdenadas = Object.entries(contagemRegionais).sort((a, b) => b[1] - a[1]);
+    const maxUnidades = regionaisOrdenadas[0][1];
+
+    regionaisOrdenadas.forEach(([regional, qtd]) => {
+        const porcentagem = (qtd / maxUnidades) * 100;
+        
+        elementosDOM.containerRegionais.innerHTML += `
+            <div class="bar_row">
+                <span class="bar_label" style="width: 70px;">${regional}</span>
+                <div class="bar_track">
+                    <div class="bar_fill" style="width: ${porcentagem}%; background-color: #008959;">
+                        ${qtd}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+// Renderiza o Top 5 de Efetivo
+function renderizarRankingEfetivo(dados) {
+    elementosDOM.containerRanking.innerHTML = '';
+    
+    if (dados.length === 0) return;
+
+    // Ordena as unidades por efetivo em ordem decrescente e pega as 5 primeiras
+    const top5 = [...dados].sort((a, b) => (b.efetivo || 0) - (a.efetivo || 0)).slice(0, 5);
+
+    top5.forEach((unidade, index) => {
+        elementosDOM.containerRanking.innerHTML += `
+            <li class="ranking_item" style="border-left-color: ${ConfigCorporacoes[unidade.corporacao].corHex}">
+                <div>
+                    <strong>${index + 1}º ${unidade.nome}</strong>
+                    <br><span style="font-size: 11px;">${unidade.regional}</span>
+                </div>
+                <div class="ranking_efetivo_badge">${unidade.efetivo} ag.</div>
+            </li>
+        `;
     });
 }
 
 function atualizarInterface(dados) {
     elementosDOM.textoTotalBatalhoes.textContent = dados.length;
+
+    const somaEfetivo = dados.reduce((acc, curr) => acc + (curr.efetivo || 0), 0);
+    elementosDOM.textoTotalEfetivo.textContent = somaEfetivo.toLocaleString('pt-BR');
+
     renderizarMapa(dados);
-    renderizarGrafico(dados);
+    
+    // Chamada dos 4 painéis gráficos
+    renderizarGraficosCorporacao(dados);
+    renderizarGraficoRegionais(dados);
+    renderizarRankingEfetivo(dados);
 }
 
 function iniciarAplicacao() {

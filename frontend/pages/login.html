@@ -3,35 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Restrito</title>
+    <title>Acesso Restrito - SSPDS</title>
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
-    <main class="login_wrapper">
-        <section class="login_card">
-            <header class="login_header">
-                <h2>Acesso ao Painel</h2>
-                <p>Insira suas credenciais corporativas</p>
-            </header>
+    <main class="auth_container">
+        <section class="auth_banner">
+            <div class="banner_content">
+                <div class="sspds_logo" aria-hidden="true">🛡️ SSPDS</div>
+                <h1 id="banner_title">Bem-vindo de volta!</h1>
+                <p id="banner_text">Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.</p>
+                <button type="button" id="toggle_btn" class="btn_outline">CRIAR CONTA</button>
+            </div>
+        </section>
 
-            <form action="dashboard.html" method="GET" class="login_form">
-                <fieldset>
-                    <legend class="sr_only">Dados de Autenticação</legend>
-                    
-                    <div class="input_group">
-                        <label for="user_email">E-mail Institucional</label>
-                        <input type="email" id="user_email" name="email" required placeholder="matricula@seguranca.ce.gov.br">
-                    </div>
+        <section class="auth_forms">
+            
+            <form id="form_login" class="form_box active">
+                <h2>Acessar Sistema</h2>
+                
+                <div class="input_group">
+                    <label for="login_email" class="sr_only">E-mail</label>
+                    <input type="email" id="login_email" placeholder="E-mail" required>
+                </div>
+                
+                <div class="input_group">
+                    <label for="login_password" class="sr_only">Senha</label>
+                    <input type="password" id="login_password" placeholder="Senha" required>
+                </div>
 
-                    <div class="input_group">
-                        <label for="user_password">Senha</label>
-                        <input type="password" id="user_password" name="password" required placeholder="Sua senha de acesso">
-                    </div>
-                </fieldset>
+                <div class="demo_credentials" aria-label="Credenciais de acesso para a apresentação">
+                    <strong>Acesso de Demonstração:</strong>
+                    <p>E-mail: <span>admin@sspds.ce.gov.br</span></p>
+                    <p>Senha: <span>123456</span></p>
+                </div>
 
-                <button type="submit" class="btn_login">Entrar no Sistema</button>
+                <div id="login_error" class="error_msg" aria-live="polite"></div>
+                
+                <button type="submit" class="btn_solid">ENTRAR</button>
             </form>
+
+            <form id="form_register" class="form_box hidden">
+                <h2>Criar Conta</h2>
+                <div class="input_group">
+                    <label for="reg_nome" class="sr_only">Nome Completo</label>
+                    <input type="text" id="reg_nome" placeholder="Nome Completo" required>
+                </div>
+                <div class="input_group">
+                    <label for="reg_email" class="sr_only">E-mail</label>
+                    <input type="email" id="reg_email" placeholder="E-mail" required>
+                </div>
+                <div class="input_group">
+                    <label for="reg_password" class="sr_only">Senha</label>
+                    <input type="password" id="reg_password" placeholder="Senha" required>
+                </div>
+                <div id="reg_error" class="error_msg" aria-live="polite"></div>
+                <button type="submit" class="btn_solid">CADASTRAR</button>
+            </form>
+
         </section>
     </main>
+
+    <script src="../js/login.js"></script>
 </body>
 </html>

@@ -48,10 +48,16 @@
         </form>
 
         <section class="kpi_panel" aria-labelledby="kpi_title">
-            <h2 id="kpi_title" class="sr-only">Indicadores Quantitativos</h2>
+            <h2 id="kpi_title" class="sr_only">Indicadores Quantitativos</h2>
+            
             <article class="kpi_card">
                 <h3>Total de Batalhões Exibidos</h3>
                 <p id="total_batalhoes" class="kpi_value" aria-live="polite">0</p>
+            </article>
+
+            <article class="kpi_card">
+                <h3>Efetivo Total Projetado</h3>
+                <p id="total_efetivo" class="kpi_value" aria-live="polite">0</p>
             </article>
         </section>
 
@@ -63,18 +69,79 @@
             </figure>
         </section>
 
-        <section class="charts_panel" aria-labelledby="chart_title">
-            <h2 id="chart_title" class="section_title">Distribuição por Corporação</h2>
-            
-            <div class="chart_container">
-                <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
-                
-                <ul id="chart_legend" class="chart_legend" aria-live="polite">
-                    </ul>
-            </div>
+        <section class="analytics_grid" aria-labelledby="analytics_title">
+            <h2 id="analytics_title" class="sr_only">Painel de Análise Gráfica</h2>
+
+            <article class="chart_card">
+                <h3 class="section_title">Unidades por Corporação</h3>
+                <div class="chart_container">
+                    <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
+                    <ul id="chart_legend" class="chart_legend" aria-live="polite"></ul>
+                </div>
+            </article>
+
+            <article class="chart_card">
+                <h3 class="section_title">Efetivo por Corporação</h3>
+                <div class="chart_container doughnut_wrapper">
+                    <figure class="doughnut_chart" id="doughnut_efetivo"></figure>
+                    <ul id="legend_doughnut" class="chart_legend" aria-live="polite"></ul>
+                </div>
+            </article>
+
+            <article class="chart_card">
+                <h3 class="section_title">Distribuição por Regional</h3>
+                <div class="chart_container">
+                    <div id="bar_chart_regionais" class="bar_chart" aria-hidden="true"></div>
+                </div>
+            </article>
+
+            <article class="chart_card">
+                <h3 class="section_title">Top 5 Maiores Efetivos</h3>
+                <div class="chart_container">
+                    <ol id="ranking_efetivo" class="ranking_list" aria-live="polite"></ol>
+                </div>
+            </article>
         </section>
 
     </main>
+
+    <footer class="sspds_footer" aria-label="Rodapé Institucional">
+        <div class="footer_top_line"></div>
+        <div class="footer_container">
+            
+            <section class="footer_brand">
+                <h2>SSPDS.CE.GOV.BR</h2>
+            </section>
+
+            <address class="footer_info">
+                <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
+                CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
+                AV. AGUANAMBI, S/N, AEROPORTO<br>
+                FORTALEZA, CE, CEP: 60415 390<br>
+                TELEFONE: (85) 3194 7420
+            </address>
+
+            <section class="footer_hours">
+                <strong>HORÁRIO DE ATENDIMENTO</strong><br>
+                08 ÀS 17 HORAS
+            </section>
+
+            <section class="footer_social">
+                <strong>NOSSOS CANAIS</strong>
+                <ul class="social_icons" aria-label="Redes Sociais">
+                    <li><a href="#" aria-label="Facebook">f</a></li>
+                    <li><a href="#" aria-label="Instagram">📷</a></li>
+                    <li><a href="#" aria-label="Twitter">t</a></li>
+                    <li><a href="#" aria-label="YouTube">▶</a></li>
+                </ul>
+                <p class="copyright">
+                    © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br>
+                    TODOS OS DIREITOS RESERVADOS
+                </p>
+            </section>
+            
+        </div>
+    </footer>
 
     <script src="../js/script.js"></script>
 </body>
