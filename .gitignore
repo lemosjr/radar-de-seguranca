@@ -1,0 +1,51 @@
+# ========================
+# Dependências do Node.js
+# ========================
+node_modules/
+package-lock.json
+
+# ========================
+# Variáveis de Ambiente e Segredos
+# ========================
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+*.pem
+
+# ========================
+# Logs e Arquivos de Erro
+# ========================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========================
+# Banco de Dados Local (Caso mude para SQLite depois)
+# ========================
+*.db
+*.sqlite
+
+# ========================
+# Arquivos do Sistema Operacional
+# ========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========================
+# Configurações de Editores/IDEs
+# ========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
