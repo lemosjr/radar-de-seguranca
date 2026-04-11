@@ -1,0 +1,40 @@
+/* ==========================================
+   ESTILOS DO CABEÇALHO (HEADER)
+   ========================================== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+/* Estilos dos links de navegação */
+.header nav a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-right: 15px;
+    transition: opacity 0.3s ease;
+}
+
+/* Remove a margem direita do último link para alinhar com a borda direita perfeitamente */
+.header nav a:last-child {
+    margin-right: 0;
+}
+
+.header nav a:hover, 
+.header nav a:focus {
+    text-decoration: underline;
+    opacity: 0.8;
+    outline: none;
+}

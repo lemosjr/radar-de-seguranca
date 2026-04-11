@@ -1,0 +1,205 @@
+/* ==========================================
+   TELA DE LOGIN (Específico)
+   ========================================== */
+
+/* Novo container para centralizar a caixa de login no espaço livre do main */
+.login_main_wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px; 
+    width: 100%;
+}
+
+/* O cartão principal dividido em dois */
+.auth_container {
+    background-color: #ffffff;
+    width: 900px;
+    max-width: 100%;
+    min-height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    overflow: hidden;
+}
+
+/* Lado Esquerdo (Verde SSPDS) */
+.auth_banner {
+    width: 40%;
+    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+}
+
+.sspds_logo {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.auth_banner h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.auth_banner p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.btn_outline {
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 12px 35px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn_outline:hover, .btn_outline:focus {
+    background: #ffffff;
+    color: #008959;
+    outline: none;
+}
+
+/* Lado Direito (Formulários) */
+.auth_forms {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+}
+
+.form_box {
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.4s ease;
+}
+
+.form_box.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.form_box.active {
+    display: flex;
+    opacity: 1;
+}
+
+.form_box h2 {
+    color: #00b37e;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.input_group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.input_group input {
+    width: 100%;
+    padding: 15px;
+    background-color: #f4f8f7;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.input_group input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #00b37e;
+}
+
+.btn_solid {
+    background-color: #00b37e;
+    color: #ffffff;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+.btn_solid:hover, .btn_solid:focus {
+    background-color: #008959;
+    outline: none;
+}
+
+.error_msg {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-bottom: 10px;
+    min-height: 15px;
+}
+
+/* Aviso de Credenciais (Modo Apresentação) */
+.demo_credentials {
+    background-color: #e0f2f1;
+    border-left: 4px solid #008959;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #444444;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.demo_credentials strong {
+    color: #008959;
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.demo_credentials p {
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.demo_credentials p:last-child {
+    margin-bottom: 0;
+}
+
+.demo_credentials span {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid #cccccc;
+    font-weight: bold;
+    color: #333333;
+    user-select: all;
+    cursor: copy;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .auth_container {
+        flex-direction: column;
+    }
+    .auth_banner, .auth_forms {
+        width: 100%;
+    }
+}
