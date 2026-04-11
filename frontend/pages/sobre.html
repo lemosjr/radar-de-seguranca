@@ -3,9 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sobre o Projeto | Radar de Segurança</title>
+    <meta name="description" content="Informações institucionais e técnicas sobre o projeto Radar de Segurança de Fortaleza.">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/sobre.css">
 </head>
 <body>
     
+    <header class="header">
+        <h1>Forças de Segurança de Fortaleza</h1>
+        <nav aria-label="Menu Principal">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="usuario.html">Usuário</a>
+        </nav>
+    </header>
+
+    <main class="dashboard_container">
+        <article class="about_content" aria-labelledby="about_title">
+            
+            <h2 id="about_title">Sobre o Radar de Segurança</h2>
+            
+            <p>O <strong>Radar de Segurança de Fortaleza</strong> é uma plataforma analítica desenvolvida para centralizar e visualizar a distribuição estratégica das forças de segurança operantes na capital cearense. Inspirado nas premissas do Centro Integrado de Segurança Pública (CISEC), o sistema busca oferecer uma visão clara e em tempo real do efetivo e das unidades espalhadas pelo território.</p>
+            
+            <p>Através deste painel interativo, é possível monitorar a presença da Polícia Militar, do Corpo de Bombeiros e da Guarda Municipal, permitindo que gestores identifiquem a densidade de agentes por regional e auxiliem na tomada de decisão rápida para o deslocamento de tropas.</p>
+
+            <h3>Arquitetura e Tecnologias</h3>
+            <p>Este sistema foi construído focando em alta performance, acessibilidade e respeito aos padrões web semânticos (W3C). A separação clara entre cliente (Front-end) e servidor (Back-end) garante a segurança das informações trafegadas.</p>
+            
+            <ul aria-label="Lista de Tecnologias Utilizadas">
+                <li><strong>Front-end:</strong> Desenvolvido de forma puramente nativa utilizando HTML5 Semântico, CSS3 e Vanilla JavaScript, dispensando bibliotecas externas para garantir máxima leveza e customização visual alinhada à paleta do Governo do Estado.</li>
+                <li><strong>Back-end:</strong> Estruturado em Node.js com o microframework Express, responsável por criar as rotas da API RESTful e gerenciar a autenticação de usuários.</li>
+                <li><strong>Banco de Dados:</strong> Utilização do PostgreSQL, um robusto sistema de banco de dados relacional, garantindo integridade no cadastro de agentes e na persistência das credenciais de acesso.</li>
+            </ul>
+
+            <div class="tech_tags" aria-label="Tags de Tecnologias">
+                <span class="tech_tag">HTML5 Semântico</span>
+                <span class="tech_tag">CSS3 (Vanilla)</span>
+                <span class="tech_tag">JavaScript ES6</span>
+                <span class="tech_tag">Node.js</span>
+                <span class="tech_tag">Express REST API</span>
+                <span class="tech_tag">PostgreSQL</span>
+            </div>
+
+            <aside class="disclaimer_box" aria-label="Aviso Legal">
+                <strong>Aviso Importante (Apresentação Acadêmica/Técnica)</strong>
+                <p>Os dados referentes à localização exata e ao quantitativo de efetivo (número de agentes) apresentados neste painel são estritamente fictícios e foram criados exclusivamente para fins de demonstração técnica de arquitetura de software e design de interface. Informações reais sobre distribuição tática de tropas são de caráter sigiloso e restrito à Secretaria da Segurança Pública e Defesa Social (SSPDS).</p>
+            </aside>
+
+        </article>
+    </main>
+
+    <footer class="sspds_footer" aria-label="Rodapé Institucional">
+        <div class="footer_top_line"></div>
+        <div class="footer_container">
+            <section class="footer_brand">
+                <h2>SSPDS.CE.GOV.BR</h2>
+            </section>
+            <address class="footer_info">
+                <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
+                CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
+                AV. AGUANAMBI, S/N, AEROPORTO<br>
+                FORTALEZA, CE, CEP: 60415 390<br>
+                TELEFONE: (85) 3194 7420
+            </address>
+            <section class="footer_hours">
+                <strong>HORÁRIO DE ATENDIMENTO</strong><br>
+                08 ÀS 17 HORAS
+            </section>
+            <section class="footer_social">
+                <strong>NOSSOS CANAIS</strong>
+                <ul class="social_icons" aria-label="Redes Sociais">
+                    <li><a href="#" aria-label="Facebook">f</a></li>
+                    <li><a href="#" aria-label="Instagram">📷</a></li>
+                    <li><a href="#" aria-label="Twitter">t</a></li>
+                    <li><a href="#" aria-label="YouTube">▶</a></li>
+                </ul>
+                <p class="copyright">
+                    © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br>
+                    TODOS OS DIREITOS RESERVADOS
+                </p>
+            </section>
+        </div>
+    </footer>
+
 </body>
 </html>

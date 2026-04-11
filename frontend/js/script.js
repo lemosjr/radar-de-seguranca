@@ -1,9 +1,11 @@
+// ==========================================
+// ESTADO GLOBAL E CONFIGURAÇÕES
+// ==========================================
 const AppState = {
     filtros: {
         corporacao: 'todas',
         regional: 'todas'
     },
-    // Array para armazenar os dados vindos do banco
     dadosCompletos: [] 
 };
 
@@ -13,13 +15,15 @@ const ConfigCorporacoes = {
     'GM': { nome: 'Guarda Municipal', corClass: 'bg-gm', corHex: '#fbc02d' }
 };
 
+// ==========================================
+// MAPEAMENTO DO DOM
+// ==========================================
 const elementosDOM = {
     selectCorporacao: document.getElementById('corporation'),
     selectRegional: document.getElementById('regional'),
     textoTotalBatalhoes: document.getElementById('total_batalhoes'),
     textoTotalEfetivo: document.getElementById('total_efetivo'),
     containerMarcadores: document.getElementById('map_markers'),
-    // Elementos dos Gráficos
     containerGrafico: document.getElementById('bar_chart'),
     containerLegenda: document.getElementById('chart_legend'),
     graficoRosca: document.getElementById('doughnut_efetivo'),
@@ -28,7 +32,9 @@ const elementosDOM = {
     containerRanking: document.getElementById('ranking_efetivo')
 };
 
-// Função para buscar dados da API do Backend
+// ==========================================
+// COMUNICAÇÃO COM A API (BACKEND)
+// ==========================================
 async function buscarDadosDoBanco() {
     try {
         const url = `http://localhost:3000/api/unidades?corporacao=${AppState.filtros.corporacao}&regional=${AppState.filtros.regional}`;
@@ -41,14 +47,17 @@ async function buscarDadosDoBanco() {
         const dados = await resposta.json();
         AppState.dadosCompletos = dados;
         
-        // Após buscar os dados, atualiza a tela
         atualizarInterface(dados);
         
     } catch (erro) {
-        console.error("Erro ao buscar dados do PostgreSQL:", erro);
-        elementosDOM.containerMarcadores.innerHTML = '<p style="color: red; padding: 20px;">Erro de conexão com o banco de dados.</p>';
+        console.error("Erro ao buscar dados do banco:", erro);
+        elementosDOM.containerMarcadores.innerHTML = '<p style="color: #d32f2f; font-weight: bold; padding: 20px;">Erro de conexão com o servidor. Verifique se o Node.js está rodando.</p>';
     }
 }
+
+// ==========================================
+// FUNÇÕES DE RENDERIZAÇÃO
+// ==========================================
 
 function renderizarMapa(dados) {
     elementosDOM.containerMarcadores.innerHTML = ''; 
@@ -63,14 +72,15 @@ function renderizarMapa(dados) {
         marcador.style.left = unidade.lng + '%';
         marcador.style.backgroundColor = ConfigCorporacoes[unidade.corporacao].corHex;
         
-        const infoTexto = `${unidade.nome} (${unidade.corporacao}) pertencente a ${unidade.regional}`;
+        const infoTexto = `${unidade.nome} (${unidade.corporacao}) - ${unidade.regional}`;
         marcador.title = infoTexto;
         marcador.setAttribute('aria-label', infoTexto);
         
         marcador.addEventListener('click', () => {
-            alert(`Informações da Unidade:\n\nNome: ${unidade.nome}\nCorporação: ${unidade.corporacao}\nRegional: ${unidade.regional}\nEfetivo Estimado: ${unidade.efetivo} agentes`);
+            alert(`DETALHES DA UNIDADE\n\nNome: ${unidade.nome}\nCorporação: ${ConfigCorporacoes[unidade.corporacao].nome}\nRegional: ${unidade.regional}\nEfetivo Estimado: ${unidade.efetivo} agentes`);
         });
 
+        // Acessibilidade: Clicar com o teclado (Enter ou Espaço)
         marcador.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -82,7 +92,6 @@ function renderizarMapa(dados) {
     });
 }
 
-// Renderiza gráficos gerais (Unidades e Efetivo por Corporação)
 function renderizarGraficosCorporacao(dados) {
     elementosDOM.containerGrafico.innerHTML = '';
     elementosDOM.containerLegenda.innerHTML = '';
@@ -90,7 +99,7 @@ function renderizarGraficosCorporacao(dados) {
 
     const totalUnidades = dados.length;
     if (totalUnidades === 0) {
-        elementosDOM.containerGrafico.innerHTML = '<p style="color: #999;">Sem dados.</p>';
+        elementosDOM.containerGrafico.innerHTML = '<p style="color: #999;">Sem dados para exibir.</p>';
         elementosDOM.graficoRosca.style.background = 'conic-gradient(#eee 0% 100%)';
         return;
     }
@@ -127,7 +136,7 @@ function renderizarGraficosCorporacao(dados) {
             `;
 
             elementosDOM.containerLegenda.innerHTML += `
-                <li class="legend_item"><span class="legend_color ${config.corClass}"></span>${config.nome}: ${stats.unid}</li>
+                <li class="legend_item"><span class="legend_color ${config.corClass}"></span>${config.nome}: ${stats.unid} unid.</li>
             `;
         }
 
@@ -144,22 +153,24 @@ function renderizarGraficosCorporacao(dados) {
         }
     });
 
-    // Aplica as cores no gráfico de rosca
+    // Desenha o gráfico de rosca manipulando o CSS
     elementosDOM.graficoRosca.style.background = `conic-gradient(${conicGradientString.join(', ')})`;
 }
 
-// Renderiza o Gráfico de Barras por Regionais
 function renderizarGraficoRegionais(dados) {
     elementosDOM.containerRegionais.innerHTML = '';
     
-    if (dados.length === 0) return;
+    if (dados.length === 0) {
+        elementosDOM.containerRegionais.innerHTML = '<p style="color: #999;">Sem dados para exibir.</p>';
+        return;
+    }
 
     const contagemRegionais = {};
     dados.forEach(u => {
         contagemRegionais[u.regional] = (contagemRegionais[u.regional] || 0) + 1;
     });
 
-    // Ordena do maior para o menor
+    // Ordena as regionais da que tem mais unidades para a que tem menos
     const regionaisOrdenadas = Object.entries(contagemRegionais).sort((a, b) => b[1] - a[1]);
     const maxUnidades = regionaisOrdenadas[0][1];
 
@@ -179,13 +190,15 @@ function renderizarGraficoRegionais(dados) {
     });
 }
 
-// Renderiza o Top 5 de Efetivo
 function renderizarRankingEfetivo(dados) {
     elementosDOM.containerRanking.innerHTML = '';
     
-    if (dados.length === 0) return;
+    if (dados.length === 0) {
+        elementosDOM.containerRanking.innerHTML = '<p style="color: #999;">Sem dados para exibir.</p>';
+        return;
+    }
 
-    // Ordena as unidades por efetivo em ordem decrescente e pega as 5 primeiras
+    // Ordena do maior efetivo para o menor e pega os top 5
     const top5 = [...dados].sort((a, b) => (b.efetivo || 0) - (a.efetivo || 0)).slice(0, 5);
 
     top5.forEach((unidade, index) => {
@@ -193,7 +206,7 @@ function renderizarRankingEfetivo(dados) {
             <li class="ranking_item" style="border-left-color: ${ConfigCorporacoes[unidade.corporacao].corHex}">
                 <div>
                     <strong>${index + 1}º ${unidade.nome}</strong>
-                    <br><span style="font-size: 11px;">${unidade.regional}</span>
+                    <br><span style="font-size: 11px;">${unidade.regional} - ${ConfigCorporacoes[unidade.corporacao].nome}</span>
                 </div>
                 <div class="ranking_efetivo_badge">${unidade.efetivo} ag.</div>
             </li>
@@ -201,33 +214,39 @@ function renderizarRankingEfetivo(dados) {
     });
 }
 
+// ==========================================
+// ATUALIZAÇÃO GERAL E INICIALIZAÇÃO
+// ==========================================
+
 function atualizarInterface(dados) {
+    // 1. Atualiza Indicadores Numéricos
     elementosDOM.textoTotalBatalhoes.textContent = dados.length;
 
     const somaEfetivo = dados.reduce((acc, curr) => acc + (curr.efetivo || 0), 0);
     elementosDOM.textoTotalEfetivo.textContent = somaEfetivo.toLocaleString('pt-BR');
 
+    // 2. Renderiza Mapa e Gráficos
     renderizarMapa(dados);
-    
-    // Chamada dos 4 painéis gráficos
     renderizarGraficosCorporacao(dados);
     renderizarGraficoRegionais(dados);
     renderizarRankingEfetivo(dados);
 }
 
 function iniciarAplicacao() {
+    // Adiciona os ouvintes de eventos aos filtros
     elementosDOM.selectCorporacao.addEventListener('change', (evento) => {
         AppState.filtros.corporacao = evento.target.value;
-        buscarDadosDoBanco(); // Faz nova requisição ao banco
+        buscarDadosDoBanco();
     });
 
     elementosDOM.selectRegional.addEventListener('change', (evento) => {
         AppState.filtros.regional = evento.target.value;
-        buscarDadosDoBanco(); // Faz nova requisição ao banco
+        buscarDadosDoBanco();
     });
 
-    // Busca inicial ao carregar a página
+    // Faz a primeira busca ao carregar a página
     buscarDadosDoBanco();
 }
 
+// Garante que o código só rode após o HTML estar 100% carregado
 document.addEventListener('DOMContentLoaded', iniciarAplicacao);

@@ -1,26 +1,6 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #f2f5f5;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    color: #333333;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
+/* ==========================================
+   ESTILOS DO CABEÇALHO (HEADER)
+   ========================================== */
 .header {
     display: flex;
     justify-content: space-between;
@@ -36,13 +16,25 @@ body {
     font-weight: 500;
 }
 
+/* Estilos dos links de navegação */
 .header nav a {
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
     text-transform: uppercase;
+    color: #ffffff;
+    margin-right: 15px;
+    transition: opacity 0.3s ease;
 }
 
-.header nav a:hover {
+/* Remove a margem direita do último link para alinhar com a borda direita perfeitamente */
+.header nav a:last-child {
+    margin-right: 0;
+}
+
+.header nav a:hover, 
+.header nav a:focus {
     text-decoration: underline;
+    opacity: 0.8;
+    outline: none;
 }

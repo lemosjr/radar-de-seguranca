@@ -5,16 +5,21 @@ require('dotenv').config();
 
 const app = express();
 
-// Middlewares
+// Middlewares de segurança e formatação
+// O CORS permite que o frontend acesse essa API sem bloqueios do navegador
 app.use(cors());
+// O express.json permite que o servidor entenda dados enviados no formato JSON (como no login)
 app.use(express.json());
 
-// Rota principal para buscar as unidades
+// ==========================================
+// ROTAS DE DADOS (Dashboard)
+// ==========================================
+
+// Rota para buscar as unidades de segurança com suporte a filtros dinâmicos
 app.get('/api/unidades', async (req, res) => {
     try {
         const { corporacao, regional } = req.query;
         
-        // Constrói a query dinamicamente baseada nos filtros
         let query = 'SELECT * FROM unidades_seguranca WHERE 1=1';
         const valores = [];
         let index = 1;
@@ -34,13 +39,13 @@ app.get('/api/unidades', async (req, res) => {
         const result = await pool.query(query, valores);
         res.json(result.rows);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Erro no servidor' });
+        console.error('Erro ao buscar unidades:', err.message);
+        res.status(500).json({ error: 'Erro no servidor ao buscar dados.' });
     }
 });
 
 // ==========================================
-// ROTAS DE AUTENTICAÇÃO (CRUD de Usuários)
+// ROTAS DE AUTENTICAÇÃO (Usuários)
 // ==========================================
 
 // Rota de Registro (Create)
@@ -54,11 +59,11 @@ app.post('/api/register', async (req, res) => {
         );
         res.status(201).json({ success: true, user: result.rows[0] });
     } catch (err) {
-        // Código 23505 no Postgres significa violação de chave única (email repetido)
+        // Código 23505 no Postgres significa violação de chave única, ou seja, e-mail já cadastrado
         if (err.code === '23505') { 
             return res.status(400).json({ error: 'Este e-mail já está cadastrado.' });
         }
-        console.error(err.message);
+        console.error('Erro no registro:', err.message);
         res.status(500).json({ error: 'Erro interno ao registrar usuário.' });
     }
 });
@@ -74,19 +79,20 @@ app.post('/api/login', async (req, res) => {
         );
         
         if (result.rows.length > 0) {
-            // Login com sucesso
             res.json({ success: true, user: { id: result.rows[0].id, nome: result.rows[0].nome } });
         } else {
-            // Credenciais erradas
             res.status(401).json({ error: 'E-mail ou senha inválidos.' });
         }
     } catch (err) {
-        console.error(err.message);
+        console.error('Erro no login:', err.message);
         res.status(500).json({ error: 'Erro interno ao realizar login.' });
     }
 });
 
+// ==========================================
+// INICIALIZAÇÃO DO SERVIDOR
+// ==========================================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Servidor rodando perfeitamente na porta ${PORT} 🚀`);
 });

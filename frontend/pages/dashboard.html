@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radar de Segurança de Fortaleza</title>
     <meta name="description" content="Dashboard interativo para visualização das forças de segurança de Fortaleza (PM, CBM e GM) separadas por regionais.">
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
     <header class="header">
         <h1>Forças de Segurança de Fortaleza</h1>
         <nav aria-label="Menu Principal">
-            <a href="index.html" style="color: white; margin-right: 15px;">Dashboard</a>
-            <a href="sobre.html" style="color: white;">Sobre</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="usuario.html">Usuário</a>
         </nav>
     </header>
 
@@ -21,7 +24,7 @@
         
         <form class="filters_panel" aria-label="Filtros de Mapa">
             <fieldset class="filter_group">
-                <legend class="sr-only">Filtro por Corporação</legend>
+                <legend class="sr_only">Filtro por Corporação</legend>
                 <label for="corporation">Corporação:</label>
                 <select id="corporation" name="corporation">
                     <option value="todas">Todas</option>
@@ -32,7 +35,7 @@
             </fieldset>
 
             <fieldset class="filter_group">
-                <legend class="sr-only">Filtro por Regional</legend>
+                <legend class="sr_only">Filtro por Regional</legend>
                 <label for="regional">Regional:</label>
                 <select id="regional" name="regional">
                     <option value="todas">Todas as Regionais</option>
@@ -61,48 +64,49 @@
             </article>
         </section>
 
-        <section class="main_content" aria-label="Visualização Territorial">
+        <section class="main_content" aria-label="Visualização Territorial e Analítica">
+            
             <figure class="map_container" id="mapa_fortaleza">
-                <figcaption class="sr-only">Mapa interativo mostrando a localização espacial das unidades de segurança em Fortaleza.</figcaption>
+                <figcaption class="sr_only">Mapa interativo mostrando a localização espacial das unidades de segurança em Fortaleza.</figcaption>
                 <p class="placeholder_text" aria-hidden="true">Mapa interativo será renderizado aqui</p>
                 <div id="map_markers" aria-live="polite"></div>
             </figure>
+            
+            <section class="analytics_grid" aria-labelledby="analytics_title">
+                <h2 id="analytics_title" class="sr_only">Painel de Análise Gráfica</h2>
+
+                <article class="chart_card">
+                    <h3 class="section_title">Unidades por Corporação</h3>
+                    <div class="chart_container">
+                        <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
+                        <ul id="chart_legend" class="chart_legend" aria-live="polite"></ul>
+                    </div>
+                </article>
+
+                <article class="chart_card">
+                    <h3 class="section_title">Efetivo por Corporação</h3>
+                    <div class="chart_container doughnut_wrapper">
+                        <figure class="doughnut_chart" id="doughnut_efetivo"></figure>
+                        <ul id="legend_doughnut" class="chart_legend" aria-live="polite"></ul>
+                    </div>
+                </article>
+
+                <article class="chart_card">
+                    <h3 class="section_title">Distribuição por Regional</h3>
+                    <div class="chart_container">
+                        <div id="bar_chart_regionais" class="bar_chart" aria-hidden="true"></div>
+                    </div>
+                </article>
+
+                <article class="chart_card">
+                    <h3 class="section_title">Top 5 Maiores Efetivos</h3>
+                    <div class="chart_container">
+                        <ol id="ranking_efetivo" class="ranking_list" aria-live="polite"></ol>
+                    </div>
+                </article>
+            </section>
+
         </section>
-
-        <section class="analytics_grid" aria-labelledby="analytics_title">
-            <h2 id="analytics_title" class="sr_only">Painel de Análise Gráfica</h2>
-
-            <article class="chart_card">
-                <h3 class="section_title">Unidades por Corporação</h3>
-                <div class="chart_container">
-                    <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
-                    <ul id="chart_legend" class="chart_legend" aria-live="polite"></ul>
-                </div>
-            </article>
-
-            <article class="chart_card">
-                <h3 class="section_title">Efetivo por Corporação</h3>
-                <div class="chart_container doughnut_wrapper">
-                    <figure class="doughnut_chart" id="doughnut_efetivo"></figure>
-                    <ul id="legend_doughnut" class="chart_legend" aria-live="polite"></ul>
-                </div>
-            </article>
-
-            <article class="chart_card">
-                <h3 class="section_title">Distribuição por Regional</h3>
-                <div class="chart_container">
-                    <div id="bar_chart_regionais" class="bar_chart" aria-hidden="true"></div>
-                </div>
-            </article>
-
-            <article class="chart_card">
-                <h3 class="section_title">Top 5 Maiores Efetivos</h3>
-                <div class="chart_container">
-                    <ol id="ranking_efetivo" class="ranking_list" aria-live="polite"></ol>
-                </div>
-            </article>
-        </section>
-
     </main>
 
     <footer class="sspds_footer" aria-label="Rodapé Institucional">

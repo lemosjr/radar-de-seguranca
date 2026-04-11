@@ -1,34 +1,21 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ==========================================
+   TELA DE LOGIN (Específico)
+   ========================================== */
 
-body {
-    background-color: #e0e5ec;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+/* Novo container para centralizar a caixa de login no espaço livre do main */
+.login_main_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-}
-
-.sr_only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
+    padding: 40px 20px; 
+    width: 100%;
 }
 
 /* O cartão principal dividido em dois */
 .auth_container {
     background-color: #ffffff;
     width: 900px;
-    max-width: 95%;
+    max-width: 100%;
     min-height: 500px;
     border-radius: 10px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -69,7 +56,6 @@ body {
     opacity: 0.9;
 }
 
-/* Botão vazado do banner */
 .btn_outline {
     background: transparent;
     border: 2px solid #ffffff;
@@ -81,9 +67,10 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-.btn_outline:hover {
+.btn_outline:hover, .btn_outline:focus {
     background: #ffffff;
     color: #008959;
+    outline: none;
 }
 
 /* Lado Direito (Formulários) */
@@ -153,33 +140,22 @@ body {
     transition: background 0.3s;
 }
 
-.btn_solid:hover {
+.btn_solid:hover, .btn_solid:focus {
     background-color: #008959;
+    outline: none;
 }
 
 .error_msg {
     color: #d32f2f;
     font-size: 13px;
     margin-bottom: 10px;
-    height: 15px;
+    min-height: 15px;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    .auth_container {
-        flex-direction: column;
-    }
-    .auth_banner, .auth_forms {
-        width: 100%;
-    }
-}
-
-/* ==========================================
-   Aviso de Credenciais (Modo Apresentação)
-   ========================================== */
-   .demo_credentials {
-    background-color: #e0f2f1; /* Fundo verde bem claro, paleta CISEC */
-    border-left: 4px solid #008959; /* Verde principal da SSPDS */
+/* Aviso de Credenciais (Modo Apresentação) */
+.demo_credentials {
+    background-color: #e0f2f1;
+    border-left: 4px solid #008959;
     padding: 12px 15px;
     margin-bottom: 15px;
     border-radius: 4px;
@@ -206,7 +182,6 @@ body {
     margin-bottom: 0;
 }
 
-/* Estilo de etiqueta para o texto copiável */
 .demo_credentials span {
     font-family: "Courier New", Courier, monospace;
     background-color: #ffffff;
@@ -215,6 +190,16 @@ body {
     border: 1px solid #cccccc;
     font-weight: bold;
     color: #333333;
-    user-select: all; /* Permite selecionar todo o texto com um clique */
+    user-select: all;
     cursor: copy;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .auth_container {
+        flex-direction: column;
+    }
+    .auth_banner, .auth_forms {
+        width: 100%;
+    }
 }

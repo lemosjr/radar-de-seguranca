@@ -1,0 +1,39 @@
+/* ==========================================
+   RESET BÁSICO E CONFIGURAÇÕES GLOBAIS
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f2f5f5;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: #333333;
+    
+    /* Estrutura flexível para manter o footer sempre embaixo */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* O elemento main cresce o máximo possível para preencher a tela */
+main {
+    flex: 1;
+}
+
+/* ==========================================
+   CLASSES UTILITÁRIAS
+   ========================================== */
+/* Oculta visualmente, mas mantém para leitores de tela */
+.sr_only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}

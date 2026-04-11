@@ -1,28 +1,15 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ==========================================
+   TELA DE REDIRECIONAMENTO (Específico)
+   ========================================== */
 
-body {
-    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
-    color: #ffffff;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+/* Sobrescreve o flex do global para centralização total da tela de boot */
+.redirect_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-}
-
-.sr_only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
+    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
+    color: #ffffff;
 }
 
 .redirect_container {
@@ -32,6 +19,8 @@ body {
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
+    width: 90%;
+    max-width: 500px;
 }
 
 .logo {
@@ -39,13 +28,13 @@ body {
     margin-bottom: 20px;
 }
 
-h1 {
+.redirect_container h1 {
     font-size: 24px;
     margin-bottom: 10px;
     font-weight: 500;
 }
 
-p {
+.redirect_container p {
     font-size: 14px;
     margin-bottom: 30px;
     opacity: 0.9;

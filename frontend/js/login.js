@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementos de UI
+    // Captura dos Elementos de UI
     const toggleBtn = document.getElementById('toggle_btn');
     const bannerTitle = document.getElementById('banner_title');
     const bannerText = document.getElementById('banner_text');
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let isLoginView = true;
 
-    // Alternar entre Login e Cadastro
+    // Lógica para alternar entre Login e Cadastro
     toggleBtn.addEventListener('click', () => {
         isLoginView = !isLoginView;
 
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             bannerText.textContent = 'Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.';
             toggleBtn.textContent = 'CRIAR CONTA';
             
-            // Limpa mensagens de erro
             loginError.textContent = '';
             regError.textContent = '';
         } else {
@@ -39,13 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
             bannerText.textContent = 'Cadastre-se no sistema do Radar de Segurança utilizando seu e-mail institucional.';
             toggleBtn.textContent = 'FAZER LOGIN';
             
-            // Limpa mensagens de erro
             loginError.textContent = '';
             regError.textContent = '';
         }
     });
 
-    // Lógica de Login
+    // Lógica de Submissão do Login
     formLogin.addEventListener('submit', async (e) => {
         e.preventDefault();
         loginError.textContent = '';
@@ -63,17 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok) {
-                // Sucesso: Redireciona para o painel
+                // Redireciona para o painel em caso de sucesso
                 window.location.href = 'dashboard.html';
             } else {
                 loginError.textContent = data.error || 'Erro ao realizar login.';
             }
         } catch (error) {
-            loginError.textContent = 'Erro de conexão com o servidor.';
+            loginError.textContent = 'Erro de conexão com o servidor. Verifique se o backend está rodando.';
         }
     });
 
-    // Lógica de Registro
+    // Lógica de Submissão do Registro
     formRegister.addEventListener('submit', async (e) => {
         e.preventDefault();
         regError.textContent = '';
@@ -93,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (res.ok) {
                 alert('Conta criada com sucesso! Faça login para continuar.');
-                // Força a voltar para a tela de login
                 toggleBtn.click(); 
                 document.getElementById('form_register').reset();
             } else {
