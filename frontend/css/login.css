@@ -7,12 +7,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px; 
+    padding: 40px 20px;
     width: 100%;
-    
+
     /* Garante que o wrapper ocupe todo o espaço entre o cabeçalho e o rodapé */
-    min-height: calc(100vh - 180px); 
-    
+    min-height: calc(100vh - 180px);
+
     /* ESCOLHA A SUA COR AQUI */
     background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
     /* background-color: #e4ebe5; Verde Sálvia Suave (Remova o comentário para usar) */
@@ -64,18 +64,25 @@
 }
 
 .btn_outline {
-    background: transparent;
+    background-color: transparent;
     border: 2px solid #ffffff;
     color: #ffffff;
     padding: 12px 35px;
     border-radius: 25px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s, color 0.3s;
+    transition: all 0.3s ease;
+    /* Transição mais suave e global */
+    position: relative;
+    /* Cria um contexto de sobreposição */
+    z-index: 10;
+    /* Garante que o botão fique acima de qualquer elemento invisível */
 }
 
-.btn_outline:hover, .btn_outline:focus {
-    background: #ffffff;
+.btn_outline:hover,
+.btn_outline:focus {
+    background-color: #ffffff;
+    /* Força a cor de fundo no hover */
     color: #008959;
     outline: none;
 }
@@ -147,7 +154,8 @@
     transition: background 0.3s;
 }
 
-.btn_solid:hover, .btn_solid:focus {
+.btn_solid:hover,
+.btn_solid:focus {
     background-color: #008959;
     outline: none;
 }
@@ -170,7 +178,7 @@
     color: #444444;
     width: 100%;
     text-align: left;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .demo_credentials strong {
@@ -221,10 +229,13 @@
 
 /* Estilização da nova logo dentro do banner de login */
 .banner_logo_img {
-    max-width: 350px; /* Aumentado consideravelmente para dar destaque */
-    width: 100%; /* Garante proporção em telas menores */
+    max-width: 350px;
+    /* Aumentado consideravelmente para dar destaque */
+    width: 100%;
+    /* Garante proporção em telas menores */
     height: auto;
-    margin-bottom: 25px; /* Ajuste no respiro inferior */
+    margin-bottom: 25px;
+    /* Ajuste no respiro inferior */
     display: block;
     object-fit: contain;
 }
@@ -244,7 +255,9 @@
     .auth_container {
         flex-direction: column;
     }
-    .auth_banner, .auth_forms {
+
+    .auth_banner,
+    .auth_forms {
         width: 100%;
     }
 }
