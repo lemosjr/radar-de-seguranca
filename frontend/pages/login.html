@@ -1,46 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Restrito - SSPDS</title>
+    <title>Acesso Restrito SSPDS</title>
     <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/loginHeader.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/login.css">
 </head>
+
 <body>
 
     <header class="header">
-        <h1>Forças de Segurança de Fortaleza</h1>
-        <nav aria-label="Menu Principal">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="usuario.html">Usuário</a>
-        </nav>
+        <div class="logo_container">
+            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social"
+                class="header_logo">
+            <h1>Forças de Segurança de Fortaleza</h1>
+        </div>
     </header>
 
     <main class="login_main_wrapper">
         <div class="auth_container">
             <section class="auth_banner" aria-labelledby="banner_title">
                 <div class="banner_content">
-                    <div class="sspds_logo" aria-hidden="true">🛡️ SSPDS</div>
-                    <h1 id="banner_title">Bem-vindo de volta!</h1>
-                    <p id="banner_text">Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.</p>
+                    <img src="../assets/logotipo_sspds.png" alt="Logomarca Governo do Ceará e SSPDS"
+                        class="banner_logo_img">
+
+                    <p id="banner_text">Para manter-se conectado de forma segura, por favor faça login com suas
+                        credenciais institucionais.</p>
                     <button type="button" id="toggle_btn" class="btn_outline">CRIAR CONTA</button>
                 </div>
             </section>
 
             <section class="auth_forms">
-                
+
                 <form id="form_login" class="form_box active">
                     <h2>Acessar Sistema</h2>
-                    
+
                     <div class="input_group">
                         <label for="login_email" class="sr_only">E-mail Institucional</label>
                         <input type="email" id="login_email" placeholder="E-mail" required>
                     </div>
-                    
+
                     <div class="input_group">
                         <label for="login_password" class="sr_only">Senha de Acesso</label>
                         <input type="password" id="login_password" placeholder="Senha" required>
@@ -53,30 +56,30 @@
                     </div>
 
                     <div id="login_error" class="error_msg" aria-live="polite"></div>
-                    
+
                     <button type="submit" class="btn_solid">ENTRAR</button>
                 </form>
 
                 <form id="form_register" class="form_box hidden">
                     <h2>Criar Conta</h2>
-                    
+
                     <div class="input_group">
                         <label for="reg_nome" class="sr_only">Nome Completo</label>
                         <input type="text" id="reg_nome" placeholder="Nome Completo" required>
                     </div>
-                    
+
                     <div class="input_group">
                         <label for="reg_email" class="sr_only">E-mail Institucional</label>
                         <input type="email" id="reg_email" placeholder="E-mail" required>
                     </div>
-                    
+
                     <div class="input_group">
                         <label for="reg_password" class="sr_only">Criar Senha</label>
                         <input type="password" id="reg_password" placeholder="Senha" required>
                     </div>
-                    
+
                     <div id="reg_error" class="error_msg" aria-live="polite"></div>
-                    
+
                     <button type="submit" class="btn_solid">CADASTRAR</button>
                 </form>
 
@@ -84,39 +87,9 @@
         </div>
     </main>
 
-    <footer class="sspds_footer" aria-label="Rodapé Institucional">
-        <div class="footer_top_line"></div>
-        <div class="footer_container">
-            <section class="footer_brand">
-                <h2>SSPDS.CE.GOV.BR</h2>
-            </section>
-            <address class="footer_info">
-                <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
-                CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
-                AV. AGUANAMBI, S/N, AEROPORTO<br>
-                FORTALEZA, CE, CEP: 60415 390<br>
-                TELEFONE: (85) 3194 7420
-            </address>
-            <section class="footer_hours">
-                <strong>HORÁRIO DE ATENDIMENTO</strong><br>
-                08 ÀS 17 HORAS
-            </section>
-            <section class="footer_social">
-                <strong>NOSSOS CANAIS</strong>
-                <ul class="social_icons" aria-label="Redes Sociais">
-                    <li><a href="#" aria-label="Facebook">f</a></li>
-                    <li><a href="#" aria-label="Instagram">📷</a></li>
-                    <li><a href="#" aria-label="Twitter">t</a></li>
-                    <li><a href="#" aria-label="YouTube">▶</a></li>
-                </ul>
-                <p class="copyright">
-                    © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br>
-                    TODOS OS DIREITOS RESERVADOS
-                </p>
-            </section>
-        </div>
-    </footer>
+    
 
     <script src="../js/login.js"></script>
 </body>
+
 </html>

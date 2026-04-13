@@ -18,7 +18,7 @@
     font-weight: 500;
     /* ADICIONADO: Mágica da centralização absoluta */
     position: absolute;
-    left: 50%;
+    left: 85%;
     transform: translateX(-50%);
     margin: 0;
     white-space: nowrap; /* Impede que o texto quebre em duas linhas */

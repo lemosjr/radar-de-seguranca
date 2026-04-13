@@ -86,3 +86,29 @@
     color: #777777;
     font-size: 10px;
 }
+
+/* ==========================================
+   ESTILIZAÇÃO DAS LOGOMARCAS (HEADER E FOOTER)
+   ========================================== */
+
+/* Alinhamento da logo com o título no topo */
+.logo_container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Cria um respiro visual entre a imagem e o texto */
+}
+
+/* Controle rígido de altura para a logo da SSPDS */
+.header_logo {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Controle rígido de altura para a logo do Estado */
+.footer_logo {
+    max-height: 65px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 10px; /* Separa a imagem do texto abaixo dela */
+}
