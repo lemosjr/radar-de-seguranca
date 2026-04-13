@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de Segurança de Fortaleza</title>
-    <meta name="description" content="Dashboard interativo para visualização das forças de segurança de Fortaleza (PM, CBM e GM) separadas por regionais.">
+    <title>Painel de Controle | Radar de Segurança</title>
+
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/dashboard.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
+
 <body>
+
     <header class="header">
         <h1>Forças de Segurança de Fortaleza</h1>
         <nav aria-label="Menu Principal">
@@ -21,102 +27,70 @@
     </header>
 
     <main class="dashboard_container">
-        
-        <form class="filters_panel" aria-label="Filtros de Mapa">
-            <fieldset class="filter_group">
-                <legend class="sr_only">Filtro por Corporação</legend>
-                <label for="corporation">Corporação:</label>
-                <select id="corporation" name="corporation">
-                    <option value="todas">Todas</option>
-                    <option value="PM">Polícia Militar (PM)</option>
-                    <option value="CBM">Corpo de Bombeiros (CBM)</option>
-                    <option value="GM">Guarda Municipal (GM)</option>
-                </select>
-            </fieldset>
+        <div class="main_layout">
 
-            <fieldset class="filter_group">
-                <legend class="sr_only">Filtro por Regional</legend>
-                <label for="regional">Regional:</label>
-                <select id="regional" name="regional">
-                    <option value="todas">Todas as Regionais</option>
-                    <option value="SER I">SER I</option>
-                    <option value="SER II">SER II</option>
-                    <option value="SER III">SER III</option>
-                    <option value="SER IV">SER IV</option>
-                    <option value="SER V">SER V</option>
-                    <option value="SER VI">SER VI</option>
-                    <option value="Sercefor">Centro (Sercefor)</option>
-                </select>
-            </fieldset>
-        </form>
+            <aside class="filters_sidebar">
+                <h3 class="section_title">Filtros de Busca</h3>
+                <fieldset class="filter_group">
+                    <label for="corporation">Corporação</label>
+                    <select id="corporation">
+                        <option value="todas">Todas as Forças</option>
+                        <option value="PM">Polícia Militar</option>
+                        <option value="CBM">Corpo de Bombeiros</option>
+                        <option value="GM">Guarda Municipal</option>
+                    </select>
+                </fieldset>
+                <fieldset class="filter_group">
+                    <label for="regional">Regional</label>
+                    <select id="regional">
+                        <option value="todas">Todas as Regionais</option>
+                        <option value="SER I">SER I</option>
+                        <option value="SER II">SER II</option>
+                        <option value="SER III">SER III</option>
+                        <option value="SER IV">SER IV</option>
+                        <option value="SER V">SER V</option>
+                        <option value="SER VI">SER VI</option>
+                        <option value="Centro">Centro</option>
+                    </select>
+                </fieldset>
+            </aside>
 
-        <section class="kpi_panel" aria-labelledby="kpi_title">
-            <h2 id="kpi_title" class="sr_only">Indicadores Quantitativos</h2>
-            
-            <article class="kpi_card">
-                <h3>Total de Batalhões Exibidos</h3>
-                <p id="total_batalhoes" class="kpi_value" aria-live="polite">0</p>
-            </article>
+            <section class="center_column">
+                <div class="kpi_grid">
+                    <article class="kpi_card">
+                        <h3>Unidades</h3>
+                        <p id="total_batalhoes" class="kpi_value">0</p>
+                    </article>
+                    <article class="kpi_card">
+                        <h3>Efetivo</h3>
+                        <p id="total_efetivo" class="kpi_value">0</p>
+                    </article>
+                </div>
 
-            <article class="kpi_card">
-                <h3>Efetivo Total Projetado</h3>
-                <p id="total_efetivo" class="kpi_value" aria-live="polite">0</p>
-            </article>
-        </section>
-
-        <section class="main_content" aria-label="Visualização Territorial e Analítica">
-            
-            <figure class="map_container" id="mapa_fortaleza">
-                <figcaption class="sr_only">Mapa interativo mostrando a localização espacial das unidades de segurança em Fortaleza.</figcaption>
-                <p class="placeholder_text" aria-hidden="true">Mapa interativo será renderizado aqui</p>
-                <div id="map_markers" aria-live="polite"></div>
-            </figure>
-            
-            <section class="analytics_grid" aria-labelledby="analytics_title">
-                <h2 id="analytics_title" class="sr_only">Painel de Análise Gráfica</h2>
-
-                <article class="chart_card">
-                    <h3 class="section_title">Unidades por Corporação</h3>
-                    <div class="chart_container">
-                        <div id="bar_chart" class="bar_chart" aria-hidden="true"></div>
-                        <ul id="chart_legend" class="chart_legend" aria-live="polite"></ul>
-                    </div>
-                </article>
-
-                <article class="chart_card">
-                    <h3 class="section_title">Efetivo por Corporação</h3>
-                    <div class="chart_container doughnut_wrapper">
-                        <figure class="doughnut_chart" id="doughnut_efetivo"></figure>
-                        <ul id="legend_doughnut" class="chart_legend" aria-live="polite"></ul>
-                    </div>
-                </article>
-
-                <article class="chart_card">
-                    <h3 class="section_title">Distribuição por Regional</h3>
-                    <div class="chart_container">
-                        <div id="bar_chart_regionais" class="bar_chart" aria-hidden="true"></div>
-                    </div>
-                </article>
-
-                <article class="chart_card">
-                    <h3 class="section_title">Top 5 Maiores Efetivos</h3>
-                    <div class="chart_container">
-                        <ol id="ranking_efetivo" class="ranking_list" aria-live="polite"></ol>
-                    </div>
-                </article>
+                <figure class="map_container" id="map_wrapper">
+                    <div id="map_status">Carregando mapa operacional...</div>
+                </figure>
             </section>
 
-        </section>
+            <aside class="right_sidebar">
+                <article class="chart_card" style="height: 300px;">
+                    <h3 class="section_title">Unidades por Corporação</h3>
+                    <canvas id="bar_chart_unidades"></canvas>
+                </article>
+                <article class="chart_card" style="height: 300px;">
+                    <h3 class="section_title">Distribuição de Efetivo</h3>
+                    <canvas id="doughnut_efetivo"></canvas>
+                </article>
+            </aside>
+        </div>
     </main>
 
     <footer class="sspds_footer" aria-label="Rodapé Institucional">
         <div class="footer_top_line"></div>
         <div class="footer_container">
-            
             <section class="footer_brand">
                 <h2>SSPDS.CE.GOV.BR</h2>
             </section>
-
             <address class="footer_info">
                 <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
                 CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
@@ -124,12 +98,10 @@
                 FORTALEZA, CE, CEP: 60415 390<br>
                 TELEFONE: (85) 3194 7420
             </address>
-
             <section class="footer_hours">
                 <strong>HORÁRIO DE ATENDIMENTO</strong><br>
                 08 ÀS 17 HORAS
             </section>
-
             <section class="footer_social">
                 <strong>NOSSOS CANAIS</strong>
                 <ul class="social_icons" aria-label="Redes Sociais">
@@ -143,10 +115,15 @@
                     TODOS OS DIREITOS RESERVADOS
                 </p>
             </section>
-            
         </div>
     </footer>
 
-    <script src="../js/script.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="../js/dashboard.js"></script>
 </body>
+
 </html>
