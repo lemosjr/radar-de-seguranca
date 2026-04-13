@@ -1,291 +1,117 @@
 /* ==========================================
-   ESTRUTURA ESPECÍFICA DO DASHBOARD
+   ESTRUTURA EM COLUNAS (DASHBOARD 360°)
    ========================================== */
 .dashboard_container {
     padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    /* Ocupa a altura da tela menos o tamanho do header/footer */
+    min-height: calc(100vh - 160px); 
+    display: flex;
+    flex-direction: column;
+}
+
+.main_layout {
+    display: grid;
+    /* 250px esq, O RESTO TODO PRO MEIO (1fr), 350px dir */
+    grid-template-columns: 250px 1fr 350px; 
+    gap: 20px;
+    align-items: stretch; /* Estica as colunas para o chão */
+    flex: 1; /* Faz o layout crescer */
+}
+
+/* Coluna Central */
+.center_column {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-/* Painéis Superiores (Filtros e KPIs) */
-.filters_panel, .kpi_panel {
-    display: flex;
-    gap: 20px;
-    background: #ffffff;
-    padding: 15px 20px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
-}
-
-fieldset.filter_group {
-    border: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-fieldset.filter_group label {
-    font-size: 12px;
-    font-weight: bold;
-    color: #008959; 
-}
-
-select {
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #cccccc;
-    background-color: #ffffff;
-    font-size: 14px;
-    color: #333333;
-    min-width: 200px;
-}
-
-select:focus {
-    outline: none;
-    border-color: #00b37e;
-    box-shadow: 0 0 0 2px rgba(0, 179, 126, 0.2);
-}
-
-.kpi_card {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-    min-width: 150px;
-}
-
-.kpi_card h3 {
-    font-size: 14px;
-    font-weight: normal;
-    color: #666666;
-}
-
-.kpi_value {
-    font-size: 28px;
-    font-weight: bold;
-    color: #008959; 
+    height: 100%; /* Ocupa toda a altura */
 }
 
 /* ==========================================
-   MAPA PRINCIPAL
+   ESTILIZAÇÃO DO MAPA (Leaflet.js)
    ========================================== */
-.main_content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 .map_container {
     background-color: #ffffff;
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 8px;
     border: 1px solid #e0e0e0;
-    min-height: 500px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin: 0;
+    /* A MÁGICA ESTÁ AQUI: O flex: 1 obriga a div do mapa a crescer 
+       e empurrar o layout para ocupar todo o meio da tela */
+    flex: 1; 
+    min-height: 600px;
+    display: flex; /* Necessário para o filho herdar 100% da altura */
 }
 
-.placeholder_text {
-    color: #008959;
-    font-weight: bold;
+/* O ID map_wrapper precisa de altura 100% para o Leaflet */
+#map_wrapper {
+    height: 100% !important; 
+    width: 100%;
+    z-index: 1;
+    border-radius: 8px;
 }
 
-.marker {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 2px solid #ffffff;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transition: transform 0.2s;
-    z-index: 5;
+/* Customização dos Popups (Estilo Tático) */
+.leaflet-popup-content-wrapper {
+    background: #1a1a1a;
+    color: #ffffff;
+    border-radius: 4px;
+    padding: 5px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.marker:hover, .marker:focus {
-    transform: scale(1.3);
-    z-index: 10;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 4px 8px rgba(0,0,0,0.4);
+.leaflet-popup-tip {
+    background: #1a1a1a;
 }
 
 /* ==========================================
-   PAINEL DE ANÁLISE GRÁFICA (GRID)
+   COMPONENTES DE INTERFACE (Cards e KPIs)
    ========================================== */
-.analytics_grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
-}
-
-.chart_card {
+.chart_card, .kpi_card, .filters_sidebar {
     background: #ffffff;
     padding: 20px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 8px;
     border: 1px solid #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    min-height: 250px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .section_title {
-    font-size: 14px;
-    font-weight: bold;
-    color: #666666;
-    border-bottom: 1px solid #eeeeee;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.chart_container {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* Gráficos de Barra (Vanilla CSS) */
-.bar_chart {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-}
-
-.bar_row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.bar_label {
-    width: 40px;
-    font-weight: bold;
-    color: #555555;
-    font-size: 12px;
-}
-
-.bar_track {
-    flex-grow: 1;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-    height: 22px;
-    overflow: hidden;
-}
-
-.bar_fill {
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.5s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-/* Cores Oficiais das Corporações */
-.bg-pm { background-color: #1976d2; }
-.bg-cbm { background-color: #d32f2f; }
-.bg-gm { background-color: #fbc02d; color: #333333 !important; }
-
-/* Legendas */
-.chart_legend {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    padding-top: 15px;
-    margin-top: auto;
-}
-
-.legend_item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 12px;
-    color: #666666;
-}
-
-.legend_color {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
-
-/* Gráfico de Rosca (Doughnut) */
-.doughnut_wrapper {
-    align-items: center;
-    gap: 15px;
-}
-
-.doughnut_chart {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: conic-gradient(#eee 0% 100%);
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    transition: background 0.5s;
-}
-
-.doughnut_chart::after {
-    content: "";
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background-color: #ffffff;
-    border-radius: 50%;
-}
-
-/* Lista de Ranking */
-.ranking_list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0;
-}
-
-.ranking_item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border-left: 4px solid #008959;
     font-size: 13px;
-    color: #555;
-}
-
-.ranking_item strong {
-    color: #333;
-    font-size: 13px;
-}
-
-.ranking_efetivo_badge {
-    background-color: #e0f2f1;
+    font-weight: bold;
     color: #008959;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 11px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
+
+.kpi_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.kpi_value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #008959;
+}
+
+.filter_group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #444;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Cores das Corporações para os Marcadores */
+.marker-pm { color: #1976d2; }
+.marker-cbm { color: #d32f2f; }
+.marker-gm { color: #fbc02d; }

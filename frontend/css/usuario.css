@@ -1,0 +1,86 @@
+/* ==========================================
+   TELA DE PERFIL DO USUÁRIO (Específico)
+   ========================================== */
+
+.profile_container {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.profile_card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.profile_header {
+    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
+    padding: 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.profile_avatar {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    border: 2px solid #ffffff;
+}
+
+.profile_info {
+    padding: 30px;
+}
+
+.info_group {
+    margin-bottom: 20px;
+}
+
+.info_group label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #008959;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.info_group p {
+    font-size: 16px;
+    color: #333333;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #eeeeee;
+}
+
+.btn_logout {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #d32f2f;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.btn_logout:hover {
+    background-color: #b71c1c;
+}

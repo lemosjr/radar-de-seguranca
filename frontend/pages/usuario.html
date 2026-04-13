@@ -1,11 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Perfil do Usuário | Radar de Segurança</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/usuario.css">
 </head>
+
 <body>
-    
+
+    <header class="header">
+        <h1>Forças de Segurança de Fortaleza</h1>
+        <nav aria-label="Menu Principal">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="usuario.html">Usuário</a>
+        </nav>
+    </header>
+
+    <main class="profile_container">
+        <article class="profile_card">
+            <header class="profile_header">
+                <div class="profile_avatar" aria-hidden="true">👤</div>
+                <h2 id="user_name">Carregando...</h2>
+                <p>Agente de Segurança Pública</p>
+            </header>
+
+            <section class="profile_info">
+                <div class="info_group">
+                    <label>E-mail Institucional</label>
+                    <p id="user_email">admin@sspds.ce.gov.br</p>
+                </div>
+
+                <div class="info_group">
+                    <label>Nível de Acesso</label>
+                    <p>Administrador de Sistema</p>
+                </div>
+
+                <div class="info_group">
+                    <label>Status da Conta</label>
+                    <p>Ativo / Verificado</p>
+                </div>
+
+                <a href="login.html" class="btn_logout">ENCERRAR SESSÃO</a>
+            </section>
+        </article>
+    </main>
+
+    <footer class="sspds_footer" aria-label="Rodapé Institucional">
+        <div class="footer_top_line"></div>
+        <div class="footer_container">
+
+            <section class="footer_brand">
+                <h2>SSPDS.CE.GOV.BR</h2>
+            </section>
+
+            <address class="footer_info">
+                <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
+                CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
+                AV. AGUANAMBI, S/N, AEROPORTO<br>
+                FORTALEZA, CE, CEP: 60415 390<br>
+                TELEFONE: (85) 3194 7420
+            </address>
+
+            <section class="footer_hours">
+                <strong>HORÁRIO DE ATENDIMENTO</strong><br>
+                08 ÀS 17 HORAS
+            </section>
+
+            <section class="footer_social">
+                <strong>NOSSOS CANAIS</strong>
+                <ul class="social_icons" aria-label="Redes Sociais">
+                    <li><a href="#" aria-label="Facebook">f</a></li>
+                    <li><a href="#" aria-label="Instagram">📷</a></li>
+                    <li><a href="#" aria-label="Twitter">t</a></li>
+                    <li><a href="#" aria-label="YouTube">▶</a></li>
+                </ul>
+                <p class="copyright">
+                    © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br>
+                    TODOS OS DIREITOS RESERVADOS
+                </p>
+            </section>
+
+        </div>
+    </footer>
+
 </body>
+
 </html>
