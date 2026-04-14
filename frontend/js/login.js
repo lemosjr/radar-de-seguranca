@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Captura dos Elementos de UI
     const toggleBtn = document.getElementById('toggle_btn');
-    const bannerTitle = document.getElementById('banner_title');
-    const bannerText = document.getElementById('banner_text');
+    const bannerText = document.getElementById('banner_text'); // Mantemos apenas o texto menor
     
     const formLogin = document.getElementById('form_login');
     const formRegister = document.getElementById('form_register');
@@ -10,43 +9,53 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginError = document.getElementById('login_error');
     const regError = document.getElementById('reg_error');
 
-    let isLoginView = true;
-
-    // Lógica para alternar entre Login e Cadastro
+    // ==========================================
+    // 1. Alternar entre Login e Cadastro
+    // ==========================================
     toggleBtn.addEventListener('click', () => {
-        isLoginView = !isLoginView;
+        const isLoginActive = formLogin.classList.contains('active');
 
-        if (isLoginView) {
-            formRegister.classList.remove('active');
-            formRegister.classList.add('hidden');
-            formLogin.classList.remove('hidden');
-            formLogin.classList.add('active');
-
-            bannerTitle.textContent = 'Bem-vindo de volta!';
-            bannerText.textContent = 'Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.';
-            toggleBtn.textContent = 'CRIAR CONTA';
-            
-            loginError.textContent = '';
-            regError.textContent = '';
-        } else {
+        if (isLoginActive) {
+            // Se está no Login, vai para a tela de Cadastro
             formLogin.classList.remove('active');
             formLogin.classList.add('hidden');
             formRegister.classList.remove('hidden');
             formRegister.classList.add('active');
 
-            bannerTitle.textContent = 'Novo por aqui?';
-            bannerText.textContent = 'Cadastre-se no sistema do Radar de Segurança utilizando seu e-mail institucional.';
-            toggleBtn.textContent = 'FAZER LOGIN';
+            // Atualiza apenas o texto descritivo do Banner Verde
+            bannerText.innerText = 'Cadastre-se no sistema do Radar de Segurança utilizando seu e-mail institucional.';
             
-            loginError.textContent = '';
-            regError.textContent = '';
+            // Força a mudança do texto do botão
+            toggleBtn.innerText = 'FAZER LOGIN';
+            
+            loginError.innerText = '';
+            regError.innerText = '';
+        } else {
+            // Se está no Cadastro, volta para a tela de Login
+            formRegister.classList.remove('active');
+            formRegister.classList.add('hidden');
+            formLogin.classList.remove('hidden');
+            formLogin.classList.add('active');
+
+            // Atualiza apenas o texto descritivo do Banner Verde
+            bannerText.innerText = 'Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.';
+            
+            // Força a mudança do texto do botão
+            toggleBtn.innerText = 'CRIAR CONTA';
+            
+            loginError.innerText = '';
+            regError.innerText = '';
         }
     });
 
-    // Lógica de Submissão do Login
+    // ==========================================
+    // 2. Lógica de Submissão do Login
+    // ==========================================
     formLogin.addEventListener('submit', async (e) => {
         e.preventDefault();
-        loginError.textContent = '';
+        
+        loginError.style.color = "#008959";
+        loginError.innerText = 'Autenticando...';
         
         const email = document.getElementById('login_email').value;
         const senha = document.getElementById('login_password').value;
@@ -61,20 +70,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok) {
-                // Redireciona para o painel em caso de sucesso
+                localStorage.setItem('usuarioOperacional', JSON.stringify(data.user));
                 window.location.href = 'dashboard.html';
             } else {
-                loginError.textContent = data.error || 'Erro ao realizar login.';
+                loginError.style.color = "#d32f2f";
+                loginError.innerText = data.error || 'Erro ao realizar login.';
             }
         } catch (error) {
-            loginError.textContent = 'Erro de conexão com o servidor. Verifique se o backend está rodando.';
+            loginError.style.color = "#d32f2f";
+            loginError.innerText = 'Erro de conexão com o servidor. Verifique se o backend está rodando.';
         }
     });
 
-    // Lógica de Submissão do Registro
+    // ==========================================
+    // 3. Lógica de Submissão do Registro
+    // ==========================================
     formRegister.addEventListener('submit', async (e) => {
         e.preventDefault();
-        regError.textContent = '';
+        
+        regError.style.color = "#008959";
+        regError.innerText = 'Registrando agente...';
         
         const nome = document.getElementById('reg_nome').value;
         const email = document.getElementById('reg_email').value;
@@ -90,14 +105,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok) {
-                alert('Conta criada com sucesso! Faça login para continuar.');
+                regError.innerText = '';
+                alert('Conta criada com sucesso! Faça login para acessar o sistema.');
+                
+                // Volta para a tela de login automaticamente
                 toggleBtn.click(); 
                 document.getElementById('form_register').reset();
             } else {
-                regError.textContent = data.error || 'Erro ao realizar o cadastro.';
+                regError.style.color = "#d32f2f";
+                regError.innerText = data.error || 'Erro ao realizar o cadastro.';
             }
         } catch (error) {
-            regError.textContent = 'Erro de conexão com o servidor.';
+            regError.style.color = "#d32f2f";
+            regError.innerText = 'Erro de conexão com o servidor. Verifique se o backend está rodando.';
         }
     });
 });
