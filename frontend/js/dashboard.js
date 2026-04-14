@@ -13,10 +13,23 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 const coresRegionais = ["#f8bbd0", "#e1f5fe", "#fff9c4", "#e1bee7", "#ffccbc", "#c8e6c9", "#ffe0b2"];
-
-// 1. CRIAMOS UMA CAMADA ESPECÍFICA PARA OS PONTOS
-// Isso permite apagar os pontos velhos antes de desenhar os filtrados
 const camadaBatalhoes = L.layerGroup().addTo(map);
+
+// ==========================================
+// DADOS MOCKADOS (PLANO B OFFLINE)
+// ==========================================
+const DADOS_MOCKADOS_OFFLINE = [
+    { nome: '1º CRPM / 5º BPM', corporacao: 'PM', regional: 'Centro', latitude: -3.728330, longitude: -38.528330, efetivo: 250 },
+    { nome: '8º BPM (Aldeota)', corporacao: 'PM', regional: 'SER II', latitude: -3.738050, longitude: -38.502220, efetivo: 200 },
+    { nome: 'CPChoque / COTAM', corporacao: 'PM', regional: 'SER II', latitude: -3.746110, longitude: -38.461660, efetivo: 400 },
+    { nome: 'CPRAIO', corporacao: 'PM', regional: 'SER III', latitude: -3.734720, longitude: -38.553330, efetivo: 300 },
+    { nome: '1ª Cia / 1º BBM (Jacarecanga)', corporacao: 'CBM', regional: 'SER I', latitude: -3.725000, longitude: -38.541000, efetivo: 40 },
+    { nome: 'Comando Geral BBM (Parreão)', corporacao: 'CBM', regional: 'SER IV', latitude: -3.753000, longitude: -38.533000, efetivo: 80 },
+    { nome: '3ª Cia / 1º BBM (Messejana)', corporacao: 'CBM', regional: 'SER VI', latitude: -3.832000, longitude: -38.498000, efetivo: 40 },
+    { nome: 'Torre GM Lagoinha', corporacao: 'GM', regional: 'Centro', latitude: -3.726000, longitude: -38.530000, efetivo: 15 },
+    { nome: 'Torre GM Beira Mar', corporacao: 'GM', regional: 'SER II', latitude: -3.728000, longitude: -38.498000, efetivo: 15 },
+    { nome: 'Torre GM Jangurussu', corporacao: 'GM', regional: 'SER VI', latitude: -3.831000, longitude: -38.508000, efetivo: 15 }
+];
 
 async function initDashboard() {
     try {
@@ -38,13 +51,11 @@ async function initDashboard() {
         const statusDiv = document.getElementById("map_status");
         if (statusDiv) statusDiv.remove();
 
-        // Popular o select de Regionais dinamicamente (se quiser) ou usar o HTML
         popularFiltroRegionais(geoData);
 
-        // Força o Leaflet a recalcular o tamanho após carregar (Corrige o bug visual)
         setTimeout(() => { map.invalidateSize(); }, 500);
 
-        // Carrega as unidades a primeira vez (Sem filtros)
+        // Inicia a primeira carga de dados
         await loadBatalhoes('todas', 'todas');
 
     } catch (error) {
@@ -52,38 +63,42 @@ async function initDashboard() {
     }
 }
 
-// 2. A FUNÇÃO ATUALIZADA (Agora aceita os filtros)
+// 2. BUSCA DE DADOS (COM BLINDAGEM OFFLINE)
 async function loadBatalhoes(corporacao, regional) {
-    // Limpa os pontos do mapa toda vez que a função é chamada!
     camadaBatalhoes.clearLayers();
-
     let unidades = [];
+
     try {
-        // Monta a URL dinamicamente batendo na sua API do Node.js
         const url = `http://localhost:3000/api/unidades?corporacao=${corporacao}&regional=${regional}`;
         const response = await fetch(url);
 
         if (!response.ok) throw new Error("Erro na API");
         unidades = await response.json();
     } catch (err) {
-        console.warn("Usando mock para filtros locais...");
-        // Mock rápido caso o DB esteja off
-        unidades = [
-            { nome: "1º BPM", corporacao: "PM", regional: "SER I", latitude: -3.734, longitude: -38.495, efetivo: 120 },
-            { nome: "Quartel CBM", corporacao: "CBM", regional: "Centro", latitude: -3.720, longitude: -38.530, efetivo: 80 }
-        ].filter(u => (corporacao === 'todas' || u.corporacao === corporacao));
+        console.warn("API Offline. Usando dados mockados para apresentação...");
+        
+        // Aplica os filtros diretamente na lista de segurança
+        unidades = DADOS_MOCKADOS_OFFLINE.filter(u => {
+            const passaCorp = (corporacao === 'todas' || u.corporacao === corporacao);
+            const passaReg = (regional === 'todas' || u.regional === regional);
+            return passaCorp && passaReg;
+        });
     }
 
-    // Atualiza KPIs
-    document.getElementById("total_batalhoes").innerText = unidades.length;
+    // Atualiza KPIs (Nomes baseados no seu HTML original)
+    const kpiBatalhoes = document.getElementById("total_batalhoes");
+    const kpiEfetivo = document.getElementById("total_efetivo");
+    
+    if (kpiBatalhoes) kpiBatalhoes.innerText = unidades.length;
+    
     const totalEfetivo = unidades.reduce((sum, b) => sum + Number(b.efetivo), 0);
-    document.getElementById("total_efetivo").innerText = totalEfetivo;
+    if (kpiEfetivo) kpiEfetivo.innerText = totalEfetivo;
 
-    // Desenha os novos pontos na camada de batalhões
+    // Desenha os pontos
     unidades.forEach(uni => {
-        let cor = '#fbc02d';
-        if (uni.corporacao === 'PM') cor = '#1976d2';
-        if (uni.corporacao === 'CBM') cor = '#d32f2f';
+        let cor = '#fbc02d'; // GM (Amarelo)
+        if (uni.corporacao === 'PM') cor = '#1976d2'; // Azul
+        if (uni.corporacao === 'CBM') cor = '#d32f2f'; // Vermelho
 
         const marker = L.circleMarker([uni.latitude, uni.longitude], {
             radius: 8, fillColor: cor, color: '#ffffff', weight: 2, fillOpacity: 1
@@ -97,29 +112,25 @@ async function loadBatalhoes(corporacao, regional) {
             </div>
         `);
 
-        // Adiciona o ponto na camada correta
         marker.addTo(camadaBatalhoes);
-
-        atualizarGraficos(unidades);
     });
+
+    // Dispara a atualização dos gráficos
+    atualizarGraficos(unidades);
 }
 
-// 3. OUVINTES DE EVENTO (Eles disparam quando você mexe no select)
+// 3. OUVINTES DE EVENTO (Filtros)
 document.getElementById('corporation').addEventListener('change', aplicarFiltros);
 document.getElementById('regional').addEventListener('change', aplicarFiltros);
 
 function aplicarFiltros() {
     const corp = document.getElementById('corporation').value;
     const reg = document.getElementById('regional').value;
-
-    // Chama a função passando o que o usuário escolheu
     loadBatalhoes(corp, reg);
 }
 
-// Função extra para preencher o select de regionais usando seu JSON
 function popularFiltroRegionais(geoData) {
     const select = document.getElementById('regional');
-    // Coleta o nome das regionais do arquivo
     const nomes = geoData.features.map(f => f.properties.nome).filter(n => n);
 
     nomes.forEach(nome => {
@@ -134,66 +145,67 @@ function popularFiltroRegionais(geoData) {
 // RENDERIZAÇÃO DOS GRÁFICOS (CHART.JS)
 // ==========================================
 function atualizarGraficos(unidades) {
-    // 1. Somando os dados mockados de efetivo e bases
     const contagem = { PM: 0, CBM: 0, GM: 0 };
     const efetivo = { PM: 0, CBM: 0, GM: 0 };
     
     unidades.forEach(u => {
         if(contagem[u.corporacao] !== undefined) {
             contagem[u.corporacao] += 1;
-            efetivo[u.corporacao] += Number(u.efetivo); // Soma o efetivo que veio do banco!
+            efetivo[u.corporacao] += Number(u.efetivo);
         }
     });
 
     const labels = ['Polícia Militar', 'Bombeiros', 'Guarda Municipal'];
     const cores = ['#1976d2', '#d32f2f', '#fbc02d'];
 
-    // 2. Gráfico de Barras: Quantidade de Unidades Físicas
+    // Gráfico de Barras
     const ctxBar = document.getElementById('bar_chart_unidades');
-    if (graficoUnidades) graficoUnidades.destroy(); // Apaga o velho ao filtrar
-    
-    graficoUnidades = new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Bases/Quartéis Ativos',
-                data: [contagem.PM, contagem.CBM, contagem.GM],
-                backgroundColor: cores,
-                borderRadius: 4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } } // Esconde a legenda para ficar limpo
-        }
-    });
-
-    // 3. Gráfico de Rosca: Força de Efetivo
-    const ctxDoughnut = document.getElementById('doughnut_efetivo');
-    if (graficoEfetivo) graficoEfetivo.destroy();
-    
-    graficoEfetivo = new Chart(ctxDoughnut, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: [efetivo.PM, efetivo.CBM, efetivo.GM],
-                backgroundColor: cores,
-                borderWidth: 2,
-                hoverOffset: 10
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'bottom' }
+    if (ctxBar) {
+        if (graficoUnidades) graficoUnidades.destroy();
+        
+        graficoUnidades = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Bases/Quartéis Ativos',
+                    data: [contagem.PM, contagem.CBM, contagem.GM],
+                    backgroundColor: cores,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
             }
-        }
-    });
+        });
+    }
+
+    // Gráfico de Rosca
+    const ctxDoughnut = document.getElementById('doughnut_efetivo');
+    if (ctxDoughnut) {
+        if (graficoEfetivo) graficoEfetivo.destroy();
+        
+        graficoEfetivo = new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: [efetivo.PM, efetivo.CBM, efetivo.GM],
+                    backgroundColor: cores,
+                    borderWidth: 2,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    }
 }
 
-// Inicia
+// Inicia o sistema
 initDashboard();
