@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Captura dos Elementos de UI
     const toggleBtn = document.getElementById('toggle_btn');
-    const bannerText = document.getElementById('banner_text'); // Mantemos apenas o texto menor
+    const bannerText = document.getElementById('banner_text'); 
     
     const formLogin = document.getElementById('form_login');
     const formRegister = document.getElementById('form_register');
@@ -16,31 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const isLoginActive = formLogin.classList.contains('active');
 
         if (isLoginActive) {
-            // Se está no Login, vai para a tela de Cadastro
             formLogin.classList.remove('active');
             formLogin.classList.add('hidden');
             formRegister.classList.remove('hidden');
             formRegister.classList.add('active');
 
-            // Atualiza apenas o texto descritivo do Banner Verde
             bannerText.innerText = 'Cadastre-se no sistema do Radar de Segurança utilizando seu e-mail institucional.';
-            
-            // Força a mudança do texto do botão
             toggleBtn.innerText = 'FAZER LOGIN';
             
             loginError.innerText = '';
             regError.innerText = '';
         } else {
-            // Se está no Cadastro, volta para a tela de Login
             formRegister.classList.remove('active');
             formRegister.classList.add('hidden');
             formLogin.classList.remove('hidden');
             formLogin.classList.add('active');
 
-            // Atualiza apenas o texto descritivo do Banner Verde
             bannerText.innerText = 'Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.';
-            
-            // Força a mudança do texto do botão
             toggleBtn.innerText = 'CRIAR CONTA';
             
             loginError.innerText = '';
@@ -77,8 +69,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginError.innerText = data.error || 'Erro ao realizar login.';
             }
         } catch (error) {
-            loginError.style.color = "#d32f2f";
-            loginError.innerText = 'Erro de conexão com o servidor. Verifique se o backend está rodando.';
+            // GATILHO OFFLINE: Servidor caiu ou não foi iniciado
+            console.warn("Servidor backend offline. Tentando acesso local de emergência...");
+            
+            if (email === 'admin@sspds.ce.gov.br' && senha === '123456') {
+                loginError.style.color = "#008959"; 
+                loginError.innerText = 'Modo de Apresentação Ativado! Redirecionando...';
+                
+                // Cria o usuário mockado no navegador
+                localStorage.setItem('usuarioOperacional', JSON.stringify({ 
+                    id: 999, 
+                    nome: 'Inspetor Chefe (Apresentação)' 
+                }));
+                
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                loginError.style.color = "#d32f2f";
+                loginError.innerText = 'Servidor offline. Para apresentação, utilize a conta de demonstração (admin@sspds.ce.gov.br).';
+            }
         }
     });
 
@@ -107,8 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 regError.innerText = '';
                 alert('Conta criada com sucesso! Faça login para acessar o sistema.');
-                
-                // Volta para a tela de login automaticamente
                 toggleBtn.click(); 
                 document.getElementById('form_register').reset();
             } else {
@@ -116,8 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 regError.innerText = data.error || 'Erro ao realizar o cadastro.';
             }
         } catch (error) {
+            // Em modo offline, não é possível criar contas reais no banco
             regError.style.color = "#d32f2f";
-            regError.innerText = 'Erro de conexão com o servidor. Verifique se o backend está rodando.';
+            regError.innerText = 'Erro de conexão com o servidor. O registro está indisponível offline.';
         }
     });
 });
