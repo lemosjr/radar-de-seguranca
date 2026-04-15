@@ -1,117 +1,382 @@
 /* ==========================================
-   ESTRUTURA EM COLUNAS (DASHBOARD 360°)
-   ========================================== */
+   VARIÁVEIS DE DESIGN
+========================================== */
+:root {
+  --green-primary:   #008959;
+  --green-light:     #e6f4ee;
+  --green-mid:       #c2e0d1;
+  --border-color:    #e8e8e8;
+  --bg-page:         #f4f5f7;
+  --bg-card:         #ffffff;
+  --text-primary:    #1a1a1a;
+  --text-secondary:  #6b7280;
+  --text-muted:      #9ca3af;
+  --radius-sm:       6px;
+  --radius-md:       10px;
+  --radius-lg:       14px;
+  --shadow-card:     0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-elevated: 0 4px 12px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+  --transition:      150ms ease;
+}
+
+/* ==========================================
+   CONTAINER PRINCIPAL
+========================================== */
 .dashboard_container {
-    padding: 20px;
-    width: 100%;
-    /* Ocupa a altura da tela menos o tamanho do header/footer */
-    min-height: calc(100vh - 160px); 
-    display: flex;
-    flex-direction: column;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: calc(100vh - 160px);
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
 }
 
+/* ==========================================
+   GRID PRINCIPAL (3 COLUNAS)
+========================================== */
 .main_layout {
-    display: grid;
-    /* 250px esq, O RESTO TODO PRO MEIO (1fr), 350px dir */
-    grid-template-columns: 250px 1fr 350px; 
-    gap: 20px;
-    align-items: stretch; /* Estica as colunas para o chão */
-    flex: 1; /* Faz o layout crescer */
+  display: grid;
+  grid-template-columns: 240px 1fr 420px;
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
 }
 
-/* Coluna Central */
+/* ==========================================
+   COLUNA ESQUERDA
+========================================== */
+.left_sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.info_card {
+  background: var(--bg-card);
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--transition);
+}
+
+.info_card:hover {
+  box-shadow: var(--shadow-elevated);
+}
+
+.info_card::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 3px;
+  background: var(--green-primary);
+  border-radius: 2px;
+  margin-bottom: 12px;
+}
+
+.info_card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ==========================================
+   COLUNA CENTRAL
+========================================== */
 .center_column {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 100%; /* Ocupa toda a altura */
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DO MAPA (Leaflet.js)
-   ========================================== */
-.map_container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: relative;
-    /* A MÁGICA ESTÁ AQUI: O flex: 1 obriga a div do mapa a crescer 
-       e empurrar o layout para ocupar todo o meio da tela */
-    flex: 1; 
-    min-height: 600px;
-    display: flex; /* Necessário para o filho herdar 100% da altura */
+   FILTROS
+========================================== */
+.filters_top {
+  background: var(--bg-card);
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
 }
 
-/* O ID map_wrapper precisa de altura 100% para o Leaflet */
-#map_wrapper {
-    height: 100% !important; 
-    width: 100%;
-    z-index: 1;
-    border-radius: 8px;
+.filters_top .filter_row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-/* Customização dos Popups (Estilo Tático) */
-.leaflet-popup-content-wrapper {
-    background: #1a1a1a;
-    color: #ffffff;
-    border-radius: 4px;
-    padding: 5px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.leaflet-popup-tip {
-    background: #1a1a1a;
+.filters_top .filter_row .filter_group {
+  flex: 1 1 160px;
+  margin-bottom: 0;
 }
 
 /* ==========================================
-   COMPONENTES DE INTERFACE (Cards e KPIs)
-   ========================================== */
-.chart_card, .kpi_card, .filters_sidebar {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+   GRÁFICOS
+========================================== */
+.charts_center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  flex: 1;
 }
 
-.section_title {
-    font-size: 13px;
-    font-weight: bold;
-    color: #008959;
-    margin-bottom: 15px;
-    text-transform: uppercase;
+.chart_card {
+  width: 100%;
+  max-width: 420px;
+  height: 260px;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+  box-sizing: border-box;
+  transition: box-shadow var(--transition);
 }
 
+.chart_card:hover {
+  box-shadow: var(--shadow-elevated);
+}
+
+/* ==========================================
+   KPIs
+========================================== */
 .kpi_grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.kpi_card {
+  background: var(--green-light);
+  padding: 18px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--green-mid);
+  text-align: center;
+  box-sizing: border-box;
+  transition: box-shadow var(--transition);
+}
+
+.kpi_card:hover {
+  box-shadow: var(--shadow-elevated);
+}
+
+.kpi_card h3 {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 8px;
 }
 
 .kpi_value {
-    font-size: 32px;
-    font-weight: bold;
-    color: #008959;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--green-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+/* ==========================================
+   MAPA
+========================================== */
+.map_sidebar {
+  display: flex;
+  min-width: 0;
+  min-height: 400px;
+}
+
+.map_container {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-elevated);
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+#map_wrapper {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+#map_status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ==========================================
+   POPUPS DO MAPA
+========================================== */
+.leaflet-popup-content-wrapper {
+  background: #1a1a1a;
+  color: #ffffff;
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.leaflet-popup-tip {
+  background: #1a1a1a;
+}
+
+/* ==========================================
+   TÍTULOS DE SEÇÃO
+========================================== */
+.section_title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--green-primary);
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section_title::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-primary);
+  flex-shrink: 0;
+}
+
+/* ==========================================
+   FILTROS (FORM)
+========================================== */
+.filter_group {
+  margin-bottom: 14px;
+}
+
+.filter_group:last-child {
+  margin-bottom: 0;
 }
 
 .filter_group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #444;
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  width: 100%;
+  padding: 9px 32px 9px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-size: 13px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
 }
 
-/* Cores das Corporações para os Marcadores */
-.marker-pm { color: #1976d2; }
-.marker-cbm { color: #d32f2f; }
-.marker-gm { color: #fbc02d; }
+select:hover {
+  border-color: var(--green-mid);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--green-primary);
+  box-shadow: 0 0 0 3px rgba(0, 137, 89, 0.12);
+}
+
+/* ==========================================
+   BREAKPOINTS — TABLET GRANDE (≤ 1280px)
+========================================== */
+@media (max-width: 1280px) {
+  .main_layout {
+    grid-template-columns: 200px 1fr 340px;
+  }
+  .chart_card { max-width: 100%; height: 240px; }
+  .kpi_grid   { max-width: 100%; }
+}
+
+/* ==========================================
+   BREAKPOINTS — TABLET (≤ 1024px)
+========================================== */
+@media (max-width: 1024px) {
+  .main_layout {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "left   center"
+      "left   center"
+      "map    map";
+  }
+  .left_sidebar  { grid-area: left; }
+  .center_column { grid-area: center; }
+  .map_sidebar   { grid-area: map; min-height: 380px; }
+  .chart_card    { max-width: 100%; height: 240px; }
+  .kpi_grid      { max-width: 100%; }
+  .charts_center { align-items: stretch; }
+}
+
+/* ==========================================
+   BREAKPOINTS — TABLET PEQUENO (≤ 768px)
+========================================== */
+@media (max-width: 768px) {
+  .dashboard_container { padding: 14px; }
+  .main_layout {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .left_sidebar  { order: 4; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .center_column { order: 1; }
+  .map_sidebar   { order: 3; min-height: 320px; }
+  .filters_top .filter_row { flex-direction: row; }
+  .filters_top .filter_row .filter_group { flex: 1 1 140px; }
+  .chart_card { max-width: 100%; height: 220px; }
+  .kpi_grid   { max-width: 100%; }
+  .kpi_value  { font-size: 26px; }
+}
+
+/* ==========================================
+   BREAKPOINTS — MOBILE (≤ 480px)
+========================================== */
+@media (max-width: 480px) {
+  .dashboard_container { padding: 10px; }
+  .main_layout         { gap: 10px; }
+  .left_sidebar        { grid-template-columns: 1fr; }
+  .filters_top .filter_row { flex-direction: column; }
+  .filters_top .filter_row .filter_group { flex: unset; width: 100%; }
+  .chart_card    { height: 200px; padding: 14px; }
+  .map_sidebar   { min-height: 280px; }
+  .kpi_value     { font-size: 24px; }
+  .kpi_card      { padding: 14px 10px; }
+  .section_title { font-size: 10px; }
+  select         { padding: 8px 32px 8px 10px; font-size: 13px; }
+}
