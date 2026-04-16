@@ -1,7 +1,7 @@
 /* ==========================================
    RODAPÉ INSTITUCIONAL (SSPDS)
    ========================================== */
-.sspds_footer {
+   .sspds_footer {
     background-color: #ffffff;
     width: 100%;
     /* Empurra o footer para o final da tela em conjunto com o flex do global.css */
@@ -10,9 +10,10 @@
     border-top: 1px solid #e0e0e0;
 }
 
+/* Laranja do Estado do Ceará aplicado na linha superior */
 .footer_top_line {
     height: 4px;
-    background-color: #008959;
+    background-color: #ff8c00; 
     width: 100%;
 }
 
@@ -60,13 +61,14 @@
     margin: 5px 0;
 }
 
+/* Lista de ícones sociais agora com o Laranja do Estado */
 .social_icons li a {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 28px;
     height: 28px;
-    background-color: #00b37e;
+    background-color: #ff8c00; /* Laranja base */
     color: #ffffff;
     text-decoration: none;
     font-weight: bold;
@@ -77,7 +79,7 @@
 
 .social_icons li a:hover, 
 .social_icons li a:focus {
-    background-color: #008959;
+    background-color: #e65100; /* Laranja escuro no hover */
     outline: none;
 }
 
