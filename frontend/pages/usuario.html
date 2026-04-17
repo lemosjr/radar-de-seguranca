@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário | Radar de Segurança</title>
+    <title>Perfil do Agente | Radar de Segurança</title>
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
@@ -26,70 +26,104 @@
         </nav>
     </header>
 
-    <main class="profile_container">
-        <article class="profile_card">
-            <header class="profile_header">
-                <div class="profile_avatar" aria-hidden="true">👤</div>
-                <h2 id="user_name">Carregando...</h2>
-                <p>Agente de Segurança Pública</p>
-            </header>
+    <main class="profile_main_wrapper">
+        <section class="profile_container">
+            
+            <article class="profile_card" aria-labelledby="card_title">
+                
+                <header class="profile_card_header" id="user_card_header">
+                    <div class="profile_avatar">
+                        <span id="avatar_initials">--</span>
+                    </div>
+                    <h2 id="card_title" class="user_name_display">Carregando Agente...</h2>
+                    <p class="user_badge_display" id="user_role_display">Verificando credenciais</p>
+                </header>
 
-            <section class="profile_info">
-                <div class="info_group">
-                    <label>E-mail Institucional</label>
-                    <p id="user_email">admin@sspds.ce.gov.br</p>
+                <div class="profile_card_body">
+                    <h3 class="section_subtitle">Informações Funcionais</h3>
+                    
+                    <div class="info_grid">
+                        <div class="info_item">
+                            <span class="info_label">Nome Completo</span>
+                            <strong class="info_value" id="info_nome">...</strong>
+                        </div>
+                        
+                        <div class="info_item">
+                            <span class="info_label">E-mail Institucional</span>
+                            <strong class="info_value" id="info_email">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">Força de Atuação</span>
+                            <strong class="info_value" id="info_corporacao">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">Posto / Graduação</span>
+                            <strong class="info_value" id="info_patente">...</strong>
+                        </div>
+
+                        <div class="info_item full_width">
+                            <span class="info_label">Nível de Acesso (Sistema)</span>
+                            <div class="access_level_badge" id="info_permissao">Nível Desconhecido</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="info_group">
-                    <label>Nível de Acesso</label>
-                    <p>Administrador de Sistema</p>
-                </div>
+                <footer class="profile_card_footer">
+                    <button type="button" class="btn_outline_dark" id="btn_editar_perfil">Atualizar Dados</button>
+                    <button type="button" class="btn_solid_danger" id="btn_encerrar_sessao">Encerrar Sessão</button>
+                </footer>
 
-                <div class="info_group">
-                    <label>Status da Conta</label>
-                    <p>Ativo / Verificado</p>
-                </div>
+            </article>
 
-                <a href="login.html" class="btn_logout">ENCERRAR SESSÃO</a>
-            </section>
-        </article>
+        </section>
     </main>
 
     <footer class="sspds_footer" aria-label="Rodapé Institucional">
         <div class="footer_top_line"></div>
+  
         <div class="footer_container">
-            <section class="footer_brand">
-                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará"
-                    class="footer_logo">
-                <h2>SSPDS.CE.GOV.BR</h2>
-            </section>
-            <address class="footer_info">
-                <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
-                CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
-                AV. AGUANAMBI, S/N, AEROPORTO<br>
-                FORTALEZA, CE, CEP: 60415 390<br>
-                TELEFONE: (85) 3194 7420
-            </address>
-            <section class="footer_hours">
-                <strong>HORÁRIO DE ATENDIMENTO</strong><br>
-                08 ÀS 17 HORAS
-            </section>
-            <section class="footer_social">
-                <strong>NOSSOS CANAIS</strong>
-                <ul class="social_icons" aria-label="Redes Sociais">
-                    <li><a href="#" aria-label="Facebook">f</a></li>
-                    <li><a href="#" aria-label="Instagram">📷</a></li>
-                    <li><a href="#" aria-label="Twitter">t</a></li>
-                    <li><a href="#" aria-label="YouTube">▶</a></li>
-                </ul>
-                <p class="copyright">
-                    © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br>
-                    TODOS OS DIREITOS RESERVADOS
-                </p>
-            </section>
+          <section class="footer_brand">
+            <img
+              src="../assets/logotipo_ceara.png"
+              alt="Logomarca do Governo do Estado do Ceará"
+              class="footer_logo"
+            />
+            <h2>SSPDS.CE.GOV.BR</h2>
+          </section>
+  
+          <address class="footer_info">
+            <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br />
+            CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br />
+            AV. AGUANAMBI, S/N, AEROPORTO<br />
+            FORTALEZA, CE, CEP: 60415 390<br />
+            TELEFONE: (85) 3194 7420
+          </address>
+  
+          <section class="footer_hours">
+            <strong>HORÁRIO DE ATENDIMENTO</strong><br />
+            08 ÀS 17 HORAS
+          </section>
+  
+          <section class="footer_social">
+            <strong>NOSSOS CANAIS</strong>
+            <ul class="social_icons">
+              <li><a href="#">f</a></li>
+              <li><a href="#">📷</a></li>
+              <li><a href="#">t</a></li>
+              <li><a href="#">▶</a></li>
+            </ul>
+  
+            <p class="copyright">
+              © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br />
+              TODOS OS DIREITOS RESERVADOS
+            </p>
+          </section>
         </div>
-    </footer>
+      </footer>
 
+    <script src="../js/usuario.js"></script>
 </body>
 
 </html>
