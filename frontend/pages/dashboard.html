@@ -9,50 +9,129 @@
     <link rel="stylesheet" href="../css/header.css" />
     <link rel="stylesheet" href="../css/footer.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   </head>
   <body>
+
+    <!-- ===================== HEADER ===================== -->
     <header class="header">
+
+      <!-- Hambúrguer -->
+      <button class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="sidebar_nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Logo -->
       <div class="logo_container">
         <img
           src="../assets/logotipo_sspds.png"
           alt="Logomarca da Secretaria da Segurança Pública e Defesa Social"
           class="header_logo"
         />
-        <h1>Forças de Segurança de Fortaleza</h1>
       </div>
-      <nav aria-label="Menu Principal">
-        <a href="dashboard.html">Dashboard</a>
-        <a href="sobre.html">Sobre</a>
-        <a href="usuario.html">Usuário</a>
-      </nav>
+
+      <!-- Título — lado direito -->
+      <div class="header_center">
+        <h1>Forças de Segurança de Fortaleza</h1>
+        <span class="header_subtitle">Sistema Integrado de Monitoramento</span>
+      </div>
+
+      <!-- Usuário / logout -->
+      <div class="header_user">
+        <div class="user_info">
+          <span class="user_name">Operador</span>
+          <span class="user_role">Administrador</span>
+        </div>
+        <button class="user_avatar" aria-label="Sair do sistema" title="Sair do sistema">
+          <span class="avatar_initials">OP</span>
+          <span class="avatar_logout_icon" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </span>
+        </button>
+      </div>
     </header>
 
+    <!-- Barra laranja -->
+    <div class="header_accent_bar"></div>
+
+    <!-- ===================== SIDEBAR NAV ===================== -->
+    <!-- Overlay escurecido -->
+    <div class="nav_overlay" id="nav_overlay" aria-hidden="true"></div>
+
+    <nav class="sidebar_nav" id="sidebar_nav" aria-label="Menu Principal" aria-hidden="true">
+      <div class="sidebar_header">
+        <span class="sidebar_title">Menu</span>
+        <button class="sidebar_close" id="sidebar_close" aria-label="Fechar menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <ul class="sidebar_links">
+        <li>
+          <a href="dashboard.html" class="nav_active">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="sobre.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Sobre
+          </a>
+        </li>
+        <li>
+          <a href="usuario.html">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Usuário
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar_footer">
+        <span>© 2026 SSPDS — CE</span>
+      </div>
+    </nav>
+
+    <!-- ===================== MAIN ===================== -->
     <main class="dashboard_container">
       <div class="main_layout">
 
+        <!-- ESQUERDA -->
         <aside class="left_sidebar">
-          <article class="info_card">
+          <article class="info_card info_card--green">
             <h3 class="section_title">Resumo Geral</h3>
-            <p>Total de unidades ativas no sistema integrado.</p>
+            <p>Total de unidades ativas no sistema integrado de monitoramento.</p>
           </article>
 
-          <article class="info_card">
+          <article class="info_card info_card--orange">
             <h3 class="section_title">Ocorrências Recentes</h3>
-            <p>Dados estratégicos e alertas podem ser exibidos aqui.</p>
+            <p>Dados estratégicos e alertas operacionais são exibidos aqui.</p>
           </article>
 
-          <article class="info_card">
+          <article class="info_card info_card--green">
             <h3 class="section_title">Status Operacional</h3>
             <p>Situação atual das forças em campo.</p>
           </article>
         </aside>
 
+        <!-- CENTRO -->
         <section class="center_column">
 
+          <!-- FILTROS -->
           <aside class="filters_top">
-            <h3 class="section_title">Filtros de Busca</h3>
+            <div class="filters_header">
+              <h3 class="section_title">Filtros de Busca</h3>
+              <button class="btn_filter_reset" id="btn_reset" title="Limpar filtros">Limpar</button>
+            </div>
             <div class="filter_row">
               <div class="filter_group">
                 <label for="corporation">Corporação</label>
@@ -69,22 +148,73 @@
                   <option value="todas">Todas as Regionais</option>
                 </select>
               </div>
+              <div class="filter_group">
+                <label for="turno">Turno</label>
+                <select id="turno">
+                  <option value="todos">Todos os Turnos</option>
+                  <option value="manha">Manhã (06–12h)</option>
+                  <option value="tarde">Tarde (12–18h)</option>
+                  <option value="noite">Noite (18–00h)</option>
+                  <option value="madrugada">Madrugada (00–06h)</option>
+                </select>
+              </div>
+              <div class="filter_group">
+                <label for="status">Status</label>
+                <select id="status">
+                  <option value="todos">Todos os Status</option>
+                  <option value="ativo">Ativo</option>
+                  <option value="alerta">Em Alerta</option>
+                  <option value="inativo">Inativo</option>
+                </select>
+              </div>
             </div>
           </aside>
 
+          <!-- KPIs -->
           <div class="kpi_grid">
-            <article class="kpi_card">
-              <h3>Unidades</h3>
-              <p id="total_batalhoes" class="kpi_value">0</p>
+            <article class="kpi_card kpi_card--green">
+              <div class="kpi_icon kpi_icon--green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              </div>
+              <div class="kpi_body">
+                <h3>Unidades</h3>
+                <p id="total_batalhoes" class="kpi_value">0</p>
+              </div>
             </article>
-            <article class="kpi_card">
-              <h3>Efetivo</h3>
-              <p id="total_efetivo" class="kpi_value">0</p>
+
+            <article class="kpi_card kpi_card--green">
+              <div class="kpi_icon kpi_icon--green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="kpi_body">
+                <h3>Efetivo</h3>
+                <p id="total_efetivo" class="kpi_value">0</p>
+              </div>
+            </article>
+
+            <article class="kpi_card kpi_card--orange">
+              <div class="kpi_icon kpi_icon--orange">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="kpi_body">
+                <h3>Ocorrências</h3>
+                <p id="total_ocorrencias" class="kpi_value">789</p>
+              </div>
+            </article>
+
+            <article class="kpi_card kpi_card--orange">
+              <div class="kpi_icon kpi_icon--orange">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="kpi_body">
+                <h3>Tempo Médio</h3>
+                <p id="tempo_medio" class="kpi_value">8<span class="kpi_unit">min</span></p>
+              </div>
             </article>
           </div>
 
+          <!-- GRADE DE GRÁFICOS 2×2 -->
           <div class="charts_grid">
-
             <article class="chart_card">
               <h3 class="section_title">Unidades por Corporação</h3>
               <div class="chart_wrapper">
@@ -112,13 +242,16 @@
                 <canvas id="radar_ocorrencias_periodo"></canvas>
               </div>
             </article>
-
           </div>
 
         </section>
 
+        <!-- MAPA -->
         <aside class="map_sidebar">
           <figure class="map_container">
+            <div class="map_header">
+              <h3 class="section_title">Mapa Operacional</h3>
+            </div>
             <div id="map_wrapper"></div>
             <div id="map_status">Carregando mapa operacional...</div>
           </figure>
@@ -127,15 +260,12 @@
       </div>
     </main>
 
+    <!-- ===================== FOOTER ===================== -->
     <footer class="sspds_footer" aria-label="Rodapé Institucional">
       <div class="footer_top_line"></div>
       <div class="footer_container">
         <section class="footer_brand">
-          <img
-            src="../assets/logotipo_ceara.png"
-            alt="Logomarca do Governo do Estado do Ceará"
-            class="footer_logo"
-          />
+          <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo" />
           <h2>SSPDS.CE.GOV.BR</h2>
         </section>
         <address class="footer_info">
@@ -168,5 +298,40 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/dashboard.js"></script>
+
+    <!-- Hambúrguer / Sidebar -->
+    <script>
+      (function () {
+        const btn     = document.getElementById('hamburger');
+        const closeBtn= document.getElementById('sidebar_close');
+        const sidebar = document.getElementById('sidebar_nav');
+        const overlay = document.getElementById('nav_overlay');
+
+        function open() {
+          sidebar.classList.add('is_open');
+          overlay.classList.add('is_visible');
+          btn.setAttribute('aria-expanded', 'true');
+          sidebar.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function close() {
+          sidebar.classList.remove('is_open');
+          overlay.classList.remove('is_visible');
+          btn.setAttribute('aria-expanded', 'false');
+          sidebar.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        btn.addEventListener('click', open);
+        closeBtn.addEventListener('click', close);
+        overlay.addEventListener('click', close);
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') close();
+        });
+      })();
+    </script>
+
   </body>
 </html>
