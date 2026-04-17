@@ -1,87 +1,384 @@
 /* ==========================================
-   ESTILOS DO CABEÇALHO (HEADER)
-   ========================================== */
+   VARIÁVEIS GLOBAIS
+   Carregadas aqui pois header.css é o primeiro
+========================================== */
+:root {
+  --green-primary:   #008959;
+  --green-dark:      #006640;
+  --green-light:     #e8f5ee;
+  --green-mid:       #b8ddc9;
+
+  --orange-primary:  #E65100;
+  --orange-dark:     #BF360C;
+  --orange-mid:      #FF8A50;
+  --orange-light:    #FBE9E7;
+  --orange-glow:     rgba(230, 81, 0, 0.12);
+
+  --border-color:    #e2e6ea;
+  --bg-page:         #f0f2f5;
+  --bg-card:         #ffffff;
+  --text-primary:    #111827;
+  --text-secondary:  #6b7280;
+  --text-muted:      #9ca3af;
+
+  --radius-sm:       5px;
+  --radius-md:       9px;
+  --radius-lg:       13px;
+  --shadow-card:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-elevated: 0 6px 18px rgba(0,0,0,0.10), 0 2px 5px rgba(0,0,0,0.06);
+  --shadow-sidebar:  4px 0 24px rgba(0,0,0,0.18);
+  --transition:      140ms ease;
+
+  /* Altura do header — igual ao footer */
+  --header-height:   64px;
+  --sidebar-width:   240px;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
-    color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    /* ADICIONADO: Cria a âncora para o título centralizado */
-    position: relative; 
-}
-
-.header h1 {
-    font-size: 24px;
-    font-weight: 500;
-    /* ADICIONADO: Mágica da centralização absoluta */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    white-space: nowrap; /* Impede que o texto quebre em duas linhas */
-}
-
-/* Estilos dos links de navegação */
-.header nav a {
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-    color: #ffffff;
-    margin-right: 15px;
-    transition: opacity 0.3s ease;
-}
-
-/* Remove a margem direita do último link para alinhar com a borda direita perfeitamente */
-.header nav a:last-child {
-    margin-right: 0;
-}
-
-.header nav a:hover, 
-.header nav a:focus {
-    text-decoration: underline;
-    opacity: 0.8;
-    outline: none;
+  display: flex;
+  align-items: center;
+  height: var(--header-height);
+  padding: 0 20px;
+  gap: 16px;
+  background: linear-gradient(90deg, #007a4d 0%, var(--green-primary) 55%, #00a86b 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+  position: sticky;
+  top: 0;
+  z-index: 200;
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DAS LOGOMARCAS (HEADER E FOOTER)
-   ========================================== */
+   BARRA LARANJA
+========================================== */
+.header_accent_bar {
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--orange-primary) 0%,
+    var(--orange-mid)     50%,
+    var(--green-primary)  100%);
+  position: sticky;
+  top: var(--header-height);
+  z-index: 199;
+}
 
-/* Alinhamento da logo com o título no topo */
+/* ==========================================
+   BOTÃO HAMBÚRGUER
+========================================== */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+
+.hamburger:hover { background: rgba(255,255,255,0.22); }
+
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* ==========================================
+   LOGO
+========================================== */
 .logo_container {
-    display: flex;
-    align-items: center;
-    gap: 15px; 
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-/* Controle rígido de altura para a logo da SSPDS */
 .header_logo {
-    max-height: 70px; /* Mantive os 70px da nossa última alteração */
-    width: auto;
-    object-fit: contain;
-}
-
-/* Controle rígido de altura para a logo do Estado */
-.footer_logo {
-    max-height: 65px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 10px; 
+  height: 44px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* ==========================================
-   RESPONSIVIDADE (Telas Menores)
-   ========================================== */
-@media (max-width: 992px) {
-    /* Devolve o título para o lado da logo em telas pequenas para evitar sobreposição */
-    .header h1 {
-        position: static;
-        transform: none;
-        font-size: 18px;
-        white-space: normal;
-    }
+   TÍTULO — DIREITA (flex-grow empurra para lá)
+========================================== */
+.header_center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  min-width: 0;
+}
+
+.header_center h1 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+}
+
+.header_subtitle {
+  font-size: 10px;
+  color: rgba(255,255,255,0.58);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ==========================================
+   AVATAR / USUÁRIO
+========================================== */
+.header_user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.user_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.user_name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.user_role {
+  font-size: 9px;
+  color: rgba(255,255,255,0.52);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.user_avatar {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--orange-primary);
+  border: 2px solid rgba(255,255,255,0.35);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition);
+  flex-shrink: 0;
+}
+
+.user_avatar:hover {
+  border-color: #ffffff;
+  transform: scale(1.06);
+}
+
+.avatar_initials {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+  transition: opacity var(--transition);
+}
+
+.avatar_logout_icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(191, 54, 12, 0.95);
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.user_avatar:hover .avatar_initials    { opacity: 0; }
+.user_avatar:hover .avatar_logout_icon { opacity: 1; }
+
+/* ==========================================
+   OVERLAY DO MENU
+========================================== */
+.nav_overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 15, 0.52);
+  z-index: 299;
+  backdrop-filter: blur(2px);
+  transition: opacity var(--transition);
+}
+
+.nav_overlay.is_visible { display: block; }
+
+/* ==========================================
+   SIDEBAR NAV
+========================================== */
+.sidebar_nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: var(--shadow-sidebar);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-right: 3px solid var(--orange-primary);
+}
+
+.sidebar_nav.is_open { transform: translateX(0); }
+
+/* Cabeçalho da sidebar */
+.sidebar_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  height: var(--header-height);
+  background: linear-gradient(90deg, #007a4d 0%, var(--green-primary) 100%);
+  flex-shrink: 0;
+}
+
+.sidebar_title {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.sidebar_close {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.sidebar_close:hover { background: rgba(255,255,255,0.26); }
+
+/* Faixa laranja sob o cabeçalho da sidebar */
+.sidebar_header::after {
+  content: '';
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--orange-primary), var(--orange-mid));
+}
+
+/* Links */
+.sidebar_links {
+  list-style: none;
+  margin: 0;
+  padding: 16px 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar_links a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
+  border-left: 3px solid transparent;
+}
+
+.sidebar_links a svg {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition);
+}
+
+.sidebar_links a:hover {
+  background: var(--green-light);
+  color: var(--green-primary);
+  border-left-color: var(--green-mid);
+}
+
+.sidebar_links a:hover svg { color: var(--green-primary); }
+
+.sidebar_links a.nav_active {
+  background: var(--green-light);
+  color: var(--green-primary);
+  font-weight: 700;
+  border-left-color: var(--green-primary);
+}
+
+.sidebar_links a.nav_active svg { color: var(--green-primary); }
+
+/* Rodapé da sidebar */
+.sidebar_footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border-color);
+  font-size: 11px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+/* ==========================================
+   LOGO DO FOOTER
+========================================== */
+.footer_logo {
+  max-height: 65px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+========================================== */
+@media (max-width: 1024px) {
+  .header_user .user_info { display: none; }
+}
+
+@media (max-width: 768px) {
+  .header { padding: 0 14px; gap: 12px; }
+  .header_center h1 { font-size: 14px; }
+  .header_subtitle  { display: none; }
+}
+
+@media (max-width: 480px) {
+  .header_center h1 { font-size: 12px; }
+  .header_user .user_info { display: none; }
 }
