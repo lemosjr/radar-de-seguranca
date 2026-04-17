@@ -1,39 +1,36 @@
 /* ==========================================
-   TELA DE LOGIN (Específico)
+   TELA DE LOGIN (ESTILO VERSÃO 2.0)
    ========================================== */
 
-/* Novo container para centralizar a caixa de login no espaço livre do main */
+/* Container Principal */
 .login_main_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
     width: 100%;
-
-    /* Garante que o wrapper ocupe todo o espaço entre o cabeçalho e o rodapé */
+    /* Ajuste para acomodar header e footer sem scroll desnecessário */
     min-height: calc(100vh - 180px);
-
-    /* ESCOLHA A SUA COR AQUI */
     background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
-    /* background-color: #e4ebe5; Verde Sálvia Suave (Remova o comentário para usar) */
 }
 
-/* O cartão principal dividido em dois */
+/* Cartão de Autenticação */
 .auth_container {
     background-color: #ffffff;
     width: 900px;
     max-width: 100%;
-    min-height: 500px;
+    min-height: 550px;
     border-radius: 10px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     display: flex;
     overflow: hidden;
 }
 
-/* Lado Esquerdo (Verde SSPDS) */
+/* Lado Esquerdo: Banner Informativo */
 .auth_banner {
     width: 40%;
-    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
+    /* Degradê utilizando o Laranja do Estado */
+    background: linear-gradient(135deg, #ff8c00 0%, #e65100 100%);
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -44,15 +41,16 @@
     transition: all 0.5s ease-in-out;
 }
 
-.sspds_logo {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
+.banner_logo_img {
+    max-width: 250px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 25px;
+    object-fit: contain;
 }
 
 .auth_banner h1 {
-    font-size: 28px;
+    font-size: 26px;
     margin-bottom: 15px;
 }
 
@@ -70,24 +68,17 @@
     padding: 12px 35px;
     border-radius: 25px;
     font-weight: bold;
+    text-transform: uppercase;
     cursor: pointer;
     transition: all 0.3s ease;
-    /* Transição mais suave e global */
-    position: relative;
-    /* Cria um contexto de sobreposição */
-    z-index: 10;
-    /* Garante que o botão fique acima de qualquer elemento invisível */
 }
 
-.btn_outline:hover,
-.btn_outline:focus {
+.btn_outline:hover {
     background-color: #ffffff;
-    /* Força a cor de fundo no hover */
-    color: #008959;
-    outline: none;
+    color: #e65100;
 }
 
-/* Lado Direito (Formulários) */
+/* Lado Direito: Formulários */
 .auth_forms {
     width: 60%;
     display: flex;
@@ -95,14 +86,14 @@
     align-items: center;
     padding: 40px;
     position: relative;
+    background-color: #ffffff;
 }
 
 .form_box {
     width: 100%;
-    max-width: 350px;
+    max-width: 380px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     transition: opacity 0.4s ease;
 }
 
@@ -117,147 +108,228 @@
 }
 
 .form_box h2 {
-    color: #00b37e;
-    font-size: 32px;
-    margin-bottom: 30px;
+    color: #008959;
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
+/* ==========================================
+   ELEMENTOS DE SEGURANÇA E SUPORTE (REQUISITOS)
+   ========================================== */
+
+/* PONTO 4: Indicador de Segurança SSL */
+.security_badge {
+    background-color: #fff3e0;
+    border: 1px solid #ff8c00;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.security_badge span {
+    font-size: 11px;
+    color: #e65100;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* PONTO 2: Termos de Uso (Cadastro) */
+.terms_group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.terms_group input {
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.terms_group label {
+    font-size: 11px;
+    line-height: 1.4;
+    color: #666;
+    font-weight: normal;
+    text-transform: none; /* Previne herança de outros labels */
+}
+
+.terms_group a {
+    color: #ff8c00;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* PONTO 3: Canal de Suporte TI */
+.support_note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.support_note a {
+    color: #008959;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.support_note a:hover {
+    text-decoration: underline;
+    color: #ff8c00;
+}
+
+/* ==========================================
+   ESTILIZAÇÃO DOS RÓTULOS E INPUTS
+   ========================================== */
 .input_group {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
-.input_group input {
+.input_group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Campos de Entrada e Seleção */
+.input_group input,
+.input_group select {
     width: 100%;
-    padding: 15px;
-    background-color: #f4f8f7;
-    border: none;
-    border-radius: 5px;
+    padding: 12px 15px;
+    background-color: #f9fbfb;
+    border: 1px solid #dce4e4;
+    border-radius: 6px;
     font-size: 14px;
     color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.input_group input:focus {
+.input_group input:focus,
+.input_group select:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #00b37e;
+    border-color: #00b37e;
+    box-shadow: 0 0 0 3px rgba(0, 179, 126, 0.1);
 }
 
+.input_group select:disabled {
+    background-color: #f1f3f3;
+    cursor: not-allowed;
+    color: #999;
+}
+
+/* Agrupamento de Posto/Graduação */
+.military_fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Links de Recuperação */
+.forgot_link_container {
+    text-align: right;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.forgot_link {
+    font-size: 12px;
+    color: #008959;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.forgot_link:hover {
+    color: #ff8c00;
+    text-decoration: underline;
+}
+
+/* Botões de Ação */
 .btn_solid {
-    background-color: #00b37e;
+    background-color: #008959;
     color: #ffffff;
     border: none;
-    padding: 12px 40px;
-    border-radius: 25px;
+    padding: 14px;
+    border-radius: 30px;
     font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
     cursor: pointer;
-    margin-top: 15px;
     transition: background 0.3s;
+    width: 100%;
+    text-transform: uppercase;
 }
 
-.btn_solid:hover,
-.btn_solid:focus {
-    background-color: #008959;
-    outline: none;
+.btn_solid:hover {
+    background-color: #006b45;
 }
 
+/* Cor Laranja */
+.btn_orange {
+    background-color: #ff8c00;
+}
+
+.btn_orange:hover {
+    background-color: #e67e00;
+}
+
+/* Mensagens de Erro */
 .error_msg {
     color: #d32f2f;
     font-size: 13px;
-    margin-bottom: 10px;
-    min-height: 15px;
+    margin-bottom: 15px;
+    min-height: 18px;
+    text-align: center;
+    font-weight: 500;
 }
 
-/* Aviso de Credenciais (Modo Apresentação) */
+/* Credenciais de Demonstração */
 .demo_credentials {
-    background-color: #e0f2f1;
-    border-left: 4px solid #008959;
-    padding: 12px 15px;
-    margin-bottom: 15px;
+    background-color: #f0f7f4;
+    border-left: 4px solid #ff8c00;
+    padding: 12px;
+    margin-bottom: 20px;
     border-radius: 4px;
-    font-size: 13px;
-    color: #444444;
-    width: 100%;
-    text-align: left;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-size: 12px;
 }
 
 .demo_credentials strong {
     color: #008959;
     display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-
-.demo_credentials p {
-    margin-bottom: 4px;
-    line-height: 1.4;
-}
-
-.demo_credentials p:last-child {
-    margin-bottom: 0;
+    margin-bottom: 5px;
 }
 
 .demo_credentials span {
-    font-family: "Courier New", Courier, monospace;
-    background-color: #ffffff;
-    padding: 2px 6px;
+    font-family: monospace;
+    background: #fff;
+    padding: 2px 4px;
+    border: 1px solid #ddd;
     border-radius: 3px;
-    border: 1px solid #cccccc;
     font-weight: bold;
-    color: #333333;
-    user-select: all;
-    cursor: copy;
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DA LOGOMARCA (LOGIN)
+   RESPONSIVIDADE
    ========================================== */
-
-.login_logo_container {
-    text-align: center;
-    margin-bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.login_logo {
-    max-width: 160px;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Estilização da nova logo dentro do banner de login */
-.banner_logo_img {
-    max-width: 350px;
-    /* Aumentado consideravelmente para dar destaque */
-    width: 100%;
-    /* Garante proporção em telas menores */
-    height: auto;
-    margin-bottom: 25px;
-    /* Ajuste no respiro inferior */
-    display: block;
-    object-fit: contain;
-}
-
-/* Garante que o conteúdo do banner continue centralizado */
-.banner_content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 40px;
-    width: 100%;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .auth_container {
         flex-direction: column;
-    }
-
-    .auth_banner,
-    .auth_forms {
         width: 100%;
+        max-width: 450px;
+    }
+    .auth_banner, .auth_forms {
+        width: 100%;
+    }
+    .auth_banner {
+        padding: 30px;
     }
 }

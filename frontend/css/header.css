@@ -1,7 +1,4 @@
 /* ==========================================
-   VARIÁVEIS GLOBAIS
-   Carregadas aqui pois header.css é o primeiro
-========================================== */
 :root {
   --green-primary:   #008959;
   --green-dark:      #006640;
@@ -36,7 +33,6 @@
 
 /* ==========================================
    HEADER
-========================================== */
 .header {
   display: flex;
   align-items: center;
@@ -53,7 +49,6 @@
 
 /* ==========================================
    BARRA LARANJA
-========================================== */
 .header_accent_bar {
   width: 100%;
   height: 3px;
@@ -68,7 +63,6 @@
 
 /* ==========================================
    BOTÃO HAMBÚRGUER
-========================================== */
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -97,7 +91,6 @@
 
 /* ==========================================
    LOGO
-========================================== */
 .logo_container {
   display: flex;
   align-items: center;
@@ -112,7 +105,6 @@
 
 /* ==========================================
    TÍTULO — DIREITA (flex-grow empurra para lá)
-========================================== */
 .header_center {
   flex: 1;
   display: flex;
@@ -143,7 +135,6 @@
 
 /* ==========================================
    AVATAR / USUÁRIO
-========================================== */
 .header_user {
   display: flex;
   align-items: center;
@@ -218,7 +209,6 @@
 
 /* ==========================================
    OVERLAY DO MENU
-========================================== */
 .nav_overlay {
   display: none;
   position: fixed;
@@ -233,7 +223,6 @@
 
 /* ==========================================
    SIDEBAR NAV
-========================================== */
 .sidebar_nav {
   position: fixed;
   top: 0;
@@ -357,7 +346,74 @@
 
 /* ==========================================
    LOGO DO FOOTER
-========================================== */
+   ESTILOS DO CABEÇALHO (HEADER)
+   ========================================== */
+   .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
+    color: #ffffff;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 10;
+    border: none; 
+    gap: 20px; /* Impede que o título e a navegação se toquem */
+}
+
+.logo_container {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    flex: 1; /* Permite que o container ocupe todo o espaço central livre */
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+    margin-left: auto; /* Mágica do Flexbox: empurra o título para a extrema direita do container */
+    white-space: nowrap;
+    padding-right: 30px; /* Cria uma margem de segurança entre o título e os links */
+}
+
+/* ==========================================
+   NAVEGAÇÃO (MENU SUPERIOR)
+   ========================================== */
+.header nav {
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Força os links a ficarem em uma única linha */
+}
+
+.header nav a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-left: 20px; /* Afasta os links um do outro */
+    transition: opacity 0.3s ease;
+}
+
+.header nav a:hover, 
+.header nav a:focus {
+    text-decoration: underline;
+    opacity: 0.8;
+    outline: none;
+}
+
+/* ==========================================
+   ESTILIZAÇÃO DAS LOGOMARCAS
+   ========================================== */
+
+.header_logo {
+    max-height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
 .footer_logo {
   max-height: 65px;
   width: auto;
@@ -367,7 +423,6 @@
 
 /* ==========================================
    RESPONSIVIDADE
-========================================== */
 @media (max-width: 1024px) {
   .header_user .user_info { display: none; }
 }
@@ -381,4 +436,16 @@
 @media (max-width: 480px) {
   .header_center h1 { font-size: 12px; }
   .header_user .user_info { display: none; }
+   ========================================== */
+@media (max-width: 992px) {
+    .logo_container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .header h1 {
+        font-size: 18px;
+        white-space: normal;
+        text-align: left;
+    }
 }
