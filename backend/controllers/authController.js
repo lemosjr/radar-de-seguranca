@@ -1,4 +1,5 @@
 const pool = require('../config/db');
+const bcrypt = require('bcrypt'); // Adicionado para proteção das senhas
 
 /**
  * MAPEAMENTO DE HIERARQUIA E PERMISSÕES
@@ -11,34 +12,55 @@ const permissoesMapeadas = {
     'GM': { 'Guarda': 1, 'Subinspetor': 2, 'Inspetor': 3 }
 };
 
-// Registro de Usuário com Validação de Campos Obrigatórios
+// Registro de Usuário com Validação Robusta e Criptografia
 exports.registrar = async (req, res) => {
-    const { nome, email, senha, corporacao, tipo_militar } = req.body;
+    // Recebendo os novos campos do frontend
+    const { nome, cpf, telefone, email, senha, corporacao, tipo_militar } = req.body;
     
     // Clean Code: Early Return para validação de campos obrigatórios
-    if (!nome || !email || !senha || !corporacao || !tipo_militar) {
-        return res.status(400).json({ error: 'Todos os campos são obrigatórios para o cadastro.' });
+    if (!nome || !cpf || !telefone || !email || !senha || !corporacao || !tipo_militar) {
+        return res.status(400).json({ success: false, error: 'Todos os campos são obrigatórios para o cadastro.' });
     }
 
-    // Cálculo automático do nível de permissão no servidor por segurança
+    // Validação da Senha Forte no Servidor (Defesa em Profundidade)
+    const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    if (!regexSenha.test(senha)) {
+        return res.status(400).json({ success: false, error: 'A senha não atende aos requisitos mínimos de segurança.' });
+    }
+
+    // Cálculo automático do nível de permissão no servidor
     const nivel = permissoesMapeadas[corporacao]?.[tipo_militar] || 1;
 
     try {
-        const result = await pool.query(
-            `INSERT INTO usuarios (nome, email, senha, corporacao, tipo_militar, nivel_permissao) 
-             VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, nome, email, corporacao`,
-            [nome, email, senha, corporacao, tipo_militar, nivel]
+        // Verificação dupla: Impede CPF ou E-mail duplicados
+        const userCheck = await pool.query(
+            'SELECT id FROM usuarios WHERE email = $1 OR cpf = $2',
+            [email, cpf]
         );
+
+        if (userCheck.rows.length > 0) {
+            return res.status(409).json({ success: false, error: 'Este e-mail ou CPF já está cadastrado no sistema.' });
+        }
+
+        // Criptografando a senha antes de salvar
+        const saltRounds = 10;
+        const senhaHash = await bcrypt.hash(senha, saltRounds);
+
+        // Inserção no banco com a nova estrutura da tabela
+        const result = await pool.query(
+            `INSERT INTO usuarios (nome, cpf, telefone, email, senha_hash, corporacao, tipo_militar, nivel_acesso) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, nome, email, corporacao, tipo_militar, nivel_acesso`,
+            [nome, cpf, telefone, email, senhaHash, corporacao, tipo_militar, nivel]
+        );
+        
         res.status(201).json({ success: true, user: result.rows[0] });
     } catch (err) {
-        if (err.code === '23505') { 
-            return res.status(400).json({ error: 'Este e-mail já está cadastrado no sistema.' });
-        }
-        res.status(500).json({ error: 'Erro interno ao processar cadastro.' });
+        console.error('Erro no registro:', err);
+        res.status(500).json({ success: false, error: 'Erro interno ao processar cadastro.' });
     }
 };
 
-// Lógica de Esquecer Senha (Preparação de Endpoint)
+// Lógica de Esquecer Senha (Mantida e intacta)
 exports.solicitarRecuperacao = async (req, res) => {
     const { email } = req.body;
     
@@ -50,32 +72,50 @@ exports.solicitarRecuperacao = async (req, res) => {
         const userCheck = await pool.query('SELECT id FROM usuarios WHERE email = $1', [email]);
         
         if (userCheck.rows.length > 0) {
-            // Aqui seria implementado o envio de e-mail real via Nodemailer futuramente
             console.log(`Log: Solicitação de reset de senha para ${email}`);
         }
         
-        // Por segurança, sempre retornamos a mesma mensagem para evitar descoberta de e-mails
         res.json({ success: true, message: 'Se o e-mail existir na base, um link de recuperação será enviado.' });
     } catch (err) {
         res.status(500).json({ error: 'Erro ao processar recuperação de senha.' });
     }
 };
 
-// O login permanece similar, mas agora retorna também a corporação e o nível para o frontend adaptar a visão
+// Login com verificação de Hash
 exports.login = async (req, res) => {
     const { email, senha } = req.body;
+
+    if (!email || !senha) {
+        return res.status(400).json({ success: false, error: 'E-mail e senha são obrigatórios.' });
+    }
+
     try {
+        // Busca o usuário apenas pelo email
         const result = await pool.query(
-            'SELECT id, nome, corporacao, nivel_permissao FROM usuarios WHERE email = $1 AND senha = $2',
-            [email, senha]
+            'SELECT id, nome, email, corporacao, tipo_militar, nivel_acesso, senha_hash FROM usuarios WHERE email = $1',
+            [email]
         );
         
-        if (result.rows.length > 0) {
-            res.json({ success: true, user: result.rows[0] });
-        } else {
-            res.status(401).json({ error: 'Credenciais inválidas.' });
+        // Se não encontrou o email, para aqui
+        if (result.rows.length === 0) {
+            return res.status(401).json({ success: false, error: 'Credenciais inválidas.' });
         }
+
+        const usuario = result.rows[0];
+
+        // Compara a senha digitada com a criptografia do banco
+        const senhaValida = await bcrypt.compare(senha, usuario.senha_hash);
+
+        if (!senhaValida) {
+            return res.status(401).json({ success: false, error: 'Credenciais inválidas.' });
+        }
+
+        // Por segurança, removemos o hash da memória antes de enviar ao frontend
+        delete usuario.senha_hash;
+
+        res.json({ success: true, user: usuario });
     } catch (err) {
-        res.status(500).json({ error: 'Erro no servidor durante o login.' });
+        console.error('Erro no login:', err);
+        res.status(500).json({ success: false, error: 'Erro no servidor durante o login.' });
     }
 };

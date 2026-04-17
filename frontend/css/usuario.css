@@ -1,100 +1,119 @@
 /* ==========================================
-   TELA DE PERFIL DO USUÁRIO (CARTÃO DE ID)
+   TELA DE PERFIL (CREDENCIAL DIGITAL)
    ========================================== */
 
-/* Wrapper principal para centralizar o cartão na tela */
-.profile_main_wrapper {
+   .profile_main_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
     width: 100%;
     min-height: calc(100vh - 180px);
-    /* Fundo levemente acinzentado para destacar o cartão branco */
-    background-color: #f4f8f7; 
+    background-color: #f0f4f3; /* Fundo mais neutro para destacar o card */
 }
 
 .profile_container {
     width: 100%;
-    max-width: 550px; /* Tamanho ideal para leitura */
+    max-width: 600px;
 }
 
-/* O Cartão de Identificação em si */
+/* Estrutura do Cartão de Identidade */
 .profile_card {
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border: 1px solid #e0e0e0;
 }
 
 /* ==========================================
-   CABEÇALHO DO CARTÃO (AVATAR E NOME)
+   CABEÇALHO DA CREDENCIAL
    ========================================== */
 .profile_card_header {
-    /* Cor padrão (SSPDS), será sobrescrita pelo JS dependendo da corporação */
     background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
     color: #ffffff;
     text-align: center;
-    padding: 40px 20px 25px;
+    padding: 50px 20px 30px;
     position: relative;
 }
 
+/* Selo de Status: Ativo/Inativo */
+.status_badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.status_dot {
+    width: 8px;
+    height: 8px;
+    background-color: #2ecc71; /* Verde neon para status ativo */
+    border-radius: 50%;
+    box-shadow: 0 0 8px #2ecc71;
+}
+
 .profile_avatar {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     background-color: #ffffff;
     color: #008959;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto 15px;
-    font-size: 32px;
+    margin: 0 auto 18px;
+    font-size: 36px;
     font-weight: 800;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border: 4px solid rgba(255, 255, 255, 0.2);
-    background-clip: padding-box;
+    border: 5px solid rgba(255, 255, 255, 0.15);
 }
 
 .user_name_display {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     margin-bottom: 5px;
-    letter-spacing: 0.5px;
 }
 
 .user_badge_display {
-    font-size: 14px;
+    font-size: 13px;
     opacity: 0.9;
-    font-weight: 500;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
 /* ==========================================
-   CORPO DO CARTÃO (DADOS CADASTRAIS)
+   CAMPOS DE DADOS E GRID
    ========================================== */
 .profile_card_body {
-    padding: 30px 40px;
-    background-color: #ffffff;
+    padding: 35px 45px;
 }
 
 .section_subtitle {
-    font-size: 16px;
+    font-size: 15px;
     color: #008959;
     margin-bottom: 25px;
-    font-weight: 700;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 10px;
-    text-transform: uppercase;
+    font-weight: 800;
+    border-bottom: 2px solid #ff8c00; /* Linha de destaque em Laranja */
+    padding-bottom: 8px;
+    display: inline-block;
 }
 
 .info_grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Duas colunas */
-    gap: 20px 15px;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px 20px;
 }
 
 .info_item {
@@ -102,86 +121,72 @@
     flex-direction: column;
 }
 
-.full_width {
-    grid-column: span 2; /* Ocupa a linha inteira */
-    margin-top: 10px;
-}
-
 .info_label {
     font-size: 11px;
-    color: #888888;
+    color: #999;
     text-transform: uppercase;
     font-weight: 700;
-    margin-bottom: 4px;
-    letter-spacing: 0.5px;
+    margin-bottom: 5px;
 }
 
 .info_value {
     font-size: 15px;
-    color: #333333;
+    color: #2c3e50;
     font-weight: 600;
 }
 
-/* Badge de Nível de Acesso */
+/* Badge de Permissão */
 .access_level_badge {
     display: inline-block;
-    padding: 6px 14px;
-    background-color: #e0f2f1;
-    color: #008959;
-    border: 1px solid #00b37e;
-    border-radius: 20px;
+    padding: 7px 16px;
+    background-color: #fff3e0; /* Fundo laranja clarinho */
+    color: #e65100; /* Texto laranja escuro */
+    border: 1px solid #ff8c00;
+    border-radius: 4px;
     font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-top: 5px;
-    width: fit-content;
+    font-weight: 800;
 }
 
 /* ==========================================
-   RODAPÉ DO CARTÃO (BOTÕES DE AÇÃO)
+   AÇÕES DA CONTA
    ========================================== */
 .profile_card_footer {
-    padding: 20px 40px 30px;
-    background-color: #ffffff;
+    padding: 0 45px 40px;
     display: flex;
-    justify-content: space-between;
     gap: 15px;
 }
 
-/* Botão Secundário (Atualizar Dados) */
 .btn_outline_dark {
     flex: 1;
-    background-color: transparent;
-    border: 2px solid #dddddd;
-    color: #555555;
-    padding: 12px 20px;
-    border-radius: 25px;
-    font-weight: bold;
+    background: transparent;
+    border: 2px solid #008959;
+    color: #008959;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 13px;
+    transition: 0.3s;
     text-transform: uppercase;
+    font-size: 12px;
 }
 
 .btn_outline_dark:hover {
-    border-color: #008959;
-    color: #008959;
-    background-color: #f4f8f7;
+    background-color: #008959;
+    color: #ffffff;
 }
 
-/* Botão de Perigo (Sair) */
 .btn_solid_danger {
     flex: 1;
     background-color: #d32f2f;
     color: #ffffff;
     border: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    font-weight: bold;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 13px;
+    transition: 0.3s;
     text-transform: uppercase;
+    font-size: 12px;
 }
 
 .btn_solid_danger:hover {
@@ -189,49 +194,15 @@
 }
 
 /* ==========================================
-   TEMAS DINÂMICOS (INJETADOS VIA JAVASCRIPT)
+   ESTILOS DINÂMICOS (TEMAS POR FORÇA)
    ========================================== */
-
-/* Tema Polícia Militar (Azul/Verde Escuro) */
-.theme-pm {
-    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
-}
+.theme-pm { background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%); }
 .theme-pm .profile_avatar { color: #1a237e; }
 
-/* Tema Corpo de Bombeiros (Vermelho/Laranja) */
-.theme-cbm {
-    background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%);
-}
+.theme-cbm { background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%); }
 .theme-cbm .profile_avatar { color: #b71c1c; }
 
-/* Tema Guarda Municipal (Amarelo Escuro/Verde Oliva) */
-.theme-gm {
-    background: linear-gradient(135deg, #f57f17 0%, #fbc02d 100%);
-    color: #333; /* Texto escuro para contraste no fundo amarelo */
+.theme-gm { 
+    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%); 
 }
-.theme-gm .profile_avatar { 
-    color: #f57f17; 
-    border-color: rgba(0, 0, 0, 0.1); 
-}
-
-/* ==========================================
-   RESPONSIVIDADE
-   ========================================== */
-@media (max-width: 600px) {
-    .info_grid {
-        grid-template-columns: 1fr; /* Muda para 1 coluna em celulares */
-    }
-    
-    .full_width {
-        grid-column: span 1;
-    }
-
-    .profile_card_footer {
-        flex-direction: column;
-        padding: 20px;
-    }
-    
-    .profile_card_body {
-        padding: 25px 20px;
-    }
-}
+.theme-gm .profile_avatar { color: #1b5e20; }

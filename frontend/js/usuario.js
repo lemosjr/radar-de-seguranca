@@ -3,37 +3,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. VERIFICAÇÃO DE SEGURANÇA (AUTENTICAÇÃO)
     // ==========================================
     
-    // Recupera os dados do usuário salvos no momento do login
     const usuarioString = localStorage.getItem('usuario');
     
-    // Se não houver dados, significa que o usuário não está logado
     if (!usuarioString) {
-        // Redireciona imediatamente para a tela de login para proteção da rota
         window.location.href = 'login.html';
         return; 
     }
 
-    // Converte a string JSON de volta para um objeto JavaScript utilizável
     const usuario = JSON.parse(usuarioString);
 
     // ==========================================
     // 2. MAPEAMENTO DE ELEMENTOS DO DOM
     // ==========================================
     
-    // Elementos do Cabeçalho do Cartão
+    // Cabeçalho da Credencial
     const cardHeader = document.getElementById('user_card_header');
     const avatarInitials = document.getElementById('avatar_initials');
     const cardTitle = document.getElementById('card_title');
     const userRoleDisplay = document.getElementById('user_role_display');
     
-    // Elementos do Corpo do Cartão
+    // Corpo da Credencial (Dados Funcionais)
     const infoNome = document.getElementById('info_nome');
     const infoEmail = document.getElementById('info_email');
     const infoCorporacao = document.getElementById('info_corporacao');
     const infoPatente = document.getElementById('info_patente');
     const infoPermissao = document.getElementById('info_permissao');
     
-    // Botões de Ação
+    // Novos Elementos Mapeados (CPF e Telefone)
+    const infoCpf = document.getElementById('info_cpf');
+    const infoTelefone = document.getElementById('info_telefone');
+
+    // Botões
     const btnEncerrarSessao = document.getElementById('btn_encerrar_sessao');
     const btnEditarPerfil = document.getElementById('btn_editar_perfil');
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. PREENCHIMENTO DOS DADOS E LÓGICA DE TEMA
     // ==========================================
 
-    // A. Preenche as informações textuais básicas
+    // Textos Básicos
     cardTitle.textContent = usuario.nome;
     userRoleDisplay.textContent = `${usuario.tipo_militar} - ${usuario.corporacao}`;
     
@@ -50,24 +50,43 @@ document.addEventListener('DOMContentLoaded', () => {
     infoCorporacao.textContent = usuario.corporacao;
     infoPatente.textContent = usuario.tipo_militar;
     
-    // B. Define o Nível de Acesso (Se o backend não enviar, definimos um padrão)
+    // ==========================================
+    // LÓGICA NOVA: PROTEÇÃO DE DADOS SENSÍVEIS (LGPD)
+    // ==========================================
+    
+    // 1. Tratamento do Telefone (Se vier apenas números da API, formata visualmente)
+    let telefoneFormatado = usuario.telefone || 'Não informado';
+    if (telefoneFormatado !== 'Não informado' && telefoneFormatado.length >= 10) {
+        // Exemplo: 85999999999 -> (85) 99999-9999
+        telefoneFormatado = telefoneFormatado.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
+    }
+    if (infoTelefone) infoTelefone.textContent = telefoneFormatado;
+
+    // 2. Máscara de Segurança do CPF (Exibe apenas os últimos dígitos)
+    let cpfMascarado = '***.***.***-**';
+    if (usuario.cpf && usuario.cpf.length === 11) {
+        // Pega os dois últimos dígitos do CPF e mascara o resto
+        const ultimosDigitos = usuario.cpf.slice(-2);
+        cpfMascarado = `***.***.***-${ultimosDigitos}`;
+    }
+    if (infoCpf) infoCpf.textContent = cpfMascarado;
+
+
+    // Nível de Acesso
     const permissao = usuario.nivel_acesso || 'Operacional';
     infoPermissao.textContent = permissao;
 
-    // C. Lógica para gerar as iniciais do Avatar
+    // Gerador de Iniciais do Avatar
     const partesNome = usuario.nome.trim().split(' ');
     let iniciais = '';
     if (partesNome.length > 1) {
-        // Pega a primeira letra do primeiro nome e a primeira letra do último nome
         iniciais = partesNome[0].charAt(0) + partesNome[partesNome.length - 1].charAt(0);
     } else {
-        // Se tiver só um nome, pega as duas primeiras letras
         iniciais = usuario.nome.substring(0, 2);
     }
     avatarInitials.textContent = iniciais.toUpperCase();
 
-    // D. Injeção do Tema Baseado na Corporação
-    // Remove qualquer tema que possa estar no HTML e aplica o correto
+    // Injeção do Tema por Corporação
     cardHeader.classList.remove('theme-pm', 'theme-cbm', 'theme-gm');
     
     const corporacao = usuario.corporacao.toUpperCase();
@@ -83,20 +102,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. LÓGICA DOS BOTÕES DE AÇÃO
     // ==========================================
 
-    // Encerrar Sessão (Logout)
     btnEncerrarSessao.addEventListener('click', () => {
         const confirmar = confirm('Tem certeza que deseja encerrar sua sessão segura?');
-        
         if (confirmar) {
-            // Remove o usuário da memória local
             localStorage.removeItem('usuario');
-            // Redireciona para o login
             window.location.href = 'login.html';
         }
     });
 
-    // Atualizar Dados (Apenas exemplo de alerta, pode ser expandido futuramente)
     btnEditarPerfil.addEventListener('click', () => {
-        alert('A edição de dados institucionais deve ser solicitada via protocolo interno do RH da sua respectiva corporação.');
+        alert('A edição de dados institucionais deve ser solicitada via protocolo interno do RH da sua corporação (Célula de TI).');
     });
 });

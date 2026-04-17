@@ -79,8 +79,18 @@
                     </div>
 
                     <div class="input_group">
+                        <label for="reg_cpf">CPF *</label>
+                        <input type="text" id="reg_cpf" placeholder="000.000.000-00" required maxlength="14">
+                    </div>
+
+                    <div class="input_group">
                         <label for="reg_email">E-mail Institucional *</label>
                         <input type="email" id="reg_email" placeholder="exemplo@sspds.ce.gov.br" required>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="reg_telefone">Telefone / Celular *</label>
+                        <input type="text" id="reg_telefone" placeholder="(00) 00000-0000" required maxlength="15">
                     </div>
 
                     <fieldset class="military_fieldset">
@@ -105,7 +115,8 @@
 
                     <div class="input_group">
                         <label for="reg_password">Criar Senha *</label>
-                        <input type="password" id="reg_password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                        <input type="password" id="reg_password" placeholder="Digite sua senha segura" required minlength="6">
+                        <small class="password_hint">A senha deve conter no mínimo 6 caracteres, letra maiúscula, minúscula, número e símbolo.</small>
                     </div>
 
                     <div class="terms_group">
