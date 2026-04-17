@@ -8,46 +8,46 @@
     padding: 20px 30px;
     background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
     color: #ffffff;
-    
-    /* 1. Sombra mais forte para maior destaque */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    
-    /* 2. O SEGREDO: Garante que o header e sua sombra fiquem por cima do restol da página */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 10;
-    
     border: none; 
+    gap: 20px; /* Impede que o título e a navegação se toquem */
 }
 
 .logo_container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
     gap: 15px; 
+    flex: 1; /* Permite que o container ocupe todo o espaço central livre */
 }
 
 .header h1 {
     font-size: 24px;
     font-weight: 500;
     margin: 0;
-    text-align: right;
+    margin-left: auto; /* Mágica do Flexbox: empurra o título para a extrema direita do container */
     white-space: nowrap;
+    padding-right: 30px; /* Cria uma margem de segurança entre o título e os links */
 }
 
-/* Estilos dos links de navegação */
+/* ==========================================
+   NAVEGAÇÃO (MENU SUPERIOR)
+   ========================================== */
+.header nav {
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Força os links a ficarem em uma única linha */
+}
+
 .header nav a {
     text-decoration: none;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
     color: #ffffff;
-    margin-right: 15px;
+    margin-left: 20px; /* Afasta os links um do outro */
     transition: opacity 0.3s ease;
-}
-
-.header nav a:last-child {
-    margin-right: 0;
 }
 
 .header nav a:hover, 

@@ -1,86 +1,237 @@
 /* ==========================================
-   TELA DE PERFIL DO USUÁRIO (Específico)
+   TELA DE PERFIL DO USUÁRIO (CARTÃO DE ID)
    ========================================== */
 
-.profile_container {
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.profile_card {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
-    overflow: hidden;
-}
-
-.profile_header {
-    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
-    padding: 30px;
-    text-align: center;
-    color: #ffffff;
-}
-
-.profile_avatar {
-    width: 80px;
-    height: 80px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    margin: 0 auto 15px;
+/* Wrapper principal para centralizar o cartão na tela */
+.profile_main_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
-    border: 2px solid #ffffff;
-}
-
-.profile_info {
-    padding: 30px;
-}
-
-.info_group {
-    margin-bottom: 20px;
-}
-
-.info_group label {
-    display: block;
-    font-size: 12px;
-    font-weight: bold;
-    color: #008959;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-}
-
-.info_group p {
-    font-size: 16px;
-    color: #333333;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    border: 1px solid #eeeeee;
-}
-
-.btn_logout {
-    display: block;
+    padding: 40px 20px;
     width: 100%;
-    padding: 12px;
-    background-color: #d32f2f;
+    min-height: calc(100vh - 180px);
+    /* Fundo levemente acinzentado para destacar o cartão branco */
+    background-color: #f4f8f7; 
+}
+
+.profile_container {
+    width: 100%;
+    max-width: 550px; /* Tamanho ideal para leitura */
+}
+
+/* O Cartão de Identificação em si */
+.profile_card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================
+   CABEÇALHO DO CARTÃO (AVATAR E NOME)
+   ========================================== */
+.profile_card_header {
+    /* Cor padrão (SSPDS), será sobrescrita pelo JS dependendo da corporação */
+    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
     color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
     text-align: center;
-    text-decoration: none;
-    transition: background 0.3s;
+    padding: 40px 20px 25px;
+    position: relative;
+}
+
+.profile_avatar {
+    width: 90px;
+    height: 90px;
+    background-color: #ffffff;
+    color: #008959;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+    font-size: 32px;
+    font-weight: 800;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    background-clip: padding-box;
+}
+
+.user_name_display {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.user_badge_display {
+    font-size: 14px;
+    opacity: 0.9;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ==========================================
+   CORPO DO CARTÃO (DADOS CADASTRAIS)
+   ========================================== */
+.profile_card_body {
+    padding: 30px 40px;
+    background-color: #ffffff;
+}
+
+.section_subtitle {
+    font-size: 16px;
+    color: #008959;
+    margin-bottom: 25px;
+    font-weight: 700;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.info_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    gap: 20px 15px;
+}
+
+.info_item {
+    display: flex;
+    flex-direction: column;
+}
+
+.full_width {
+    grid-column: span 2; /* Ocupa a linha inteira */
     margin-top: 10px;
 }
 
-.btn_logout:hover {
+.info_label {
+    font-size: 11px;
+    color: #888888;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.info_value {
+    font-size: 15px;
+    color: #333333;
+    font-weight: 600;
+}
+
+/* Badge de Nível de Acesso */
+.access_level_badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background-color: #e0f2f1;
+    color: #008959;
+    border: 1px solid #00b37e;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 5px;
+    width: fit-content;
+}
+
+/* ==========================================
+   RODAPÉ DO CARTÃO (BOTÕES DE AÇÃO)
+   ========================================== */
+.profile_card_footer {
+    padding: 20px 40px 30px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Botão Secundário (Atualizar Dados) */
+.btn_outline_dark {
+    flex: 1;
+    background-color: transparent;
+    border: 2px solid #dddddd;
+    color: #555555;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.btn_outline_dark:hover {
+    border-color: #008959;
+    color: #008959;
+    background-color: #f4f8f7;
+}
+
+/* Botão de Perigo (Sair) */
+.btn_solid_danger {
+    flex: 1;
+    background-color: #d32f2f;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.btn_solid_danger:hover {
     background-color: #b71c1c;
+}
+
+/* ==========================================
+   TEMAS DINÂMICOS (INJETADOS VIA JAVASCRIPT)
+   ========================================== */
+
+/* Tema Polícia Militar (Azul/Verde Escuro) */
+.theme-pm {
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+}
+.theme-pm .profile_avatar { color: #1a237e; }
+
+/* Tema Corpo de Bombeiros (Vermelho/Laranja) */
+.theme-cbm {
+    background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%);
+}
+.theme-cbm .profile_avatar { color: #b71c1c; }
+
+/* Tema Guarda Municipal (Amarelo Escuro/Verde Oliva) */
+.theme-gm {
+    background: linear-gradient(135deg, #f57f17 0%, #fbc02d 100%);
+    color: #333; /* Texto escuro para contraste no fundo amarelo */
+}
+.theme-gm .profile_avatar { 
+    color: #f57f17; 
+    border-color: rgba(0, 0, 0, 0.1); 
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+   ========================================== */
+@media (max-width: 600px) {
+    .info_grid {
+        grid-template-columns: 1fr; /* Muda para 1 coluna em celulares */
+    }
+    
+    .full_width {
+        grid-column: span 1;
+    }
+
+    .profile_card_footer {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .profile_card_body {
+        padding: 25px 20px;
+    }
 }
