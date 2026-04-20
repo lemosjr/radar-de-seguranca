@@ -1,87 +1,267 @@
 /* ==========================================
-   ESTILOS DO CABEÇALHO (HEADER)
+   1. VARIÁVEIS GLOBAIS DE DESIGN SYSTEM
    ========================================== */
-.header {
+   :root {
+    /* Cores Institucionais (Verde SSPDS) */
+    --green-primary:   #008959;
+    --green-dark:      #006640;
+    --green-light:     #e8f5ee;
+    --green-mid:       #b8ddc9;
+  
+    /* Cores de Alerta / Secundárias (Laranja) */
+    --orange-primary:  #E65100;
+    --orange-dark:     #BF360C;
+    --orange-mid:      #FF8A50;
+    --orange-light:    #FBE9E7;
+  
+    /* Superfícies e Textos */
+    --bg-page:         #f0f2f5;
+    --bg-card:         #ffffff;
+    --border-color:    #e2e6ea;
+    --text-primary:    #111827;
+    --text-secondary:  #6b7280;
+    --text-muted:      #9ca3af;
+  
+    /* Espaçamentos, Bordas e Sombras */
+    --radius-sm:       5px;
+    --radius-md:       9px;
+    --radius-lg:       13px;
+    --shadow-card:     0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-sidebar:  4px 0 24px rgba(0,0,0,0.18);
+    --transition:      150ms ease-in-out;
+  
+    /* Medidas Estruturais */
+    --header-height:   75px;
+    --sidebar-width:   280px;
+  }
+  
+  /* ==========================================
+     2. CABEÇALHO PRINCIPAL (HEADER)
+     ========================================== */
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 30px;
-    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
+    height: var(--header-height);
+    padding: 0 30px;
+    background: linear-gradient(90deg, #00b37e 0%, var(--green-primary) 100%);
     color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    /* ADICIONADO: Cria a âncora para o título centralizado */
-    position: relative; 
-}
-
-.header h1 {
-    font-size: 24px;
-    font-weight: 500;
-    /* ADICIONADO: Mágica da centralização absoluta */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    white-space: nowrap; /* Impede que o texto quebre em duas linhas */
-}
-
-/* Estilos dos links de navegação */
-.header nav a {
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-    color: #ffffff;
-    margin-right: 15px;
-    transition: opacity 0.3s ease;
-}
-
-/* Remove a margem direita do último link para alinhar com a borda direita perfeitamente */
-.header nav a:last-child {
-    margin-right: 0;
-}
-
-.header nav a:hover, 
-.header nav a:focus {
-    text-decoration: underline;
-    opacity: 0.8;
-    outline: none;
-}
-
-/* ==========================================
-   ESTILIZAÇÃO DAS LOGOMARCAS (HEADER E FOOTER)
-   ========================================== */
-
-/* Alinhamento da logo com o título no topo */
-.logo_container {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    gap: 20px;
+  }
+  
+  /* Faixa decorativa abaixo do cabeçalho */
+  .header_accent_bar {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--orange-primary) 0%, var(--orange-mid) 50%, var(--green-primary) 100%);
+    position: sticky;
+    top: var(--header-height);
+    z-index: 199;
+  }
+  
+  /* ==========================================
+     3. IDENTIDADE VISUAL (LOGO E TÍTULO)
+     ========================================== */
+  .logo_container {
     display: flex;
     align-items: center;
-    gap: 15px; 
-}
-
-/* Controle rígido de altura para a logo da SSPDS */
-.header_logo {
-    max-height: 70px; /* Mantive os 70px da nossa última alteração */
+    gap: 15px;
+    flex: 1; /* Empurra os menus para a direita */
+  }
+  
+  .header_logo {
+    height: 48px;
     width: auto;
     object-fit: contain;
-}
-
-/* Controle rígido de altura para a logo do Estado */
-.footer_logo {
-    max-height: 65px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 10px; 
-}
-
-/* ==========================================
-   RESPONSIVIDADE (Telas Menores)
-   ========================================== */
-@media (max-width: 992px) {
-    /* Devolve o título para o lado da logo em telas pequenas para evitar sobreposição */
-    .header h1 {
-        position: static;
-        transform: none;
-        font-size: 18px;
+  }
+  
+  .logo_container h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: #ffffff;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  
+  /* ==========================================
+     4. NAVEGAÇÃO DE PÁGINAS SIMPLES
+     ========================================== */
+  .header nav {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+  }
+  
+  .header nav a {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 1px;
+    padding: 5px 8px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition), opacity var(--transition);
+  }
+  
+  .header nav a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+  
+  /* Acessibilidade de Teclado */
+  .header nav a:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+  }
+  
+  /* ==========================================
+     5. MENU HAMBÚRGUER (DASHBOARD)
+     ========================================== */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background var(--transition), transform var(--transition);
+  }
+  
+  .hamburger:hover { 
+    background: rgba(255,255,255,0.25); 
+  }
+  
+  .hamburger:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+  
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+    transition: transform var(--transition), opacity var(--transition);
+  }
+  
+  /* ==========================================
+     6. PERFIL DO USUÁRIO LOGADO
+     ========================================== */
+  .header_user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+  }
+  
+  .user_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+  
+  .user_name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+  
+  .user_role {
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .user_avatar {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    border: 2px solid rgba(255,255,255,0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all var(--transition);
+    flex-shrink: 0;
+    padding: 0;
+  }
+  
+  .user_avatar:hover {
+    border-color: #ffffff;
+    background: var(--orange-dark);
+    transform: scale(1.05);
+  }
+  
+  .user_avatar:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
+  }
+  
+  .avatar_initials {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    transition: opacity var(--transition);
+  }
+  
+  /* Ícone falso de logout que aparece no hover (usando CSS puro) */
+  .user_avatar::after {
+    content: "✖"; /* Ícone simples de sair */
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  
+  .user_avatar:hover .avatar_initials { 
+    opacity: 0; 
+  }
+  
+  .user_avatar:hover::after { 
+    opacity: 1; 
+  }
+  
+  /* ==========================================
+     7. RESPONSIVIDADE
+     ========================================== */
+  @media (max-width: 992px) {
+    .header { padding: 0 20px; }
+    .logo_container h1 { font-size: 18px; }
+    .header nav { gap: 15px; }
+    .header nav a { font-size: 12px; }
+  }
+  
+  @media (max-width: 768px) {
+    .logo_container h1 {
+        font-size: 15px;
         white-space: normal;
+        line-height: 1.2;
     }
-}
+    
+    /* Esconde o texto do usuário em telas muito pequenas para economizar espaço */
+    .user_info { 
+        display: none; 
+    }
+  }

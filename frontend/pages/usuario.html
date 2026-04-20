@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil do Usuário | Radar de Segurança</title>
+    <title>Perfil do Agente | Radar de Segurança</title>
+    <meta name="description" content="Perfil e credencial digital institucional do agente de segurança.">
+    
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
@@ -15,52 +17,89 @@
 
     <header class="header">
         <div class="logo_container">
-            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social"
-                class="header_logo">
+            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social" class="header_logo">
             <h1>Forças de Segurança de Fortaleza</h1>
         </div>
         <nav aria-label="Menu Principal">
             <a href="dashboard.html">Dashboard</a>
             <a href="sobre.html">Sobre</a>
-            <a href="usuario.html">Usuário</a>
+            <a href="usuario.html" aria-current="page">Usuário</a>
         </nav>
     </header>
 
-    <main class="profile_container">
-        <article class="profile_card">
-            <header class="profile_header">
-                <div class="profile_avatar" aria-hidden="true">👤</div>
-                <h2 id="user_name">Carregando...</h2>
-                <p>Agente de Segurança Pública</p>
-            </header>
+    <main class="profile_main_wrapper">
+        <section class="profile_container" aria-label="Área do Perfil do Usuário">
+            
+            <article class="profile_card" aria-labelledby="card_title">
+                
+                <header class="profile_card_header" id="user_card_header">
+                    <div class="status_badge" aria-label="Status do Agente">
+                        <span class="status_dot"></span> ATIVO
+                    </div>
 
-            <section class="profile_info">
-                <div class="info_group">
-                    <label>E-mail Institucional</label>
-                    <p id="user_email">admin@sspds.ce.gov.br</p>
+                    <div class="profile_avatar" aria-hidden="true">
+                        <span id="avatar_initials">--</span>
+                    </div>
+                    <h2 id="card_title" class="user_name_display">Carregando Agente...</h2>
+                    <p class="user_badge_display" id="user_role_display">Verificando credenciais</p>
+                </header>
+
+                <div class="profile_card_body">
+                    <h3 class="section_subtitle">Informações Funcionais</h3>
+                    
+                    <div class="info_grid">
+                        <div class="info_item">
+                            <span class="info_label">Nome Completo</span>
+                            <strong class="info_value" id="info_nome">...</strong>
+                        </div>
+                        
+                        <div class="info_item">
+                            <span class="info_label">CPF</span>
+                            <strong class="info_value" id="info_cpf">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">Força de Atuação</span>
+                            <strong class="info_value" id="info_corporacao">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">Posto / Graduação</span>
+                            <strong class="info_value" id="info_patente">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">E-mail Institucional</span>
+                            <strong class="info_value" id="info_email">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">Telefone de Contato</span>
+                            <strong class="info_value" id="info_telefone">...</strong>
+                        </div>
+
+                        <div class="info_item full_width">
+                            <span class="info_label">Nível de Acesso (Sistema)</span>
+                            <div class="access_level_badge" id="info_permissao">Nível Desconhecido</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="info_group">
-                    <label>Nível de Acesso</label>
-                    <p>Administrador de Sistema</p>
-                </div>
+                <footer class="profile_card_footer">
+                    <button type="button" class="btn_outline_dark" id="btn_editar_perfil">Atualizar Dados</button>
+                    <button type="button" class="btn_solid_danger" id="btn_encerrar_sessao">Encerrar Sessão</button>
+                </footer>
 
-                <div class="info_group">
-                    <label>Status da Conta</label>
-                    <p>Ativo / Verificado</p>
-                </div>
+            </article>
 
-                <a href="login.html" class="btn_logout">ENCERRAR SESSÃO</a>
-            </section>
-        </article>
+        </section>
     </main>
 
     <footer class="sspds_footer" aria-label="Rodapé Institucional">
         <div class="footer_top_line"></div>
         <div class="footer_container">
             <section class="footer_brand">
-                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará"
-                    class="footer_logo">
+                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo">
                 <h2>SSPDS.CE.GOV.BR</h2>
             </section>
             <address class="footer_info">
@@ -90,6 +129,7 @@
         </div>
     </footer>
 
+    <script src="../js/usuario.js"></script>
 </body>
 
 </html>

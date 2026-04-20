@@ -1,39 +1,34 @@
 /* ==========================================
-   TELA DE LOGIN (Específico)
+   1. TELA DE LOGIN (ESTRUTURA PRINCIPAL)
    ========================================== */
-
-/* Novo container para centralizar a caixa de login no espaço livre do main */
 .login_main_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 40px 20px;
     width: 100%;
-
-    /* Garante que o wrapper ocupe todo o espaço entre o cabeçalho e o rodapé */
-    min-height: calc(100vh - 180px);
-
-    /* ESCOLHA A SUA COR AQUI */
-    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
-    /* background-color: #e4ebe5; Verde Sálvia Suave (Remova o comentário para usar) */
+    /* Ajuste para acomodar header e footer sem scroll desnecessário */
+    min-height: calc(100vh - 150px);
+    background: linear-gradient(135deg, #00b37e 0%, var(--green-primary, #008959) 100%);
 }
 
-/* O cartão principal dividido em dois */
 .auth_container {
-    background-color: #ffffff;
+    background-color: var(--bg-card, #ffffff);
     width: 900px;
     max-width: 100%;
-    min-height: 500px;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    min-height: 550px;
+    border-radius: var(--radius-md, 10px);
+    box-shadow: var(--shadow-elevated, 0 15px 30px rgba(0, 0, 0, 0.15));
     display: flex;
     overflow: hidden;
 }
 
-/* Lado Esquerdo (Verde SSPDS) */
+/* ==========================================
+   2. LADO ESQUERDO: BANNER INFORMATIVO
+   ========================================== */
 .auth_banner {
     width: 40%;
-    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
+    background: linear-gradient(135deg, var(--orange-primary, #E65100) 0%, var(--orange-dark, #BF360C) 100%);
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -44,23 +39,19 @@
     transition: all 0.5s ease-in-out;
 }
 
-.sspds_logo {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
-}
-
-.auth_banner h1 {
-    font-size: 28px;
-    margin-bottom: 15px;
+.banner_logo_img {
+    max-width: 240px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 25px;
+    object-fit: contain;
 }
 
 .auth_banner p {
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 30px;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .btn_outline {
@@ -69,25 +60,22 @@
     color: #ffffff;
     padding: 12px 35px;
     border-radius: 25px;
-    font-weight: bold;
+    font-weight: 700;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s ease;
-    /* Transição mais suave e global */
-    position: relative;
-    /* Cria um contexto de sobreposição */
-    z-index: 10;
-    /* Garante que o botão fique acima de qualquer elemento invisível */
+    transition: all var(--transition, 0.3s ease);
 }
 
 .btn_outline:hover,
-.btn_outline:focus {
+.btn_outline:focus-visible {
     background-color: #ffffff;
-    /* Força a cor de fundo no hover */
-    color: #008959;
+    color: var(--orange-dark, #BF360C);
     outline: none;
 }
 
-/* Lado Direito (Formulários) */
+/* ==========================================
+   3. LADO DIREITO: ÁREA DE FORMULÁRIOS
+   ========================================== */
 .auth_forms {
     width: 60%;
     display: flex;
@@ -95,14 +83,14 @@
     align-items: center;
     padding: 40px;
     position: relative;
+    background-color: var(--bg-card, #ffffff);
 }
 
 .form_box {
     width: 100%;
-    max-width: 350px;
+    max-width: 380px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     transition: opacity 0.4s ease;
 }
 
@@ -117,147 +105,250 @@
 }
 
 .form_box h2 {
-    color: #00b37e;
-    font-size: 32px;
-    margin-bottom: 30px;
+    color: var(--green-primary, #008959);
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
-.input_group {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.input_group input {
-    width: 100%;
-    padding: 15px;
-    background-color: #f4f8f7;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-.input_group input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #00b37e;
-}
-
-.btn_solid {
-    background-color: #00b37e;
-    color: #ffffff;
-    border: none;
-    padding: 12px 40px;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: background 0.3s;
-}
-
-.btn_solid:hover,
-.btn_solid:focus {
-    background-color: #008959;
-    outline: none;
-}
-
-.error_msg {
-    color: #d32f2f;
+.form_desc {
+    text-align: center;
     font-size: 13px;
-    margin-bottom: 10px;
-    min-height: 15px;
-}
-
-/* Aviso de Credenciais (Modo Apresentação) */
-.demo_credentials {
-    background-color: #e0f2f1;
-    border-left: 4px solid #008959;
-    padding: 12px 15px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    font-size: 13px;
-    color: #444444;
-    width: 100%;
-    text-align: left;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.demo_credentials strong {
-    color: #008959;
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-
-.demo_credentials p {
-    margin-bottom: 4px;
-    line-height: 1.4;
-}
-
-.demo_credentials p:last-child {
-    margin-bottom: 0;
-}
-
-.demo_credentials span {
-    font-family: "Courier New", Courier, monospace;
-    background-color: #ffffff;
-    padding: 2px 6px;
-    border-radius: 3px;
-    border: 1px solid #cccccc;
-    font-weight: bold;
-    color: #333333;
-    user-select: all;
-    cursor: copy;
+    color: var(--text-secondary, #666);
+    margin-bottom: 20px;
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DA LOGOMARCA (LOGIN)
+   4. ELEMENTOS DE CONFIANÇA E ALERTAS
    ========================================== */
-
-.login_logo_container {
-    text-align: center;
+.security_badge {
+    background-color: var(--orange-light, #fff3e0);
+    border: 1px solid var(--orange-primary, #E65100);
+    padding: 10px;
+    border-radius: var(--radius-sm, 5px);
     margin-bottom: 20px;
     width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.login_logo {
-    max-width: 160px;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Estilização da nova logo dentro do banner de login */
-.banner_logo_img {
-    max-width: 350px;
-    /* Aumentado consideravelmente para dar destaque */
-    width: 100%;
-    /* Garante proporção em telas menores */
-    height: auto;
-    margin-bottom: 25px;
-    /* Ajuste no respiro inferior */
-    display: block;
-    object-fit: contain;
-}
-
-/* Garante que o conteúdo do banner continue centralizado */
-.banner_content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
-    padding: 40px;
+}
+
+.security_badge span {
+    font-size: 11px;
+    color: var(--orange-dark, #BF360C);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.demo_credentials {
+    background-color: var(--green-light, #e8f5ee);
+    border-left: 4px solid var(--orange-primary, #E65100);
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: var(--radius-sm, 4px);
+    font-size: 12px;
+}
+
+.demo_credentials strong {
+    color: var(--green-dark, #006640);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.demo_credentials span {
+    font-family: monospace;
+    background: var(--bg-card, #ffffff);
+    padding: 2px 6px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.error_msg {
+    color: #d32f2f; /* Vermelho fixo para erros críticos */
+    font-size: 13px;
+    margin-bottom: 15px;
+    min-height: 18px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ==========================================
+   5. INPUTS E CONTROLES DE FORMULÁRIO
+   ========================================== */
+.input_group {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.input_group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #555);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input_group input,
+.input_group select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--bg-page, #f0f2f5);
+    border: 1px solid var(--border-color, #dce4e4);
+    border-radius: var(--radius-sm, 6px);
+    font-size: 14px;
+    color: var(--text-primary, #333);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input_group input:focus,
+.input_group select:focus {
+    outline: none;
+    border-color: var(--green-primary, #008959);
+    box-shadow: 0 0 0 3px rgba(0, 137, 89, 0.15);
+}
+
+.input_group select:disabled {
+    background-color: #e9ecec;
+    cursor: not-allowed;
+    color: var(--text-muted, #999);
+}
+
+.military_fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Checkbox e Termos */
+.terms_group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
     width: 100%;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+.terms_group input {
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.terms_group input:focus-visible {
+    outline: 2px solid var(--green-primary);
+    outline-offset: 2px;
+}
+
+.terms_group label {
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text-secondary, #666);
+    font-weight: normal;
+}
+
+.terms_group a {
+    color: var(--orange-primary, #E65100);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.terms_group a:hover,
+.terms_group a:focus-visible {
+    text-decoration: underline;
+    color: var(--orange-dark, #BF360C);
+    outline: none;
+}
+
+/* ==========================================
+   6. BOTÕES E LINKS DE AÇÃO
+   ========================================== */
+.btn_solid {
+    background-color: var(--green-primary, #008959);
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background var(--transition);
+    width: 100%;
+    text-transform: uppercase;
+}
+
+.btn_solid:hover,
+.btn_solid:focus-visible {
+    background-color: var(--green-dark, #006640);
+    outline: none;
+}
+
+.btn_orange {
+    background-color: var(--orange-primary, #E65100);
+}
+
+.btn_orange:hover,
+.btn_orange:focus-visible {
+    background-color: var(--orange-dark, #BF360C);
+}
+
+.forgot_link_container {
+    text-align: right;
+    margin-top: -8px;
+    margin-bottom: 20px;
+}
+
+.forgot_link {
+    font-size: 12px;
+    color: var(--green-primary, #008959);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color var(--transition);
+}
+
+.forgot_link:hover,
+.forgot_link:focus-visible {
+    color: var(--orange-primary, #E65100);
+    text-decoration: underline;
+    outline: none;
+}
+
+.support_note {
+    font-size: 12px;
+    color: var(--text-muted, #888);
+    margin-top: 25px;
+    text-align: center;
+}
+
+.support_note a {
+    color: var(--green-primary, #008959);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.support_note a:hover,
+.support_note a:focus-visible {
+    text-decoration: underline;
+    color: var(--orange-primary, #E65100);
+}
+
+/* ==========================================
+   7. RESPONSIVIDADE
+   ========================================== */
+@media (max-width: 900px) {
     .auth_container {
         flex-direction: column;
-    }
-
-    .auth_banner,
-    .auth_forms {
         width: 100%;
+        max-width: 450px;
+    }
+    .auth_banner, .auth_forms {
+        width: 100%;
+    }
+    .auth_banner {
+        padding: 30px;
+    }
+    .banner_logo_img {
+        max-width: 180px;
     }
 }

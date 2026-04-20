@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acesso Restrito SSPDS</title>
+    
     <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/loginHeader.css">
+    <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/login.css">
 </head>
@@ -15,21 +16,18 @@
 
     <header class="header">
         <div class="logo_container">
-            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social"
-                class="header_logo">
+            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social" class="header_logo">
             <h1>Forças de Segurança de Fortaleza</h1>
         </div>
     </header>
 
     <main class="login_main_wrapper">
         <div class="auth_container">
+            
             <section class="auth_banner" aria-labelledby="banner_title">
                 <div class="banner_content">
-                    <img src="../assets/logotipo_sspds.png" alt="Logomarca Governo do Ceará e SSPDS"
-                        class="banner_logo_img">
-
-                    <p id="banner_text">Para manter-se conectado de forma segura, por favor faça login com suas
-                        credenciais institucionais.</p>
+                    <img src="../assets/logotipo_sspds.png" alt="Logomarca Governo do Ceará e SSPDS" class="banner_logo_img">
+                    <p id="banner_text">Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.</p>
                     <button type="button" id="toggle_btn" class="btn_outline">CRIAR CONTA</button>
                 </div>
             </section>
@@ -39,14 +37,22 @@
                 <form id="form_login" class="form_box active">
                     <h2>Acessar Sistema</h2>
 
-                    <div class="input_group">
-                        <label for="login_email" class="sr_only">E-mail Institucional</label>
-                        <input type="email" id="login_email" placeholder="E-mail" required>
+                    <div class="security_badge">
+                        <span>🔒 Conexão Criptografada e Segura</span>
                     </div>
 
                     <div class="input_group">
-                        <label for="login_password" class="sr_only">Senha de Acesso</label>
-                        <input type="password" id="login_password" placeholder="Senha" required>
+                        <label for="login_email">E-mail Institucional *</label>
+                        <input type="email" id="login_email" placeholder="Digite seu e-mail institucional" required>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="login_password">Senha de Acesso *</label>
+                        <input type="password" id="login_password" placeholder="Digite sua senha" required>
+                    </div>
+
+                    <div class="forgot_link_container">
+                        <a href="#" id="link_esqueci_senha" class="forgot_link">Esqueceu sua senha?</a>
                     </div>
 
                     <div class="demo_credentials" aria-label="Credenciais de acesso para a apresentação">
@@ -55,41 +61,130 @@
                         <p>Senha: <span>123456</span></p>
                     </div>
 
-                    <div id="login_error" class="error_msg" aria-live="polite"></div>
+                    <div id="login_error" class="error_msg sr_only" aria-live="polite"></div>
 
                     <button type="submit" class="btn_solid">ENTRAR</button>
+
+                    <p class="support_note">Problemas com o acesso? <a href="mailto:lemosjunior8751@outlook.com">Contate o Suporte TI</a></p>
                 </form>
 
                 <form id="form_register" class="form_box hidden">
                     <h2>Criar Conta</h2>
 
                     <div class="input_group">
-                        <label for="reg_nome" class="sr_only">Nome Completo</label>
-                        <input type="text" id="reg_nome" placeholder="Nome Completo" required>
+                        <label for="reg_nome">Nome Completo *</label>
+                        <input type="text" id="reg_nome" placeholder="Seu nome completo" required>
                     </div>
 
                     <div class="input_group">
-                        <label for="reg_email" class="sr_only">E-mail Institucional</label>
-                        <input type="email" id="reg_email" placeholder="E-mail" required>
+                        <label for="reg_cpf">CPF *</label>
+                        <input type="text" id="reg_cpf" placeholder="000.000.000-00" maxlength="14" required>
                     </div>
 
                     <div class="input_group">
-                        <label for="reg_password" class="sr_only">Criar Senha</label>
-                        <input type="password" id="reg_password" placeholder="Senha" required>
+                        <label for="reg_telefone">Telefone / WhatsApp *</label>
+                        <input type="tel" id="reg_telefone" placeholder="(00) 00000-0000" maxlength="15" required>
                     </div>
 
-                    <div id="reg_error" class="error_msg" aria-live="polite"></div>
+                    <div class="input_group">
+                        <label for="reg_email">E-mail Institucional *</label>
+                        <input type="email" id="reg_email" placeholder="exemplo@sspds.ce.gov.br" required>
+                    </div>
+
+                    <fieldset class="military_fieldset">
+                        <legend class="sr_only">Dados Institucionais</legend>
+                        <div class="input_group">
+                            <label for="reg_corporacao">Corporação *</label>
+                            <select id="reg_corporacao" name="corporacao" required>
+                                <option value="" disabled selected>Selecione a corporação</option>
+                                <option value="PM">Polícia Militar (PM)</option>
+                                <option value="CBM">Corpo de Bombeiros (CBM)</option>
+                                <option value="GM">Guarda Municipal (GM)</option>
+                            </select>
+                        </div>
+
+                        <div class="input_group">
+                            <label for="reg_patente">Posto ou Graduação *</label>
+                            <select id="reg_patente" name="tipo_militar" required disabled>
+                                <option value="" disabled selected>Escolha a corporação primeiro</option>
+                            </select>
+                        </div>
+                    </fieldset>
+
+                    <div class="input_group">
+                        <label for="reg_password">Criar Senha Forte *</label>
+                        <input type="password" id="reg_password" placeholder="Mínimo 6 caracteres, letras e números" required minlength="6">
+                    </div>
+
+                    <div class="terms_group">
+                        <input type="checkbox" id="reg_terms" required>
+                        <label for="reg_terms">Declaro que sou agente autorizado e aceito os <a href="#">Termos de Uso</a>.</label>
+                    </div>
+
+                    <div id="reg_error" class="error_msg sr_only" aria-live="polite"></div>
 
                     <button type="submit" class="btn_solid">CADASTRAR</button>
+                </form>
+
+                <form id="form_forgot" class="form_box hidden">
+                    <h2>Recuperar Senha</h2>
+                    <p class="form_desc">Informe seu e-mail institucional para enviarmos as instruções de recuperação.</p>
+                    
+                    <div class="input_group">
+                        <label for="forgot_email">E-mail Cadastrado *</label>
+                        <input type="email" id="forgot_email" required placeholder="exemplo@sspds.ce.gov.br">
+                    </div>
+                    
+                    <div id="forgot_msg" class="error_msg sr_only" aria-live="polite"></div>
+                    
+                    <button type="submit" class="btn_solid btn_orange">ENVIAR LINK</button>
+                    
+                    <div class="forgot_link_container form_footer_actions">
+                        <a href="#" id="link_voltar_login" class="forgot_link">Voltar para o acesso restrito</a>
+                    </div>
                 </form>
 
             </section>
         </div>
     </main>
 
-    
+    <footer class="sspds_footer" aria-label="Rodapé Institucional">
+        <div class="footer_top_line"></div>
+        <div class="footer_container">
+          <section class="footer_brand">
+            <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo" />
+            <h2>SSPDS.CE.GOV.BR</h2>
+          </section>
+  
+          <address class="footer_info">
+            <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br />
+            CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br />
+            AV. AGUANAMBI, S/N, AEROPORTO<br />
+            FORTALEZA, CE, CEP: 60415 390<br />
+            TELEFONE: (85) 3194 7420
+          </address>
+  
+          <section class="footer_hours">
+            <strong>HORÁRIO DE ATENDIMENTO</strong><br />
+            08 ÀS 17 HORAS
+          </section>
+  
+          <section class="footer_social">
+            <strong>NOSSOS CANAIS</strong>
+            <ul class="social_icons">
+              <li><a href="#">f</a></li>
+              <li><a href="#">📷</a></li>
+              <li><a href="#">t</a></li>
+              <li><a href="#">▶</a></li>
+            </ul>
+            <p class="copyright">
+              © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br />
+              TODOS OS DIREITOS RESERVADOS
+            </p>
+          </section>
+        </div>
+    </footer>
 
     <script src="../js/login.js"></script>
 </body>
-
 </html>

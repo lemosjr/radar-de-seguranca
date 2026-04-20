@@ -1,9 +1,8 @@
-// Importamos o seu arquivo de banco de dados
 const pool = require('../config/db');
 
 // ==========================================
-// MODO APRESENTAÇÃO (PLANO B)
-// Dados mockados caso o PostgreSQL falhe
+// DADOS DE FALLBACK (MODO DE APRESENTAÇÃO)
+// Utilizados automaticamente se o PostgreSQL falhar ou estiver vazio.
 // ==========================================
 const dadosReserva = [
     { nome: '1º CRPM / 5º BPM', corporacao: 'PM', regional: 'Centro', latitude: -3.728330, longitude: -38.528330, efetivo: 250 },
@@ -15,50 +14,53 @@ const dadosReserva = [
     { nome: 'Torre GM Beira Mar', corporacao: 'GM', regional: 'SER II', latitude: -3.728000, longitude: -38.498000, efetivo: 15 }
 ];
 
-// Lógica para buscar os dados (Antiga rota do seu server.js)
+// ==========================================
+// CONTROLADOR DE UNIDADES (MAPA)
+// ==========================================
 exports.buscarUnidades = async (req, res) => {
     const { corporacao, regional } = req.query;
     
     try {
-        // 1. TENTA O POSTGRESQL PRIMEIRO
+        // 1. TENTATIVA DE BUSCA NO BANCO REAL (POSTGRESQL)
         let query = 'SELECT * FROM unidades_seguranca WHERE 1=1';
         const valores = [];
-        let index = 1;
+        let contadorIndex = 1;
 
         if (corporacao && corporacao !== 'todas') {
-            query += ` AND corporacao = $${index}`;
+            query += ` AND corporacao = $${contadorIndex++}`;
             valores.push(corporacao);
-            index++;
         }
 
         if (regional && regional !== 'todas') {
-            query += ` AND regional = $${index}`;
+            query += ` AND regional = $${contadorIndex++}`;
             valores.push(regional);
-            index++;
         }
 
         const result = await pool.query(query, valores);
         
-        // Se a tabela estiver vazia, forçamos um erro para cair no Plano B
-        if(result.rows.length === 0) throw new Error("Tabela vazia");
+        // Estratégia de Apresentação: Se a tabela estiver vazia, força o uso do Mock
+        if (result.rows.length === 0) {
+            throw new Error('Tabela unidades_seguranca está vazia.');
+        }
 
-        // Se deu tudo certo, devolve os dados reais
-        res.json(result.rows);
+        // Retorna os dados reais
+        return res.status(200).json(result.rows);
 
     } catch (err) {
-        // 2. SE O BANCO CAIR OU ESTIVER VAZIO, ENTRA O PLANO B AUTOMATICAMENTE
-        console.log('🟡 Banco indisponível. Usando Modo de Apresentação (Mock).');
+        // 2. FALLBACK ATIVADO: BANCO OFFLINE OU VAZIO
+        console.warn(`\n🟡 Aviso: Banco indisponível. Usando Modo de Apresentação (Mock). Motivo: ${err.message}`);
         
         let dadosFiltrados = dadosReserva;
 
-        // O filtro do Leaflet continua funcionando perfeitamente com os dados falsos
+        // Mantém a funcionalidade de filtro funcionando com os dados falsos
         if (corporacao && corporacao !== 'todas') {
-            dadosFiltrados = dadosFiltrados.filter(u => u.corporacao === corporacao);
+            dadosFiltrados = dadosFiltrados.filter(unidade => unidade.corporacao === corporacao);
         }
+        
         if (regional && regional !== 'todas') {
-            dadosFiltrados = dadosFiltrados.filter(u => u.regional === regional);
+            dadosFiltrados = dadosFiltrados.filter(unidade => unidade.regional === regional);
         }
 
-        res.json(dadosFiltrados);
+        return res.status(200).json(dadosFiltrados);
     }
 };

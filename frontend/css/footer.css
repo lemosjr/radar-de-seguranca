@@ -1,21 +1,25 @@
 /* ==========================================
-   RODAPÉ INSTITUCIONAL (SSPDS)
+   1. RODAPÉ INSTITUCIONAL (SSPDS)
    ========================================== */
 .sspds_footer {
-    background-color: #ffffff;
+    background-color: var(--bg-card, #ffffff);
     width: 100%;
     /* Empurra o footer para o final da tela em conjunto com o flex do global.css */
     margin-top: auto; 
-    color: #555555;
-    border-top: 1px solid #e0e0e0;
+    color: var(--text-secondary, #6b7280);
+    border-top: 1px solid var(--border-color, #e2e6ea);
 }
 
+/* Linha decorativa laranja superior */
 .footer_top_line {
     height: 4px;
-    background-color: #008959;
+    background-color: var(--orange-primary, #E65100); 
     width: 100%;
 }
 
+/* ==========================================
+   2. ESTRUTURA DO CONTEÚDO (FLEXBOX)
+   ========================================== */
 .footer_container {
     max-width: 1200px;
     margin: 0 auto;
@@ -24,91 +28,116 @@
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 25px;
+}
+
+/* ==========================================
+   3. LOGO E MARCA
+   ========================================== */
+.footer_brand {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .footer_brand h2 {
     font-size: 16px;
-    color: #666666;
+    color: var(--text-secondary, #6b7280);
     letter-spacing: 1px;
-    font-weight: bold;
+    font-weight: 700;
+    margin: 0;
 }
 
-.footer_info, .footer_hours, .footer_social {
+.footer_logo {
+    max-height: 60px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ==========================================
+   4. INFORMAÇÕES DE CONTATO E HORÁRIO
+   ========================================== */
+.footer_info, 
+.footer_hours, 
+.footer_social {
     font-size: 11px;
     line-height: 1.6;
     font-style: normal;
+    color: var(--text-secondary, #555555);
 }
 
 .footer_container strong {
-    color: #444444;
+    color: var(--text-primary, #111827);
     font-size: 12px;
     letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 4px;
 }
 
+/* ==========================================
+   5. REDES SOCIAIS E DIREITOS AUTORAIS
+   ========================================== */
 .footer_social {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
 .social_icons {
     list-style: none;
     display: flex;
-    gap: 5px;
+    gap: 8px;
     padding: 0;
-    margin: 5px 0;
+    margin: 8px 0;
 }
 
 .social_icons li a {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 28px;
-    height: 28px;
-    background-color: #00b37e;
+    width: 32px;
+    height: 32px;
+    background-color: var(--orange-primary, #E65100);
     color: #ffffff;
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
-    border-radius: 2px;
-    transition: background-color 0.3s ease;
+    border-radius: var(--radius-sm, 5px);
+    transition: background-color var(--transition, 0.2s ease), transform var(--transition, 0.2s ease);
 }
 
-.social_icons li a:hover, 
-.social_icons li a:focus {
-    background-color: #008959;
-    outline: none;
+.social_icons li a:hover {
+    background-color: var(--orange-dark, #BF360C);
+    transform: translateY(-2px); /* Efeito tátil de "levantar" o botão */
+}
+
+/* Foco amigável para navegação por teclado */
+.social_icons li a:focus-visible {
+    outline: 2px solid var(--orange-primary, #E65100);
+    outline-offset: 3px;
 }
 
 .copyright {
-    margin-top: 5px;
-    color: #777777;
+    margin-top: 10px;
+    color: var(--text-muted, #9ca3af);
     font-size: 10px;
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DAS LOGOMARCAS (HEADER E FOOTER)
+   6. RESPONSIVIDADE ESTRUTURAL
    ========================================== */
+@media (max-width: 768px) {
+    .footer_container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 30px;
+    }
 
-/* Alinhamento da logo com o título no topo */
-.logo_container {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Cria um respiro visual entre a imagem e o texto */
-}
+    .footer_brand {
+        align-items: center;
+    }
 
-/* Controle rígido de altura para a logo da SSPDS */
-.header_logo {
-    max-height: 50px;
-    width: auto;
-    object-fit: contain;
-}
-
-/* Controle rígido de altura para a logo do Estado */
-.footer_logo {
-    max-height: 65px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 10px; /* Separa a imagem do texto abaixo dela */
+    .social_icons {
+        justify-content: center;
+    }
 }

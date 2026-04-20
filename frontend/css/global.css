@@ -1,32 +1,62 @@
 /* ==========================================
-   RESET BÁSICO E CONFIGURAÇÕES GLOBAIS
+   RESET BÁSICO E TIPOGRAFIA
    ========================================== */
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    background-color: #f2f5f5;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    color: #333333;
+    /* Utiliza a variável do header.css, ou a cor padrão como fallback */
+    background-color: var(--bg-page, #f0f2f5);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-primary, #111827);
+    line-height: 1.6;
     
-    /* Estrutura flexível para manter o footer sempre embaixo */
+    /* Suavização de fontes para leitura profissional */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Estrutura Flexbox para manter o rodapé sempre na base da tela */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* O elemento main cresce o máximo possível para preencher a tela */
+/* ==========================================
+   ELEMENTOS ESTRUTURAIS GLOBAIS
+   ========================================== */
 main {
-    flex: 1;
+    flex: 1; /* Força o main a empurrar o footer para baixo */
+    width: 100%;
+}
+
+img, picture, svg, video {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition, 0.3s ease);
+}
+
+/* Garante que os inputs e botões usem a fonte oficial do site */
+button, input, select, textarea {
+    font-family: inherit;
 }
 
 /* ==========================================
-   CLASSES UTILITÁRIAS
+   ACESSIBILIDADE E CLASSES UTILITÁRIAS
    ========================================== */
-/* Oculta visualmente, mas mantém para leitores de tela */
+
+/* Oculta o elemento visualmente, mas mantém legível para Tecnologias Assistivas (Screen Readers) */
 .sr_only {
     position: absolute;
     width: 1px;
@@ -35,5 +65,12 @@ main {
     margin: -1px;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
-    border: 0;
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Utilitário para centralizar textos com margem superior */
+.text_center_mt {
+    text-align: center;
+    margin-top: 20px;
 }

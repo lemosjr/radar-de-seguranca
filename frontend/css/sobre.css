@@ -1,78 +1,106 @@
 /* ==========================================
-   ESTILOS DA PÁGINA SOBRE (Específico)
+   PÁGINA SOBRE: ESTILOS INSTITUCIONAIS
    ========================================== */
 
-.about_content {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border: 1px solid #e0e0e0;
-    line-height: 1.8;
-    color: #444444;
-    margin: 20px auto;
-    max-width: 1200px;
+.about_main_wrapper {
+    padding: 40px 20px;
+    background-color: var(--bg-page, #f0f2f5);
 }
 
-.about_content h2 {
-    color: #008959;
+.about_content {
+    background-color: var(--bg-card, #ffffff);
+    padding: 40px;
+    border-radius: var(--radius-md, 9px);
+    box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,0.05));
+    border: 1px solid var(--border-color, #e2e6ea);
+    line-height: 1.8;
+    color: var(--text-secondary, #444444);
+    margin: 0 auto;
+    max-width: 1000px; /* Largura otimizada para leitura */
+}
+
+/* Títulos Semânticos */
+.section_title {
+    color: var(--green-primary, #008959);
     font-size: 28px;
     margin-bottom: 25px;
-    border-bottom: 2px solid #e0f2f1;
+    border-bottom: 2px solid var(--green-light, #e0f2f1);
     padding-bottom: 10px;
 }
 
-.about_content h3 {
-    color: #333333;
+.section_subtitle {
+    color: var(--text-primary, #111827);
     font-size: 18px;
-    margin-top: 30px;
+    margin-top: 35px;
     margin-bottom: 15px;
+    font-weight: 700;
 }
 
 .about_content p {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     font-size: 15px;
     text-align: justify;
 }
 
+/* Listagem de Tecnologias */
 .about_content ul {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding-left: 20px;
+    list-style: none;
 }
 
 .about_content li {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     font-size: 15px;
+    position: relative;
 }
 
+.about_content li::before {
+    content: "•";
+    color: var(--green-primary);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* Tags Tecnológicas */
 .tech_tags {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin-top: 15px;
-    margin-bottom: 30px;
+    margin: 20px 0 40px 0;
 }
 
 .tech_tag {
-    background-color: #00b37e;
+    background-color: var(--green-primary, #00b37e);
     color: #ffffff;
-    padding: 6px 14px;
+    padding: 6px 16px;
     border-radius: 20px;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 700;
     letter-spacing: 0.5px;
+    transition: transform 0.2s ease;
 }
 
+.tech_tag:hover {
+    transform: translateY(-2px);
+    background-color: var(--green-dark);
+}
+
+/* Aviso Legal */
 .disclaimer_box {
-    background-color: #fff3e0;
-    border-left: 4px solid #ff9800;
-    padding: 15px 20px;
-    border-radius: 4px;
-    margin-top: 40px;
+    background-color: var(--orange-light, #fff3e0);
+    border-left: 4px solid var(--orange-primary, #ff9800);
+    padding: 20px;
+    border-radius: var(--radius-sm, 4px);
+    margin-top: 20px;
 }
 
 .disclaimer_box strong {
-    color: #e65100;
+    color: var(--orange-dark, #e65100);
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 13px;
 }

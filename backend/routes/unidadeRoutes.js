@@ -1,8 +1,12 @@
 const express = require('express');
-const router = express.Router();
 const unidadeController = require('../controllers/unidadeController');
 
-// Quando o frontend chamar GET /api/unidades, ele dispara o controlador
+const router = express.Router();
+
+// ==========================================
+// ROTAS DE UNIDADES (MAPA/DASHBOARD)
+// ==========================================
+
 router.get('/', unidadeController.buscarUnidades);
 
 module.exports = router;
