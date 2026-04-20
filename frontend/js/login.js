@@ -1,142 +1,108 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
     // ==========================================
-    // 1. MAPEAMENTO DE ELEMENTOS DO DOM
+    // 1. MAPEAMENTO DE ELEMENTOS (UI)
     // ==========================================
-    
-    // Formulários
-    const formLogin = document.getElementById('form_login');
-    const formRegister = document.getElementById('form_register');
-    const formForgot = document.getElementById('form_forgot');
-    
-    // Botões e Links
-    const toggleBtn = document.getElementById('toggle_btn');
-    const linkEsqueciSenha = document.getElementById('link_esqueci_senha');
-    const linkVoltarLogin = document.getElementById('link_voltar_login');
-    
-    // Textos
-    const bannerText = document.getElementById('banner_text');
-
-    // Inputs Dinâmicos e de Máscara
-    const selectCorporacao = document.getElementById('reg_corporacao');
-    const selectPatente = document.getElementById('reg_patente');
-    const inputCpf = document.getElementById('reg_cpf');
-    const inputTelefone = document.getElementById('reg_telefone');
+    const DOM = {
+        formLogin:    document.getElementById('form_login'),
+        formRegister: document.getElementById('form_register'),
+        formForgot:   document.getElementById('form_forgot'),
+        toggleBtn:    document.getElementById('toggle_btn'),
+        bannerText:   document.getElementById('banner_text'),
+        inputCpf:     document.getElementById('reg_cpf'),
+        inputTel:     document.getElementById('reg_telefone'),
+        selCorp:      document.getElementById('reg_corporacao'),
+        selPatente:   document.getElementById('reg_patente'),
+        links: {
+            esqueci: document.getElementById('link_esqueci_senha'),
+            voltar:  document.getElementById('link_voltar_login')
+        }
+    };
 
     // ==========================================
-    // 2. CONFIGURAÇÕES E DADOS GLOBAIS
+    // 2. CONFIGURAÇÕES E UTILITÁRIOS
     // ==========================================
-    
     let tentativasLogin = 0;
     const MAX_TENTATIVAS = 3;
 
-    const hierarquiaMilitar = {
-        'PM': ['Soldado', 'Cabo', 'Sargento', 'Subtenente', 'Tenente', 'Capitão', 'Major', 'Tenente-Coronel', 'Coronel'],
+    const HIERARQUIA = {
+        'PM':  ['Soldado', 'Cabo', 'Sargento', 'Subtenente', 'Tenente', 'Capitão', 'Major', 'Tenente-Coronel', 'Coronel'],
         'CBM': ['Soldado', 'Cabo', 'Sargento', 'Subtenente', 'Tenente', 'Capitão', 'Major', 'Tenente-Coronel', 'Coronel'],
-        'GM': ['Guarda', 'Subinspetor', 'Inspetor']
+        'GM':  ['Guarda', 'Subinspetor', 'Inspetor']
     };
 
-    // ==========================================
-    // 3. UTILITÁRIOS E MÁSCARAS (Clean Code)
-    // ==========================================
-
-    const validarDominioInstitucional = (email) => {
-        const dominiosPermitidos = ['@sspds.ce.gov.br', '@policiamilitar.ce.gov.br', '@bombeiros.ce.gov.br'];
-        return dominiosPermitidos.some(dominio => email.toLowerCase().endsWith(dominio));
-    };
-
-    const mostrarMensagem = (elementoId, mensagem, cor = '#d32f2f') => {
-        const el = document.getElementById(elementoId);
-        el.textContent = mensagem;
-        el.style.color = cor;
-        el.classList.remove('sr_only');
-    };
-
-    // Máscara de CPF: 000.000.000-00
-    const aplicarMascaraCPF = (valor) => {
-        return valor
-            .replace(/\D/g, '')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d)/, '$1.$2')
-            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
-            .replace(/(-\d{2})\d+?$/, '$1');
-    };
-
-    // Máscara de Telefone: (00) 00000-0000
-    const aplicarMascaraTelefone = (valor) => {
-        return valor
-            .replace(/\D/g, '')
-            .replace(/(\d{2})(\d)/, '($1) $2')
-            .replace(/(\d{4,5})(\d{4})/, '$1-$2')
-            .replace(/(-\d{4})\d+?$/, '$1');
-    };
-
-    if (inputCpf) inputCpf.addEventListener('input', (e) => e.target.value = aplicarMascaraCPF(e.target.value));
-    if (inputTelefone) inputTelefone.addEventListener('input', (e) => e.target.value = aplicarMascaraTelefone(e.target.value));
-
-    // ==========================================
-    // 4. LÓGICA DE INTERFACE (Navegação)
-    // ==========================================
-    
-    toggleBtn.addEventListener('click', () => {
-        formForgot.classList.add('hidden');
-        formForgot.classList.remove('active');
-
-        if (formLogin.classList.contains('active')) {
-            formLogin.classList.replace('active', 'hidden');
-            formRegister.classList.replace('hidden', 'active');
-            bannerText.textContent = 'Já faz parte da nossa rede? Acesse sua conta com suas credenciais.';
-            toggleBtn.textContent = 'FAZER LOGIN';
-        } else {
-            formRegister.classList.replace('active', 'hidden');
-            formLogin.classList.replace('hidden', 'active');
-            bannerText.textContent = 'Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.';
-            toggleBtn.textContent = 'CRIAR CONTA';
+    const UI = {
+        exibirMsg: (id, msg, cor = '#d32f2f') => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = msg;
+                el.style.color = cor;
+                el.classList.remove('sr_only');
+            }
+        },
+        limparMsgs: () => {
+            document.querySelectorAll('.error_msg').forEach(el => el.classList.add('sr_only'));
         }
-    });
+    };
 
-    linkEsqueciSenha.addEventListener('click', (e) => {
-        e.preventDefault();
-        formLogin.classList.replace('active', 'hidden');
-        formForgot.classList.replace('hidden', 'active');
-    });
+    // ==========================================
+    // 3. MÁSCARAS DE INPUT (UX)
+    // ==========================================
+    const Mascaras = {
+        cpf: (v) => v.replace(/\D/g, '').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})/, '$1-$2').replace(/(-\d{2})\d+?$/, '$1'),
+        tel: (v) => v.replace(/\D/g, '').replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{4,5})(\d{4})/, '$1-$2').replace(/(-\d{4})\d+?$/, '$1')
+    };
 
-    linkVoltarLogin.addEventListener('click', (e) => {
-        e.preventDefault();
-        formForgot.classList.replace('active', 'hidden');
-        formLogin.classList.replace('hidden', 'active');
-    });
+    DOM.inputCpf?.addEventListener('input', (e) => e.target.value = Mascaras.cpf(e.target.value));
+    DOM.inputTel?.addEventListener('input', (e) => e.target.value = Mascaras.tel(e.target.value));
 
-    selectCorporacao.addEventListener('change', function() {
-        const corporacaoSelecionada = this.value;
-        selectPatente.innerHTML = '<option value="" disabled selected>Selecione o posto/graduação</option>';
+    // ==========================================
+    // 4. LÓGICA DE NAVEGAÇÃO E INTERFACE
+    // ==========================================
+    DOM.toggleBtn?.addEventListener('click', () => {
+        UI.limparMsgs();
+        const isLoginAtivo = DOM.formLogin.classList.contains('active');
+
+        DOM.formForgot.classList.add('hidden');
         
-        if (corporacaoSelecionada && hierarquiaMilitar[corporacaoSelecionada]) {
-            hierarquiaMilitar[corporacaoSelecionada].forEach(patente => {
-                const opt = document.createElement('option');
-                opt.value = patente;
-                opt.textContent = patente;
-                selectPatente.appendChild(opt);
-            });
-            selectPatente.disabled = false;
+        if (isLoginAtivo) {
+            DOM.formLogin.classList.replace('active', 'hidden');
+            DOM.formRegister.classList.replace('hidden', 'active');
+            DOM.bannerText.textContent = 'Já faz parte da nossa rede? Acesse sua conta com suas credenciais.';
+            DOM.toggleBtn.textContent = 'FAZER LOGIN';
         } else {
-            selectPatente.disabled = true;
+            DOM.formRegister.classList.replace('active', 'hidden');
+            DOM.formLogin.classList.replace('hidden', 'active');
+            DOM.bannerText.textContent = 'Para manter-se conectado de forma segura, faça login com as suas credenciais.';
+            DOM.toggleBtn.textContent = 'CRIAR CONTA';
+        }
+    });
+
+    DOM.selCorp?.addEventListener('change', (e) => {
+        const patente = DOM.selPatente;
+        patente.innerHTML = '<option value="" disabled selected>Selecione o posto/graduação</option>';
+        
+        if (HIERARQUIA[e.target.value]) {
+            HIERARQUIA[e.target.value].forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = opt.textContent = p;
+                patente.appendChild(opt);
+            });
+            patente.disabled = false;
         }
     });
 
     // ==========================================
-    // 5. COMUNICAÇÃO COM A API
+    // 5. COMUNICAÇÃO COM A API (BACKEND)
     // ==========================================
 
     // A. LOGIN
-    formLogin.addEventListener('submit', async (e) => {
+    DOM.formLogin?.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        if (tentativasLogin >= MAX_TENTATIVAS) {
-            return mostrarMensagem('login_error', 'Acesso bloqueado temporariamente por excesso de tentativas. Contate o administrador.');
-        }
+        if (tentativasLogin >= MAX_TENTATIVAS) return UI.exibirMsg('login_error', 'Bloqueio temporário por excesso de tentativas.');
 
         const email = document.getElementById('login_email').value;
-        const senha = document.getElementById('login_password').value; 
+        const senha = document.getElementById('login_password').value;
 
         try {
             const res = await fetch('http://localhost:3000/api/login', {
@@ -148,41 +114,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok && data.success) {
-                tentativasLogin = 0; 
                 localStorage.setItem('usuario', JSON.stringify(data.user));
                 window.location.href = 'dashboard.html';
             } else {
                 tentativasLogin++;
-                const tentativasRestantes = MAX_TENTATIVAS - tentativasLogin;
-                
-                if (tentativasRestantes > 0) {
-                    mostrarMensagem('login_error', `${data.error || 'Credenciais inválidas.'} Você tem mais ${tentativasRestantes} tentativa(s).`);
-                } else {
-                    mostrarMensagem('login_error', 'Acesso bloqueado temporariamente por excesso de tentativas.');
-                }
+                UI.exibirMsg('login_error', data.error || 'Credenciais inválidas.');
             }
-        } catch (error) {
-            mostrarMensagem('login_error', '🔴 Falha crítica: Servidor da SSPDS indisponível. Tente novamente mais tarde.');
+        } catch (err) {
+            UI.exibirMsg('login_error', '🔴 Servidor indisponível.');
         }
     });
 
-    // B. CADASTRO
-    formRegister.addEventListener('submit', async (e) => {
+    // B. REGISTO
+    DOM.formRegister?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const email = document.getElementById('reg_email').value;
+        const dominiosValidos = ['@sspds.ce.gov.br', '@policiamilitar.ce.gov.br', '@bombeiros.ce.gov.br'];
 
-        if (!validarDominioInstitucional(email)) {
-            return mostrarMensagem('reg_error', 'Erro: Utilize apenas e-mails institucionais autorizados (@sspds.ce.gov.br, etc).');
+        if (!dominiosValidos.some(d => email.toLowerCase().endsWith(d))) {
+            return UI.exibirMsg('reg_error', 'Utilize um e-mail institucional válido.');
         }
 
-        const bodyData = {
+        const payload = {
             nome: document.getElementById('reg_nome').value,
-            cpf: inputCpf.value, // Agora enviamos o CPF
-            telefone: inputTelefone.value, // E o Telefone
-            email: email,
-            corporacao: selectCorporacao.value,
-            tipo_militar: selectPatente.value,
+            cpf: DOM.inputCpf.value,
+            telefone: DOM.inputTel.value,
+            email,
+            corporacao: DOM.selCorp.value,
+            tipo_militar: DOM.selPatente.value,
             senha: document.getElementById('reg_password').value
         };
 
@@ -190,45 +149,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('http://localhost:3000/api/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bodyData)
+                body: JSON.stringify(payload)
             });
             
             const data = await res.json();
-
             if (res.ok && data.success) {
-                alert('Cadastro solicitado com sucesso! Você já pode fazer login.');
-                formRegister.reset();
-                toggleBtn.click(); // Volta para tela de login
+                alert('Registo concluído! Faça login agora.');
+                DOM.toggleBtn.click();
             } else {
-                mostrarMensagem('reg_error', data.error || 'Falha ao realizar cadastro.');
+                UI.exibirMsg('reg_error', data.error || 'Erro no registo.');
             }
-        } catch (error) {
-            mostrarMensagem('reg_error', '🔴 Falha crítica: Servidor indisponível no momento.');
-        }
-    });
-
-    // C. RECUPERAÇÃO DE SENHA
-    formForgot.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('forgot_email').value;
-
-        try {
-            const res = await fetch('http://localhost:3000/api/forgot-password', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-            
-            const data = await res.json();
-
-            if (res.ok && data.success) {
-                mostrarMensagem('forgot_msg', data.message, '#00b37e'); 
-                formForgot.reset();
-            } else {
-                mostrarMensagem('forgot_msg', data.error || 'Erro ao processar a solicitação.');
-            }
-        } catch (error) {
-            mostrarMensagem('forgot_msg', '🔴 Falha crítica: Serviço de e-mail indisponível.');
+        } catch (err) {
+            UI.exibirMsg('reg_error', '🔴 Erro de rede.');
         }
     });
 });

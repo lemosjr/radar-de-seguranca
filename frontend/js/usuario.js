@@ -1,106 +1,117 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     // ==========================================
-    // 1. VERIFICAÇÃO DE SEGURANÇA (ROUTE GUARD)
+    // 1. PROTEÇÃO DE ROTA (ROUTE GUARD)
     // ==========================================
-    const usuarioString = localStorage.getItem('usuario');
+    const sessaoUsuario = localStorage.getItem('usuario');
     
-    if (!usuarioString) {
+    if (!sessaoUsuario) {
         window.location.href = 'login.html';
         return; 
     }
 
-    const usuario = JSON.parse(usuarioString);
+    const utilizador = JSON.parse(sessaoUsuario);
 
     // ==========================================
-    // 2. MAPEAMENTO DE ELEMENTOS DO DOM
+    // 2. MAPEAMENTO DE ELEMENTOS (UI)
     // ==========================================
-    const elementos = {
-        cabecalhoCartao: document.getElementById('user_card_header'),
+    const DOM = {
+        cartaoHeader: document.getElementById('user_card_header'),
         avatarIniciais: document.getElementById('avatar_initials'),
         tituloNome: document.getElementById('card_title'),
         subtituloCargo: document.getElementById('user_role_display'),
         
-        infoNome: document.getElementById('info_nome'),
-        infoCpf: document.getElementById('info_cpf'),
-        infoTelefone: document.getElementById('info_telefone'),
-        infoEmail: document.getElementById('info_email'),
-        infoCorporacao: document.getElementById('info_corporacao'),
-        infoPatente: document.getElementById('info_patente'),
-        infoPermissao: document.getElementById('info_permissao'),
+        info: {
+            nome: document.getElementById('info_nome'),
+            cpf: document.getElementById('info_cpf'),
+            telefone: document.getElementById('info_telefone'),
+            email: document.getElementById('info_email'),
+            corporacao: document.getElementById('info_corporacao'),
+            patente: document.getElementById('info_patente'),
+            permissao: document.getElementById('info_permissao')
+        },
         
-        btnSair: document.getElementById('btn_encerrar_sessao'),
-        btnEditar: document.getElementById('btn_editar_perfil')
+        botoes: {
+            sair: document.getElementById('btn_encerrar_sessao'),
+            editar: document.getElementById('btn_editar_perfil')
+        }
     };
 
     // ==========================================
-    // 3. FUNÇÕES UTILITÁRIAS (CLEAN CODE)
+    // 3. UTILITÁRIOS E FORMATAÇÃO (CLEAN CODE)
     // ==========================================
+    const Utils = {
+        obterIniciais: (nomeCompleto) => {
+            if (!nomeCompleto) return '--';
+            const partes = nomeCompleto.trim().split(' ');
+            if (partes.length > 1) {
+                return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+            }
+            return nomeCompleto.substring(0, 2).toUpperCase();
+        },
 
-    const obterIniciais = (nomeCompleto) => {
-        const partes = nomeCompleto.trim().split(' ');
-        if (partes.length > 1) {
-            return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
-        }
-        return nomeCompleto.substring(0, 2).toUpperCase();
-    };
+        mascararCPF: (cpf) => {
+            if (!cpf || cpf.length < 11) return '***.***.***-**';
+            // Oculta tudo exceto os últimos dois dígitos para proteção de dados
+            const ultimosDigitos = cpf.replace(/\D/g, '').slice(-2);
+            return `***.***.***-${ultimosDigitos.length === 2 ? ultimosDigitos : '**'}`;
+        },
 
-    const mascararCPF = (cpf) => {
-        if (!cpf || cpf.length !== 14) return '***.***.***-**';
-        // Exibe apenas os últimos dois dígitos. Ex: ***.***.***-89
-        const ultimosDigitos = cpf.slice(-2);
-        return `***.***.***-${ultimosDigitos}`;
-    };
+        formatarTelefone: (telefone) => {
+            if (!telefone) return 'Não informado';
+            const telLimpo = telefone.replace(/\D/g, '');
+            if (telLimpo.length >= 10) {
+                return telLimpo.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
+            }
+            return telefone; 
+        },
 
-    const formatarTelefone = (telefone) => {
-        if (!telefone) return 'Não informado';
-        // Caso a API retorne apenas números, aplica a formatação visual (XX) XXXXX-XXXX
-        const telLimpo = telefone.replace(/\D/g, '');
-        if (telLimpo.length >= 10) {
-            return telLimpo.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
-        }
-        return telefone; 
-    };
-
-    const aplicarTemaCorporacao = (corporacao, elementoCartao) => {
-        elementoCartao.classList.remove('theme-pm', 'theme-cbm', 'theme-gm');
-        const corpUpper = corporacao.toUpperCase();
-        
-        if (['PM', 'CBM', 'GM'].includes(corpUpper)) {
-            elementoCartao.classList.add(`theme-${corpUpper.toLowerCase()}`);
+        aplicarTemaCorporacao: (corporacao, elemento) => {
+            if (!elemento) return;
+            elemento.classList.remove('theme-pm', 'theme-cbm', 'theme-gm');
+            const corpUpper = (corporacao || '').toUpperCase();
+            
+            if (['PM', 'CBM', 'GM'].includes(corpUpper)) {
+                elemento.classList.add(`theme-${corpUpper.toLowerCase()}`);
+            }
         }
     };
 
     // ==========================================
     // 4. INJEÇÃO DE DADOS NA INTERFACE
     // ==========================================
+    const inicializarPerfil = () => {
+        // Cabeçalho Visual
+        if (DOM.tituloNome) DOM.tituloNome.textContent = utilizador.nome || 'Agente Desconhecido';
+        if (DOM.subtituloCargo) DOM.subtituloCargo.textContent = `${utilizador.tipo_militar || 'Agente'} - ${utilizador.corporacao || 'SSPDS'}`;
+        if (DOM.avatarIniciais) DOM.avatarIniciais.textContent = Utils.obterIniciais(utilizador.nome);
 
-    // Dados Visuais e Cabeçalho
-    elementos.tituloNome.textContent = usuario.nome;
-    elementos.subtituloCargo.textContent = `${usuario.tipo_militar} - ${usuario.corporacao}`;
-    elementos.avatarIniciais.textContent = obterIniciais(usuario.nome);
-    aplicarTemaCorporacao(usuario.corporacao, elementos.cabecalhoCartao);
+        Utils.aplicarTemaCorporacao(utilizador.corporacao, DOM.cartaoHeader);
 
-    // Dados Funcionais (Corpo do Cartão)
-    if (elementos.infoNome) elementos.infoNome.textContent = usuario.nome;
-    if (elementos.infoCpf) elementos.infoCpf.textContent = mascararCPF(usuario.cpf);
-    if (elementos.infoTelefone) elementos.infoTelefone.textContent = formatarTelefone(usuario.telefone);
-    if (elementos.infoEmail) elementos.infoEmail.textContent = usuario.email;
-    if (elementos.infoCorporacao) elementos.infoCorporacao.textContent = usuario.corporacao;
-    if (elementos.infoPatente) elementos.infoPatente.textContent = usuario.tipo_militar;
-    if (elementos.infoPermissao) elementos.infoPermissao.textContent = usuario.nivel_acesso || 'Operacional';
+        // Tabela de Dados Funcionais
+        if (DOM.info.nome) DOM.info.nome.textContent = utilizador.nome || 'Não informado';
+        if (DOM.info.cpf) DOM.info.cpf.textContent = Utils.mascararCPF(utilizador.cpf);
+        if (DOM.info.telefone) DOM.info.telefone.textContent = Utils.formatarTelefone(utilizador.telefone);
+        if (DOM.info.email) DOM.info.email.textContent = utilizador.email || 'Não informado';
+        if (DOM.info.corporacao) DOM.info.corporacao.textContent = utilizador.corporacao || 'Não informada';
+        if (DOM.info.patente) DOM.info.patente.textContent = utilizador.tipo_militar || 'Não informada';
+        if (DOM.info.permissao) DOM.info.permissao.textContent = utilizador.nivel_acesso || 'Operacional';
+    };
 
     // ==========================================
-    // 5. EVENTOS DOS BOTÕES DE AÇÃO
+    // 5. EVENTOS DE AÇÃO
     // ==========================================
-
-    elementos.btnSair.addEventListener('click', () => {
-        if (confirm('Tem certeza que deseja encerrar sua sessão segura?')) {
+    DOM.botoes.sair?.addEventListener('click', () => {
+        if (confirm('Tem a certeza de que deseja encerrar a sua sessão segura?')) {
             localStorage.removeItem('usuario');
             window.location.href = 'login.html';
         }
     });
 
-    elementos.btnEditar.addEventListener('click', () => {
-        alert('A edição de dados institucionais deve ser solicitada via protocolo interno do RH da sua respectiva corporação.');
+    DOM.botoes.editar?.addEventListener('click', () => {
+        alert('A edição de dados institucionais deve ser solicitada via protocolo interno dos Recursos Humanos da sua respetiva corporação.');
     });
+
+    // Arranca a configuração da página
+    inicializarPerfil();
 });
