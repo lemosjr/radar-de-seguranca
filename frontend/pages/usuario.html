@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Agente | Radar de Segurança</title>
+    <meta name="description" content="Perfil e credencial digital institucional do agente de segurança.">
+    
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
@@ -15,24 +17,27 @@
 
     <header class="header">
         <div class="logo_container">
-            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social"
-                class="header_logo">
+            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social" class="header_logo">
             <h1>Forças de Segurança de Fortaleza</h1>
         </div>
         <nav aria-label="Menu Principal">
             <a href="dashboard.html">Dashboard</a>
             <a href="sobre.html">Sobre</a>
-            <a href="usuario.html">Usuário</a>
+            <a href="usuario.html" aria-current="page">Usuário</a>
         </nav>
     </header>
 
     <main class="profile_main_wrapper">
-        <section class="profile_container">
+        <section class="profile_container" aria-label="Área do Perfil do Usuário">
             
             <article class="profile_card" aria-labelledby="card_title">
                 
                 <header class="profile_card_header" id="user_card_header">
-                    <div class="profile_avatar">
+                    <div class="status_badge" aria-label="Status do Agente">
+                        <span class="status_dot"></span> ATIVO
+                    </div>
+
+                    <div class="profile_avatar" aria-hidden="true">
                         <span id="avatar_initials">--</span>
                     </div>
                     <h2 id="card_title" class="user_name_display">Carregando Agente...</h2>
@@ -49,8 +54,8 @@
                         </div>
                         
                         <div class="info_item">
-                            <span class="info_label">E-mail Institucional</span>
-                            <strong class="info_value" id="info_email">...</strong>
+                            <span class="info_label">CPF</span>
+                            <strong class="info_value" id="info_cpf">...</strong>
                         </div>
 
                         <div class="info_item">
@@ -61,6 +66,16 @@
                         <div class="info_item">
                             <span class="info_label">Posto / Graduação</span>
                             <strong class="info_value" id="info_patente">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">E-mail Institucional</span>
+                            <strong class="info_value" id="info_email">...</strong>
+                        </div>
+
+                        <div class="info_item">
+                            <span class="info_label">Telefone de Contato</span>
+                            <strong class="info_value" id="info_telefone">...</strong>
                         </div>
 
                         <div class="info_item full_width">
@@ -82,46 +97,37 @@
 
     <footer class="sspds_footer" aria-label="Rodapé Institucional">
         <div class="footer_top_line"></div>
-  
         <div class="footer_container">
-          <section class="footer_brand">
-            <img
-              src="../assets/logotipo_ceara.png"
-              alt="Logomarca do Governo do Estado do Ceará"
-              class="footer_logo"
-            />
-            <h2>SSPDS.CE.GOV.BR</h2>
-          </section>
-  
-          <address class="footer_info">
-            <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br />
-            CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br />
-            AV. AGUANAMBI, S/N, AEROPORTO<br />
-            FORTALEZA, CE, CEP: 60415 390<br />
-            TELEFONE: (85) 3194 7420
-          </address>
-  
-          <section class="footer_hours">
-            <strong>HORÁRIO DE ATENDIMENTO</strong><br />
-            08 ÀS 17 HORAS
-          </section>
-  
-          <section class="footer_social">
-            <strong>NOSSOS CANAIS</strong>
-            <ul class="social_icons">
-              <li><a href="#">f</a></li>
-              <li><a href="#">📷</a></li>
-              <li><a href="#">t</a></li>
-              <li><a href="#">▶</a></li>
-            </ul>
-  
-            <p class="copyright">
-              © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br />
-              TODOS OS DIREITOS RESERVADOS
-            </p>
-          </section>
+            <section class="footer_brand">
+                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo">
+                <h2>SSPDS.CE.GOV.BR</h2>
+            </section>
+            <address class="footer_info">
+                <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br>
+                CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br>
+                AV. AGUANAMBI, S/N, AEROPORTO<br>
+                FORTALEZA, CE, CEP: 60415 390<br>
+                TELEFONE: (85) 3194 7420
+            </address>
+            <section class="footer_hours">
+                <strong>HORÁRIO DE ATENDIMENTO</strong><br>
+                08 ÀS 17 HORAS
+            </section>
+            <section class="footer_social">
+                <strong>NOSSOS CANAIS</strong>
+                <ul class="social_icons" aria-label="Redes Sociais">
+                    <li><a href="#" aria-label="Facebook">f</a></li>
+                    <li><a href="#" aria-label="Instagram">📷</a></li>
+                    <li><a href="#" aria-label="Twitter">t</a></li>
+                    <li><a href="#" aria-label="YouTube">▶</a></li>
+                </ul>
+                <p class="copyright">
+                    © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br>
+                    TODOS OS DIREITOS RESERVADOS
+                </p>
+            </section>
         </div>
-      </footer>
+    </footer>
 
     <script src="../js/usuario.js"></script>
 </body>

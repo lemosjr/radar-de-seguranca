@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-// Configuração do pool de conexões com o PostgreSQL
 const pool = new Pool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -10,14 +9,14 @@ const pool = new Pool({
     database: process.env.DB_NAME
 });
 
-// Teste de conexão inicial para facilitar o debug
-pool.connect((erro, client, release) => {
-    if (erro) {
-        console.error('Erro ao conectar ao banco de dados PostgreSQL', erro.stack);
+// Validação da conexão durante a inicialização do servidor
+pool.connect((err, client, release) => {
+    if (err) {
+        console.error('Falha na conexão com o banco de dados:', err.message);
     } else {
-        console.log('Conexão com o banco de dados estabelecida com sucesso!');
+        console.log('Conexão com PostgreSQL estabelecida com sucesso.');
+        release();
     }
-    if (client) release();
 });
 
 module.exports = pool;

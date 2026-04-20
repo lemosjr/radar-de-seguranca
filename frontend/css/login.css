@@ -1,8 +1,6 @@
 /* ==========================================
-   TELA DE LOGIN (ESTILO VERSÃO 2.0)
+   1. TELA DE LOGIN (ESTRUTURA PRINCIPAL)
    ========================================== */
-
-/* Container Principal */
 .login_main_wrapper {
     display: flex;
     justify-content: center;
@@ -10,27 +8,27 @@
     padding: 40px 20px;
     width: 100%;
     /* Ajuste para acomodar header e footer sem scroll desnecessário */
-    min-height: calc(100vh - 180px);
-    background: linear-gradient(90deg, #00b37e 0%, #008959 100%);
+    min-height: calc(100vh - 150px);
+    background: linear-gradient(135deg, #00b37e 0%, var(--green-primary, #008959) 100%);
 }
 
-/* Cartão de Autenticação */
 .auth_container {
-    background-color: #ffffff;
+    background-color: var(--bg-card, #ffffff);
     width: 900px;
     max-width: 100%;
     min-height: 550px;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-md, 10px);
+    box-shadow: var(--shadow-elevated, 0 15px 30px rgba(0, 0, 0, 0.15));
     display: flex;
     overflow: hidden;
 }
 
-/* Lado Esquerdo: Banner Informativo */
+/* ==========================================
+   2. LADO ESQUERDO: BANNER INFORMATIVO
+   ========================================== */
 .auth_banner {
     width: 40%;
-    /* Degradê utilizando o Laranja do Estado */
-    background: linear-gradient(135deg, #ff8c00 0%, #e65100 100%);
+    background: linear-gradient(135deg, var(--orange-primary, #E65100) 0%, var(--orange-dark, #BF360C) 100%);
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -42,23 +40,18 @@
 }
 
 .banner_logo_img {
-    max-width: 250px;
+    max-width: 240px;
     width: 100%;
     height: auto;
     margin-bottom: 25px;
     object-fit: contain;
 }
 
-.auth_banner h1 {
-    font-size: 26px;
-    margin-bottom: 15px;
-}
-
 .auth_banner p {
     font-size: 14px;
     line-height: 1.6;
     margin-bottom: 30px;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .btn_outline {
@@ -67,18 +60,22 @@
     color: #ffffff;
     padding: 12px 35px;
     border-radius: 25px;
-    font-weight: bold;
+    font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition, 0.3s ease);
 }
 
-.btn_outline:hover {
+.btn_outline:hover,
+.btn_outline:focus-visible {
     background-color: #ffffff;
-    color: #e65100;
+    color: var(--orange-dark, #BF360C);
+    outline: none;
 }
 
-/* Lado Direito: Formulários */
+/* ==========================================
+   3. LADO DIREITO: ÁREA DE FORMULÁRIOS
+   ========================================== */
 .auth_forms {
     width: 60%;
     display: flex;
@@ -86,7 +83,7 @@
     align-items: center;
     padding: 40px;
     position: relative;
-    background-color: #ffffff;
+    background-color: var(--bg-card, #ffffff);
 }
 
 .form_box {
@@ -108,22 +105,28 @@
 }
 
 .form_box h2 {
-    color: #008959;
-    font-size: 28px;
+    color: var(--green-primary, #008959);
+    font-size: 26px;
+    font-weight: 800;
     margin-bottom: 25px;
     text-align: center;
 }
 
-/* ==========================================
-   ELEMENTOS DE SEGURANÇA E SUPORTE (REQUISITOS)
-   ========================================== */
+.form_desc {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary, #666);
+    margin-bottom: 20px;
+}
 
-/* PONTO 4: Indicador de Segurança SSL */
+/* ==========================================
+   4. ELEMENTOS DE CONFIANÇA E ALERTAS
+   ========================================== */
 .security_badge {
-    background-color: #fff3e0;
-    border: 1px solid #ff8c00;
-    padding: 8px;
-    border-radius: 4px;
+    background-color: var(--orange-light, #fff3e0);
+    border: 1px solid var(--orange-primary, #E65100);
+    padding: 10px;
+    border-radius: var(--radius-sm, 5px);
     margin-bottom: 20px;
     width: 100%;
     text-align: center;
@@ -131,12 +134,94 @@
 
 .security_badge span {
     font-size: 11px;
-    color: #e65100;
-    font-weight: bold;
+    color: var(--orange-dark, #BF360C);
+    font-weight: 800;
     text-transform: uppercase;
 }
 
-/* PONTO 2: Termos de Uso (Cadastro) */
+.demo_credentials {
+    background-color: var(--green-light, #e8f5ee);
+    border-left: 4px solid var(--orange-primary, #E65100);
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: var(--radius-sm, 4px);
+    font-size: 12px;
+}
+
+.demo_credentials strong {
+    color: var(--green-dark, #006640);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.demo_credentials span {
+    font-family: monospace;
+    background: var(--bg-card, #ffffff);
+    padding: 2px 6px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.error_msg {
+    color: #d32f2f; /* Vermelho fixo para erros críticos */
+    font-size: 13px;
+    margin-bottom: 15px;
+    min-height: 18px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ==========================================
+   5. INPUTS E CONTROLES DE FORMULÁRIO
+   ========================================== */
+.input_group {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.input_group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #555);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input_group input,
+.input_group select {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: var(--bg-page, #f0f2f5);
+    border: 1px solid var(--border-color, #dce4e4);
+    border-radius: var(--radius-sm, 6px);
+    font-size: 14px;
+    color: var(--text-primary, #333);
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input_group input:focus,
+.input_group select:focus {
+    outline: none;
+    border-color: var(--green-primary, #008959);
+    box-shadow: 0 0 0 3px rgba(0, 137, 89, 0.15);
+}
+
+.input_group select:disabled {
+    background-color: #e9ecec;
+    cursor: not-allowed;
+    color: var(--text-muted, #999);
+}
+
+.military_fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Checkbox e Termos */
 .terms_group {
     display: flex;
     align-items: flex-start;
@@ -150,175 +235,106 @@
     cursor: pointer;
 }
 
+.terms_group input:focus-visible {
+    outline: 2px solid var(--green-primary);
+    outline-offset: 2px;
+}
+
 .terms_group label {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.4;
-    color: #666;
+    color: var(--text-secondary, #666);
     font-weight: normal;
-    text-transform: none; /* Previne herança de outros labels */
 }
 
 .terms_group a {
-    color: #ff8c00;
-    text-decoration: underline;
-    font-weight: 600;
-}
-
-/* PONTO 3: Canal de Suporte TI */
-.support_note {
-    font-size: 12px;
-    color: #888;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.support_note a {
-    color: #008959;
-    font-weight: bold;
+    color: var(--orange-primary, #E65100);
     text-decoration: none;
+    font-weight: 700;
 }
 
-.support_note a:hover {
+.terms_group a:hover,
+.terms_group a:focus-visible {
     text-decoration: underline;
-    color: #ff8c00;
+    color: var(--orange-dark, #BF360C);
+    outline: none;
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DOS RÓTULOS E INPUTS
+   6. BOTÕES E LINKS DE AÇÃO
    ========================================== */
-.input_group {
-    width: 100%;
-    margin-bottom: 18px;
-}
-
-.input_group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: #555;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Campos de Entrada e Seleção */
-.input_group input,
-.input_group select {
-    width: 100%;
-    padding: 12px 15px;
-    background-color: #f9fbfb;
-    border: 1px solid #dce4e4;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #333;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.input_group input:focus,
-.input_group select:focus {
-    outline: none;
-    border-color: #00b37e;
-    box-shadow: 0 0 0 3px rgba(0, 179, 126, 0.1);
-}
-
-.input_group select:disabled {
-    background-color: #f1f3f3;
-    cursor: not-allowed;
-    color: #999;
-}
-
-/* Agrupamento de Posto/Graduação */
-.military_fieldset {
+.btn_solid {
+    background-color: var(--green-primary, #008959);
+    color: #ffffff;
     border: none;
-    padding: 0;
-    margin: 0;
+    padding: 14px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background var(--transition);
+    width: 100%;
+    text-transform: uppercase;
 }
 
-/* Links de Recuperação */
+.btn_solid:hover,
+.btn_solid:focus-visible {
+    background-color: var(--green-dark, #006640);
+    outline: none;
+}
+
+.btn_orange {
+    background-color: var(--orange-primary, #E65100);
+}
+
+.btn_orange:hover,
+.btn_orange:focus-visible {
+    background-color: var(--orange-dark, #BF360C);
+}
+
 .forgot_link_container {
     text-align: right;
-    margin-top: -10px;
+    margin-top: -8px;
     margin-bottom: 20px;
 }
 
 .forgot_link {
     font-size: 12px;
-    color: #008959;
+    color: var(--green-primary, #008959);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    transition: color var(--transition);
 }
 
-.forgot_link:hover {
-    color: #ff8c00;
+.forgot_link:hover,
+.forgot_link:focus-visible {
+    color: var(--orange-primary, #E65100);
     text-decoration: underline;
+    outline: none;
 }
 
-/* Botões de Ação */
-.btn_solid {
-    background-color: #008959;
-    color: #ffffff;
-    border: none;
-    padding: 14px;
-    border-radius: 30px;
-    font-weight: bold;
-    font-size: 14px;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: background 0.3s;
-    width: 100%;
-    text-transform: uppercase;
-}
-
-.btn_solid:hover {
-    background-color: #006b45;
-}
-
-/* Cor Laranja */
-.btn_orange {
-    background-color: #ff8c00;
-}
-
-.btn_orange:hover {
-    background-color: #e67e00;
-}
-
-/* Mensagens de Erro */
-.error_msg {
-    color: #d32f2f;
-    font-size: 13px;
-    margin-bottom: 15px;
-    min-height: 18px;
-    text-align: center;
-    font-weight: 500;
-}
-
-/* Credenciais de Demonstração */
-.demo_credentials {
-    background-color: #f0f7f4;
-    border-left: 4px solid #ff8c00;
-    padding: 12px;
-    margin-bottom: 20px;
-    border-radius: 4px;
+.support_note {
     font-size: 12px;
+    color: var(--text-muted, #888);
+    margin-top: 25px;
+    text-align: center;
 }
 
-.demo_credentials strong {
-    color: #008959;
-    display: block;
-    margin-bottom: 5px;
+.support_note a {
+    color: var(--green-primary, #008959);
+    font-weight: 700;
+    text-decoration: none;
 }
 
-.demo_credentials span {
-    font-family: monospace;
-    background: #fff;
-    padding: 2px 4px;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    font-weight: bold;
+.support_note a:hover,
+.support_note a:focus-visible {
+    text-decoration: underline;
+    color: var(--orange-primary, #E65100);
 }
 
 /* ==========================================
-   RESPONSIVIDADE
+   7. RESPONSIVIDADE
    ========================================== */
 @media (max-width: 900px) {
     .auth_container {
@@ -331,5 +347,8 @@
     }
     .auth_banner {
         padding: 30px;
+    }
+    .banner_logo_img {
+        max-width: 180px;
     }
 }

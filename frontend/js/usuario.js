@@ -1,102 +1,106 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
-    // 1. VERIFICAÇÃO DE SEGURANÇA (AUTENTICAÇÃO)
+    // 1. VERIFICAÇÃO DE SEGURANÇA (ROUTE GUARD)
     // ==========================================
-    
-    // Recupera os dados do usuário salvos no momento do login
     const usuarioString = localStorage.getItem('usuario');
     
-    // Se não houver dados, significa que o usuário não está logado
     if (!usuarioString) {
-        // Redireciona imediatamente para a tela de login para proteção da rota
         window.location.href = 'login.html';
         return; 
     }
 
-    // Converte a string JSON de volta para um objeto JavaScript utilizável
     const usuario = JSON.parse(usuarioString);
 
     // ==========================================
     // 2. MAPEAMENTO DE ELEMENTOS DO DOM
     // ==========================================
-    
-    // Elementos do Cabeçalho do Cartão
-    const cardHeader = document.getElementById('user_card_header');
-    const avatarInitials = document.getElementById('avatar_initials');
-    const cardTitle = document.getElementById('card_title');
-    const userRoleDisplay = document.getElementById('user_role_display');
-    
-    // Elementos do Corpo do Cartão
-    const infoNome = document.getElementById('info_nome');
-    const infoEmail = document.getElementById('info_email');
-    const infoCorporacao = document.getElementById('info_corporacao');
-    const infoPatente = document.getElementById('info_patente');
-    const infoPermissao = document.getElementById('info_permissao');
-    
-    // Botões de Ação
-    const btnEncerrarSessao = document.getElementById('btn_encerrar_sessao');
-    const btnEditarPerfil = document.getElementById('btn_editar_perfil');
-
-    // ==========================================
-    // 3. PREENCHIMENTO DOS DADOS E LÓGICA DE TEMA
-    // ==========================================
-
-    // A. Preenche as informações textuais básicas
-    cardTitle.textContent = usuario.nome;
-    userRoleDisplay.textContent = `${usuario.tipo_militar} - ${usuario.corporacao}`;
-    
-    infoNome.textContent = usuario.nome;
-    infoEmail.textContent = usuario.email;
-    infoCorporacao.textContent = usuario.corporacao;
-    infoPatente.textContent = usuario.tipo_militar;
-    
-    // B. Define o Nível de Acesso (Se o backend não enviar, definimos um padrão)
-    const permissao = usuario.nivel_acesso || 'Operacional';
-    infoPermissao.textContent = permissao;
-
-    // C. Lógica para gerar as iniciais do Avatar
-    const partesNome = usuario.nome.trim().split(' ');
-    let iniciais = '';
-    if (partesNome.length > 1) {
-        // Pega a primeira letra do primeiro nome e a primeira letra do último nome
-        iniciais = partesNome[0].charAt(0) + partesNome[partesNome.length - 1].charAt(0);
-    } else {
-        // Se tiver só um nome, pega as duas primeiras letras
-        iniciais = usuario.nome.substring(0, 2);
-    }
-    avatarInitials.textContent = iniciais.toUpperCase();
-
-    // D. Injeção do Tema Baseado na Corporação
-    // Remove qualquer tema que possa estar no HTML e aplica o correto
-    cardHeader.classList.remove('theme-pm', 'theme-cbm', 'theme-gm');
-    
-    const corporacao = usuario.corporacao.toUpperCase();
-    if (corporacao === 'PM') {
-        cardHeader.classList.add('theme-pm');
-    } else if (corporacao === 'CBM') {
-        cardHeader.classList.add('theme-cbm');
-    } else if (corporacao === 'GM') {
-        cardHeader.classList.add('theme-gm');
-    }
-
-    // ==========================================
-    // 4. LÓGICA DOS BOTÕES DE AÇÃO
-    // ==========================================
-
-    // Encerrar Sessão (Logout)
-    btnEncerrarSessao.addEventListener('click', () => {
-        const confirmar = confirm('Tem certeza que deseja encerrar sua sessão segura?');
+    const elementos = {
+        cabecalhoCartao: document.getElementById('user_card_header'),
+        avatarIniciais: document.getElementById('avatar_initials'),
+        tituloNome: document.getElementById('card_title'),
+        subtituloCargo: document.getElementById('user_role_display'),
         
-        if (confirmar) {
-            // Remove o usuário da memória local
+        infoNome: document.getElementById('info_nome'),
+        infoCpf: document.getElementById('info_cpf'),
+        infoTelefone: document.getElementById('info_telefone'),
+        infoEmail: document.getElementById('info_email'),
+        infoCorporacao: document.getElementById('info_corporacao'),
+        infoPatente: document.getElementById('info_patente'),
+        infoPermissao: document.getElementById('info_permissao'),
+        
+        btnSair: document.getElementById('btn_encerrar_sessao'),
+        btnEditar: document.getElementById('btn_editar_perfil')
+    };
+
+    // ==========================================
+    // 3. FUNÇÕES UTILITÁRIAS (CLEAN CODE)
+    // ==========================================
+
+    const obterIniciais = (nomeCompleto) => {
+        const partes = nomeCompleto.trim().split(' ');
+        if (partes.length > 1) {
+            return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+        }
+        return nomeCompleto.substring(0, 2).toUpperCase();
+    };
+
+    const mascararCPF = (cpf) => {
+        if (!cpf || cpf.length !== 14) return '***.***.***-**';
+        // Exibe apenas os últimos dois dígitos. Ex: ***.***.***-89
+        const ultimosDigitos = cpf.slice(-2);
+        return `***.***.***-${ultimosDigitos}`;
+    };
+
+    const formatarTelefone = (telefone) => {
+        if (!telefone) return 'Não informado';
+        // Caso a API retorne apenas números, aplica a formatação visual (XX) XXXXX-XXXX
+        const telLimpo = telefone.replace(/\D/g, '');
+        if (telLimpo.length >= 10) {
+            return telLimpo.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
+        }
+        return telefone; 
+    };
+
+    const aplicarTemaCorporacao = (corporacao, elementoCartao) => {
+        elementoCartao.classList.remove('theme-pm', 'theme-cbm', 'theme-gm');
+        const corpUpper = corporacao.toUpperCase();
+        
+        if (['PM', 'CBM', 'GM'].includes(corpUpper)) {
+            elementoCartao.classList.add(`theme-${corpUpper.toLowerCase()}`);
+        }
+    };
+
+    // ==========================================
+    // 4. INJEÇÃO DE DADOS NA INTERFACE
+    // ==========================================
+
+    // Dados Visuais e Cabeçalho
+    elementos.tituloNome.textContent = usuario.nome;
+    elementos.subtituloCargo.textContent = `${usuario.tipo_militar} - ${usuario.corporacao}`;
+    elementos.avatarIniciais.textContent = obterIniciais(usuario.nome);
+    aplicarTemaCorporacao(usuario.corporacao, elementos.cabecalhoCartao);
+
+    // Dados Funcionais (Corpo do Cartão)
+    if (elementos.infoNome) elementos.infoNome.textContent = usuario.nome;
+    if (elementos.infoCpf) elementos.infoCpf.textContent = mascararCPF(usuario.cpf);
+    if (elementos.infoTelefone) elementos.infoTelefone.textContent = formatarTelefone(usuario.telefone);
+    if (elementos.infoEmail) elementos.infoEmail.textContent = usuario.email;
+    if (elementos.infoCorporacao) elementos.infoCorporacao.textContent = usuario.corporacao;
+    if (elementos.infoPatente) elementos.infoPatente.textContent = usuario.tipo_militar;
+    if (elementos.infoPermissao) elementos.infoPermissao.textContent = usuario.nivel_acesso || 'Operacional';
+
+    // ==========================================
+    // 5. EVENTOS DOS BOTÕES DE AÇÃO
+    // ==========================================
+
+    elementos.btnSair.addEventListener('click', () => {
+        if (confirm('Tem certeza que deseja encerrar sua sessão segura?')) {
             localStorage.removeItem('usuario');
-            // Redireciona para o login
             window.location.href = 'login.html';
         }
     });
 
-    // Atualizar Dados (Apenas exemplo de alerta, pode ser expandido futuramente)
-    btnEditarPerfil.addEventListener('click', () => {
+    elementos.btnEditar.addEventListener('click', () => {
         alert('A edição de dados institucionais deve ser solicitada via protocolo interno do RH da sua respectiva corporação.');
     });
 });

@@ -13,22 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const linkEsqueciSenha = document.getElementById('link_esqueci_senha');
     const linkVoltarLogin = document.getElementById('link_voltar_login');
     
-    // Textos do Banner
+    // Textos
     const bannerText = document.getElementById('banner_text');
 
-    // Selects Dinâmicos do Cadastro
+    // Inputs Dinâmicos e de Máscara
     const selectCorporacao = document.getElementById('reg_corporacao');
     const selectPatente = document.getElementById('reg_patente');
+    const inputCpf = document.getElementById('reg_cpf');
+    const inputTelefone = document.getElementById('reg_telefone');
 
     // ==========================================
-    // 2. VARIÁVEIS DE SEGURANÇA E DADOS
+    // 2. CONFIGURAÇÕES E DADOS GLOBAIS
     // ==========================================
     
-    // Controle de Força Bruta
     let tentativasLogin = 0;
     const MAX_TENTATIVAS = 3;
 
-    // Dados para os selects dinâmicos
     const hierarquiaMilitar = {
         'PM': ['Soldado', 'Cabo', 'Sargento', 'Subtenente', 'Tenente', 'Capitão', 'Major', 'Tenente-Coronel', 'Coronel'],
         'CBM': ['Soldado', 'Cabo', 'Sargento', 'Subtenente', 'Tenente', 'Capitão', 'Major', 'Tenente-Coronel', 'Coronel'],
@@ -36,63 +36,78 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ==========================================
-    // 3. LÓGICA DE INTERFACE E VALIDAÇÃO (UI)
+    // 3. UTILITÁRIOS E MÁSCARAS (Clean Code)
     // ==========================================
 
-    // PONTO 1: Função de Validação de Domínio Institucional
-    function validarDominioInstitucional(email) {
+    const validarDominioInstitucional = (email) => {
         const dominiosPermitidos = ['@sspds.ce.gov.br', '@policiamilitar.ce.gov.br', '@bombeiros.ce.gov.br'];
         return dominiosPermitidos.some(dominio => email.toLowerCase().endsWith(dominio));
-    }
+    };
+
+    const mostrarMensagem = (elementoId, mensagem, cor = '#d32f2f') => {
+        const el = document.getElementById(elementoId);
+        el.textContent = mensagem;
+        el.style.color = cor;
+        el.classList.remove('sr_only');
+    };
+
+    // Máscara de CPF: 000.000.000-00
+    const aplicarMascaraCPF = (valor) => {
+        return valor
+            .replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1');
+    };
+
+    // Máscara de Telefone: (00) 00000-0000
+    const aplicarMascaraTelefone = (valor) => {
+        return valor
+            .replace(/\D/g, '')
+            .replace(/(\d{2})(\d)/, '($1) $2')
+            .replace(/(\d{4,5})(\d{4})/, '$1-$2')
+            .replace(/(-\d{4})\d+?$/, '$1');
+    };
+
+    if (inputCpf) inputCpf.addEventListener('input', (e) => e.target.value = aplicarMascaraCPF(e.target.value));
+    if (inputTelefone) inputTelefone.addEventListener('input', (e) => e.target.value = aplicarMascaraTelefone(e.target.value));
+
+    // ==========================================
+    // 4. LÓGICA DE INTERFACE (Navegação)
+    // ==========================================
     
-    // Alternar entre Login e Cadastro
     toggleBtn.addEventListener('click', () => {
         formForgot.classList.add('hidden');
         formForgot.classList.remove('active');
 
         if (formLogin.classList.contains('active')) {
-            // Vai para Registro
-            formLogin.classList.remove('active');
-            formLogin.classList.add('hidden');
-            formRegister.classList.remove('hidden');
-            formRegister.classList.add('active');
-            
+            formLogin.classList.replace('active', 'hidden');
+            formRegister.classList.replace('hidden', 'active');
             bannerText.textContent = 'Já faz parte da nossa rede? Acesse sua conta com suas credenciais.';
             toggleBtn.textContent = 'FAZER LOGIN';
         } else {
-            // Vai para Login
-            formRegister.classList.remove('active');
-            formRegister.classList.add('hidden');
-            formLogin.classList.remove('hidden');
-            formLogin.classList.add('active');
-            
+            formRegister.classList.replace('active', 'hidden');
+            formLogin.classList.replace('hidden', 'active');
             bannerText.textContent = 'Para manter-se conectado de forma segura, por favor faça login com suas credenciais institucionais.';
             toggleBtn.textContent = 'CRIAR CONTA';
         }
     });
 
-    // Abrir formulário de Esquecer Senha
     linkEsqueciSenha.addEventListener('click', (e) => {
         e.preventDefault();
-        formLogin.classList.remove('active');
-        formLogin.classList.add('hidden');
-        formForgot.classList.remove('hidden');
-        formForgot.classList.add('active');
+        formLogin.classList.replace('active', 'hidden');
+        formForgot.classList.replace('hidden', 'active');
     });
 
-    // Voltar para o Login
     linkVoltarLogin.addEventListener('click', (e) => {
         e.preventDefault();
-        formForgot.classList.remove('active');
-        formForgot.classList.add('hidden');
-        formLogin.classList.remove('hidden');
-        formLogin.classList.add('active');
+        formForgot.classList.replace('active', 'hidden');
+        formLogin.classList.replace('hidden', 'active');
     });
 
-    // Select Dinâmico (Corporação -> Patentes)
     selectCorporacao.addEventListener('change', function() {
         const corporacaoSelecionada = this.value;
-        
         selectPatente.innerHTML = '<option value="" disabled selected>Selecione o posto/graduação</option>';
         
         if (corporacaoSelecionada && hierarquiaMilitar[corporacaoSelecionada]) {
@@ -109,25 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 4. LÓGICA DE COMUNICAÇÃO COM A API
+    // 5. COMUNICAÇÃO COM A API
     // ==========================================
 
-    // Função DRY para exibir mensagens
-    function mostrarMensagem(elementoId, mensagem, cor = '#d32f2f') {
-        const el = document.getElementById(elementoId);
-        el.textContent = mensagem;
-        el.style.color = cor;
-        el.classList.remove('sr_only');
-    }
-
-    // A. Requisitar Login
+    // A. LOGIN
     formLogin.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // PONTO 6: Proteção contra Força Bruta
         if (tentativasLogin >= MAX_TENTATIVAS) {
-            mostrarMensagem('login_error', 'Acesso bloqueado temporariamente por excesso de tentativas. Contate o administrador.');
-            return;
+            return mostrarMensagem('login_error', 'Acesso bloqueado temporariamente por excesso de tentativas. Contate o administrador.');
         }
 
         const email = document.getElementById('login_email').value;
@@ -143,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok && data.success) {
-                tentativasLogin = 0; // Reseta as tentativas após o sucesso
+                tentativasLogin = 0; 
                 localStorage.setItem('usuario', JSON.stringify(data.user));
                 window.location.href = 'dashboard.html';
             } else {
@@ -157,31 +162,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } catch (error) {
-            // PONTO 5: Tratamento de Exceção Crítico (Servidor Fora)
             mostrarMensagem('login_error', '🔴 Falha crítica: Servidor da SSPDS indisponível. Tente novamente mais tarde.');
         }
     });
 
-    // B. Requisitar Cadastro
+    // B. CADASTRO
     formRegister.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const email = document.getElementById('reg_email').value;
 
-        // PONTO 1: Validação Rigorosa de E-mail Institucional no Cadastro
         if (!validarDominioInstitucional(email)) {
-            mostrarMensagem('reg_error', 'Erro: Utilize apenas e-mails institucionais autorizados (@sspds.ce.gov.br, etc).');
-            return;
+            return mostrarMensagem('reg_error', 'Erro: Utilize apenas e-mails institucionais autorizados (@sspds.ce.gov.br, etc).');
         }
-
-        // PONTO 2: O checkbox de Termos de Uso já é validado nativamente pelo HTML (required),
-        // mas a lógica de envio prossegue apenas se ele foi marcado.
 
         const bodyData = {
             nome: document.getElementById('reg_nome').value,
+            cpf: inputCpf.value, // Agora enviamos o CPF
+            telefone: inputTelefone.value, // E o Telefone
             email: email,
-            corporacao: document.getElementById('reg_corporacao').value,
-            tipo_militar: document.getElementById('reg_patente').value,
+            corporacao: selectCorporacao.value,
+            tipo_militar: selectPatente.value,
             senha: document.getElementById('reg_password').value
         };
 
@@ -202,12 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 mostrarMensagem('reg_error', data.error || 'Falha ao realizar cadastro.');
             }
         } catch (error) {
-            // PONTO 5: Tratamento de Exceção Crítico (Servidor Fora)
             mostrarMensagem('reg_error', '🔴 Falha crítica: Servidor indisponível no momento.');
         }
     });
 
-    // C. Requisitar Recuperação de Senha
+    // C. RECUPERAÇÃO DE SENHA
     formForgot.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('forgot_email').value;
@@ -222,13 +222,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok && data.success) {
-                mostrarMensagem('forgot_msg', data.message, '#00b37e'); // Cor verde
+                mostrarMensagem('forgot_msg', data.message, '#00b37e'); 
                 formForgot.reset();
             } else {
                 mostrarMensagem('forgot_msg', data.error || 'Erro ao processar a solicitação.');
             }
         } catch (error) {
-            // PONTO 5: Tratamento de Exceção Crítico (Servidor Fora)
             mostrarMensagem('forgot_msg', '🔴 Falha crítica: Serviço de e-mail indisponível.');
         }
     });

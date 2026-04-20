@@ -1,48 +1,50 @@
 /* ==========================================
-   TELA DE REDIRECIONAMENTO (Específico)
+   1. TELA DE BOOT / REDIRECIONAMENTO
    ========================================== */
-
-/* Sobrescreve o flex do global para centralização total da tela de boot */
 .redirect_wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #00b37e 0%, #008959 100%);
+    background: linear-gradient(135deg, #00b37e 0%, var(--green-primary, #008959) 100%);
     color: #ffffff;
 }
 
+/* Efeito Glassmorphism (Cartão de Vidro) */
 .redirect_container {
-    /* ADICIONADO: Força o alinhamento absoluto no centro */
     display: flex;
     flex-direction: column;
     align-items: center; 
     justify-content: center;
-    
-    /* Mantém o visual do cartão de vidro */
     text-align: center;
+    
     background: rgba(255, 255, 255, 0.1);
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg, 13px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    
     width: 90%;
     max-width: 500px;
 }
 
+/* ==========================================
+   2. ELEMENTOS VISUAIS E TEXTURAIS
+   ========================================== */
 .redirect_logo {
     max-width: 280px; 
     width: 100%; 
     height: auto;
     object-fit: contain;
-    /* Simplificado: o contêiner flex pai já faz o trabalho de centralizar */
     margin-bottom: 25px; 
 }
 
 .redirect_container h1 {
     font-size: 24px;
     margin-bottom: 10px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .redirect_container p {
@@ -51,26 +53,42 @@
     opacity: 0.9;
 }
 
+/* ==========================================
+   3. BARRA DE PROGRESSO ANIMADA
+   ========================================== */
 .progress_bar {
     width: 100%;
     height: 8px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm, 5px);
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
+    overflow: hidden;
 }
 
+/* Suporte Webkit (Chrome, Safari, Edge) */
 .progress_bar::-webkit-progress-bar {
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
+    border-radius: var(--radius-sm, 5px);
 }
 
 .progress_bar::-webkit-progress-value {
     background-color: #ffffff;
-    border-radius: 4px;
-    animation: load 3s linear forwards;
+    border-radius: var(--radius-sm, 5px);
+    animation: load 3s ease-in-out forwards;
 }
 
+/* Suporte Firefox */
+.progress_bar::-moz-progress-bar {
+    background-color: #ffffff;
+    border-radius: var(--radius-sm, 5px);
+    animation: load 3s ease-in-out forwards;
+}
+
+/* Animação de Carregamento Falsa (Splash Screen) */
 @keyframes load {
     0% { width: 0%; }
+    20% { width: 15%; }
+    50% { width: 60%; }
+    80% { width: 85%; }
     100% { width: 100%; }
 }

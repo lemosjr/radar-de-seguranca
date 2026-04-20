@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre o Projeto | Radar de Segurança</title>
-    <meta name="description"
-        content="Informações institucionais e técnicas sobre o projeto Radar de Segurança de Fortaleza.">
+    <meta name="description" content="Informações institucionais e técnicas sobre o projeto Radar de Segurança de Fortaleza.">
+    
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
@@ -17,32 +17,31 @@
 
     <header class="header">
         <div class="logo_container">
-            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social"
-                class="header_logo">
+            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social" class="header_logo">
             <h1>Forças de Segurança de Fortaleza</h1>
         </div>
         <nav aria-label="Menu Principal">
             <a href="dashboard.html">Dashboard</a>
-            <a href="sobre.html">Sobre</a>
+            <a href="sobre.html" aria-current="page">Sobre</a>
             <a href="usuario.html">Usuário</a>
         </nav>
     </header>
 
-    <main class="dashboard_container">
+    <main class="about_main_wrapper">
         <article class="about_content" aria-labelledby="about_title">
 
-            <h2 id="about_title">Sobre o Radar de Segurança</h2>
+            <h2 id="about_title" class="section_title">Sobre o Radar de Segurança</h2>
 
             <p>O <strong>Radar de Segurança de Fortaleza</strong> é uma plataforma analítica desenvolvida para
                 centralizar e visualizar a distribuição estratégica das forças de segurança operantes na capital
-                cearense. Inspirado nas premissas do Centro Integrado de Segurança Pública (CISEC), o sistema busca
+                cearense. Inspirado nas premissas do Centro Integrado de Segurança Pública (CISP), o sistema busca
                 oferecer uma visão clara e em tempo real do efetivo e das unidades espalhadas pelo território.</p>
 
             <p>Através deste painel interativo, é possível monitorar a presença da Polícia Militar, do Corpo de
                 Bombeiros e da Guarda Municipal, permitindo que gestores identifiquem a densidade de agentes por
                 regional e auxiliem na tomada de decisão rápida para o deslocamento de tropas.</p>
 
-            <h3>Arquitetura e Tecnologias</h3>
+            <h3 class="section_subtitle">Arquitetura e Tecnologias</h3>
             <p>Este sistema foi construído focando em alta performance, acessibilidade e respeito aos padrões web
                 semânticos (W3C). A separação clara entre cliente (Front-end) e servidor (Back-end) garante a segurança
                 das informações trafegadas.</p>
@@ -83,8 +82,7 @@
         <div class="footer_top_line"></div>
         <div class="footer_container">
             <section class="footer_brand">
-                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará"
-                    class="footer_logo">
+                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo">
                 <h2>SSPDS.CE.GOV.BR</h2>
             </section>
             <address class="footer_info">
@@ -115,5 +113,4 @@
     </footer>
 
 </body>
-
 </html>
