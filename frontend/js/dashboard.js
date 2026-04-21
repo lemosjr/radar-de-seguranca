@@ -92,6 +92,29 @@ function configurarMapa() {
     }).addTo(AppState.map);
     
     AppState.layers.batalhoes = L.layerGroup().addTo(AppState.map);
+
+    // Carrega as demarcações das regionais do arquivo local GeoJSON
+    fetch('../data/regionais.json')
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: function (feature) {
+                    return {
+                        fillColor: feature.properties.fill || '#00b37e',
+                        color: feature.properties.stroke || '#008959',
+                        weight: feature.properties['stroke-width'] || 2,
+                        fillOpacity: feature.properties['fill-opacity'] || 0.3,
+                        opacity: feature.properties['stroke-opacity'] || 1
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    if (feature.properties && feature.properties.name) {
+                        layer.bindPopup(`<div style="text-align: center;"><b>${feature.properties.name}</b></div>`);
+                    }
+                }
+            }).addTo(AppState.map);
+        })
+        .catch(error => console.error('Erro ao carregar as demarcações das regionais:', error));
     
     // Força o recalculo do mapa para não quebrar a Grid CSS
     setTimeout(() => AppState.map.invalidateSize(), 400);
@@ -151,7 +174,7 @@ function renderizarMapaMarcadores(dados) {
     dados.forEach(u => {
         const cor = CORES[u.corporacao] || '#333';
         const marker = L.circleMarker([u.latitude, u.longitude], {
-            color: cor, fillColor: cor, fillOpacity: 0.8, radius: 8, weight: 2
+            color: cor, fillColor: cor, fillOpacity: 0.8, radius: 5, weight: 1.5
         }).bindPopup(`<strong>${u.nome}</strong><br>Força: ${u.corporacao}<br>Regional: ${u.regional}<br>Efetivo Estimado: ${u.efetivo}`);
         
         marker.addTo(AppState.layers.batalhoes);
