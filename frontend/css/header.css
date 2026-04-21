@@ -1,18 +1,19 @@
 /* ==========================================
    1. VARIÁVEIS GLOBAIS DE DESIGN SYSTEM
    ========================================== */
-   :root {
+:root {
     /* Cores Institucionais (Verde SSPDS) */
     --green-primary:   #008959;
     --green-dark:      #006640;
     --green-light:     #e8f5ee;
     --green-mid:       #b8ddc9;
   
-    /* Cores de Alerta / Secundárias (Laranja) */
+    /* Cores de Alerta / Secundárias (Laranja Ajustado) */
     --orange-primary:  #E65100;
     --orange-dark:     #BF360C;
-    --orange-mid:      #FF8A50;
-    --orange-light:    #FBE9E7;
+    --orange-mid:      #FFB74D; /* Tom médio mais suave */
+    --orange-light:    #FFF3E0; /* Tom pastel para fundos de cards */
+    --orange-soft:     #FFF8F1; /* Laranja extremamente claro para superfícies */
   
     /* Superfícies e Textos */
     --bg-page:         #f0f2f5;
@@ -33,12 +34,12 @@
     /* Medidas Estruturais */
     --header-height:   75px;
     --sidebar-width:   280px;
-  }
+}
   
-  /* ==========================================
-     2. CABEÇALHO PRINCIPAL (HEADER)
-     ========================================== */
-  .header {
+/* ==========================================
+   2. CABEÇALHO PRINCIPAL (HEADER)
+   ========================================== */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -51,53 +52,55 @@
     top: 0;
     z-index: 200;
     gap: 20px;
-  }
+}
   
-  /* Faixa decorativa abaixo do cabeçalho */
-  .header_accent_bar {
+/* Faixa decorativa abaixo do cabeçalho */
+.header_accent_bar {
     width: 100%;
     height: 4px;
     background: linear-gradient(90deg, var(--orange-primary) 0%, var(--orange-mid) 50%, var(--green-primary) 100%);
     position: sticky;
     top: var(--header-height);
     z-index: 199;
-  }
+}
   
-  /* ==========================================
-     3. IDENTIDADE VISUAL (LOGO E TÍTULO)
-     ========================================== */
-  .logo_container {
+/* ==========================================
+   3. IDENTIDADE VISUAL (LOGO E TÍTULO)
+   ========================================== */
+.logo_container {
     display: flex;
     align-items: center;
-    gap: 15px;
-    flex: 1; /* Empurra os menus para a direita */
-  }
+    justify-content: space-between; /* Empurra a logo para a esquerda e o H1 para a direita */
+    flex: 1; 
+    width: 100%;
+}
   
-  .header_logo {
+.header_logo {
     height: 48px;
     width: auto;
     object-fit: contain;
-  }
+}
   
-  .logo_container h1 {
+.logo_container h1 {
     font-size: 22px;
     font-weight: 600;
     margin: 0;
     color: #ffffff;
     white-space: nowrap;
     letter-spacing: 0.5px;
-  }
+    text-align: right;
+}
   
-  /* ==========================================
-     4. NAVEGAÇÃO DE PÁGINAS SIMPLES
-     ========================================== */
-  .header nav {
+/* ==========================================
+   4. NAVEGAÇÃO DE PÁGINAS SIMPLES
+   ========================================== */
+.header nav {
     display: flex;
     align-items: center;
     gap: 25px;
-  }
+}
   
-  .header nav a {
+.header nav a {
     text-decoration: none;
     font-weight: 700;
     font-size: 13px;
@@ -107,25 +110,25 @@
     padding: 5px 8px;
     border-radius: var(--radius-sm);
     transition: background var(--transition), opacity var(--transition);
-  }
+}
   
-  .header nav a:hover {
+.header nav a:hover {
     opacity: 0.8;
     text-decoration: underline;
-  }
+}
   
-  /* Acessibilidade de Teclado */
-  .header nav a:focus-visible {
+/* Acessibilidade de Teclado */
+.header nav a:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 2px;
     background: rgba(255, 255, 255, 0.1);
     text-decoration: none;
-  }
+}
   
-  /* ==========================================
-     5. MENU HAMBÚRGUER (DASHBOARD)
-     ========================================== */
-  .hamburger {
+/* ==========================================
+   5. MENU HAMBÚRGUER (DASHBOARD)
+   ========================================== */
+.hamburger {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,57 +142,57 @@
     cursor: pointer;
     flex-shrink: 0;
     transition: background var(--transition), transform var(--transition);
-  }
+}
   
-  .hamburger:hover { 
+.hamburger:hover { 
     background: rgba(255,255,255,0.25); 
-  }
+}
   
-  .hamburger:focus-visible {
+.hamburger:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 2px;
-  }
+}
   
-  .hamburger span {
+.hamburger span {
     display: block;
     height: 2px;
     background: #ffffff;
     border-radius: 2px;
     transition: transform var(--transition), opacity var(--transition);
-  }
+}
   
-  /* ==========================================
-     6. PERFIL DO USUÁRIO LOGADO
-     ========================================== */
-  .header_user {
+/* ==========================================
+   6. PERFIL DO USUÁRIO LOGADO
+   ========================================== */
+.header_user {
     display: flex;
     align-items: center;
     gap: 15px;
     flex-shrink: 0;
-  }
+}
   
-  .user_info {
+.user_info {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 2px;
-  }
+}
   
-  .user_name {
+.user_name {
     font-size: 14px;
     font-weight: 700;
     color: #ffffff;
     line-height: 1.2;
-  }
+}
   
-  .user_role {
+.user_role {
     font-size: 11px;
     color: rgba(255,255,255,0.85);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-  }
+}
   
-  .user_avatar {
+.user_avatar {
     position: relative;
     width: 42px;
     height: 42px;
@@ -204,64 +207,63 @@
     transition: all var(--transition);
     flex-shrink: 0;
     padding: 0;
-  }
+}
   
-  .user_avatar:hover {
+.user_avatar:hover {
     border-color: #ffffff;
     background: var(--orange-dark);
     transform: scale(1.05);
-  }
+}
   
-  .user_avatar:focus-visible {
+.user_avatar:focus-visible {
     outline: 3px solid #ffffff;
     outline-offset: 2px;
-  }
+}
   
-  .avatar_initials {
+.avatar_initials {
     font-size: 14px;
     font-weight: 800;
     color: #ffffff;
     transition: opacity var(--transition);
-  }
+}
   
-  /* Ícone falso de logout que aparece no hover (usando CSS puro) */
-  .user_avatar::after {
-    content: "✖"; /* Ícone simples de sair */
+/* Ícone falso de logout que aparece no hover (usando CSS puro) */
+.user_avatar::after {
+    content: "✖"; 
     position: absolute;
     font-size: 16px;
     font-weight: bold;
     color: #ffffff;
     opacity: 0;
     transition: opacity var(--transition);
-  }
+}
   
-  .user_avatar:hover .avatar_initials { 
+.user_avatar:hover .avatar_initials { 
     opacity: 0; 
-  }
+}
   
-  .user_avatar:hover::after { 
+.user_avatar:hover::after { 
     opacity: 1; 
-  }
+}
   
-  /* ==========================================
-     7. RESPONSIVIDADE
-     ========================================== */
-  @media (max-width: 992px) {
+/* ==========================================
+   7. RESPONSIVIDADE
+   ========================================== */
+@media (max-width: 992px) {
     .header { padding: 0 20px; }
     .logo_container h1 { font-size: 18px; }
     .header nav { gap: 15px; }
     .header nav a { font-size: 12px; }
-  }
+}
   
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     .logo_container h1 {
         font-size: 15px;
         white-space: normal;
         line-height: 1.2;
     }
     
-    /* Esconde o texto do usuário em telas muito pequenas para economizar espaço */
     .user_info { 
         display: none; 
     }
-  }
+}

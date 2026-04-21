@@ -28,8 +28,9 @@
    ========================================== */
 .auth_banner {
     width: 40%;
-    background: linear-gradient(135deg, var(--orange-primary, #E65100) 0%, var(--orange-dark, #BF360C) 100%);
-    color: #ffffff;
+    /* Gradiente mais suave usando os novos tons claros */
+    background: linear-gradient(135deg, var(--orange-mid) 0%, var(--orange-primary) 100%);
+    color: #ffffff; /* Mantemos branco se o laranja ainda for vibrante o suficiente */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -78,6 +79,7 @@
    ========================================== */
 .auth_forms {
     width: 60%;
+    background-color: var(--orange-soft);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,8 +125,8 @@
    4. ELEMENTOS DE CONFIANÇA E ALERTAS
    ========================================== */
 .security_badge {
-    background-color: var(--orange-light, #fff3e0);
-    border: 1px solid var(--orange-primary, #E65100);
+    background-color: var(--orange-light);
+    border: 1px solid var(--orange-mid);
     padding: 10px;
     border-radius: var(--radius-sm, 5px);
     margin-bottom: 20px;
