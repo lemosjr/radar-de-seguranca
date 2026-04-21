@@ -50,30 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return nomeCompleto.substring(0, 2).toUpperCase();
         },
 
-        mascararCPF: (cpf) => {
-            if (!cpf || cpf.length < 11) return '***.***.***-**';
-            // Oculta tudo exceto os últimos dois dígitos para proteção de dados
-            const ultimosDigitos = cpf.replace(/\D/g, '').slice(-2);
-            return `***.***.***-${ultimosDigitos.length === 2 ? ultimosDigitos : '**'}`;
+        formatarCPF: (cpf) => {
+            if (!cpf) return 'Não informado';
+            const cpfLimpo = cpf.replace(/\D/g, '');
+            if (cpfLimpo.length !== 11) return '***.***.***-**';
+            return `***.***.***-${cpfLimpo.slice(-2)}`;
         },
 
         formatarTelefone: (telefone) => {
             if (!telefone) return 'Não informado';
             const telLimpo = telefone.replace(/\D/g, '');
-            if (telLimpo.length >= 10) {
-                return telLimpo.replace(/^(\d{2})(\d{4,5})(\d{4})$/, '($1) $2-$3');
+            if (telLimpo.length === 11) {
+                return `(**) *****-**${telLimpo.slice(-2)}`;
+            } else if (telLimpo.length === 10) {
+                return `(**) ****-**${telLimpo.slice(-2)}`;
             }
-            return telefone; 
-        },
-
-        aplicarTemaCorporacao: (corporacao, elemento) => {
-            if (!elemento) return;
-            elemento.classList.remove('theme-pm', 'theme-cbm', 'theme-gm');
-            const corpUpper = (corporacao || '').toUpperCase();
-            
-            if (['PM', 'CBM', 'GM'].includes(corpUpper)) {
-                elemento.classList.add(`theme-${corpUpper.toLowerCase()}`);
-            }
+            return '*'.repeat(Math.max(0, telLimpo.length - 2)) + telLimpo.slice(-2);
         }
     };
 
@@ -86,11 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (DOM.subtituloCargo) DOM.subtituloCargo.textContent = `${utilizador.tipo_militar || 'Agente'} - ${utilizador.corporacao || 'SSPDS'}`;
         if (DOM.avatarIniciais) DOM.avatarIniciais.textContent = Utils.obterIniciais(utilizador.nome);
 
-        Utils.aplicarTemaCorporacao(utilizador.corporacao, DOM.cartaoHeader);
-
         // Tabela de Dados Funcionais
         if (DOM.info.nome) DOM.info.nome.textContent = utilizador.nome || 'Não informado';
-        if (DOM.info.cpf) DOM.info.cpf.textContent = Utils.mascararCPF(utilizador.cpf);
+        if (DOM.info.cpf) DOM.info.cpf.textContent = Utils.formatarCPF(utilizador.cpf);
         if (DOM.info.telefone) DOM.info.telefone.textContent = Utils.formatarTelefone(utilizador.telefone);
         if (DOM.info.email) DOM.info.email.textContent = utilizador.email || 'Não informado';
         if (DOM.info.corporacao) DOM.info.corporacao.textContent = utilizador.corporacao || 'Não informada';

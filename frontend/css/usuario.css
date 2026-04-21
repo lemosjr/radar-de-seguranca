@@ -14,7 +14,7 @@
 
 .profile_container {
     width: 100%;
-    max-width: 550px;
+    max-width: 800px;
 }
 
 .profile_card {
@@ -175,25 +175,6 @@
 .btn_solid_danger:hover {
     background-color: #b71c1c;
 }
-
-/* ==========================================
-   TEMAS DINÂMICOS (CORPORAÇÕES)
-   ========================================== */
-
-.theme-pm {
-    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
-}
-.theme-pm .profile_avatar { color: #1a237e; }
-
-.theme-cbm {
-    background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%);
-}
-.theme-cbm .profile_avatar { color: #b71c1c; }
-
-.theme-gm {
-    background: linear-gradient(135deg, #f57f17 0%, #fbc02d 100%);
-}
-.theme-gm .profile_avatar { color: #f57f17; }
 
 /* ==========================================
    RESPONSIVIDADE
