@@ -17,6 +17,84 @@ const CORES = {
     orange: '#E65100'
 };
 
+// DADOS MOCKADOS PARA TESTE
+const MOCK_BATALHOES = [
+    {
+        id: 1,
+        nome: '1º BPM',
+        corporacao: 'PM',
+        regional: 'Centro',
+        latitude: -23.5505,
+        longitude: -46.6333,
+        efetivo: 450
+    },
+    {
+        id: 2,
+        nome: '2º BPM',
+        corporacao: 'PM',
+        regional: 'SER I',
+        latitude: -23.5605,
+        longitude: -46.6433,
+        efetivo: 380
+    },
+    {
+        id: 3,
+        nome: '1º CBM',
+        corporacao: 'CBM',
+        regional: 'Centro',
+        latitude: -23.5555,
+        longitude: -46.6383,
+        efetivo: 120
+    },
+    {
+        id: 4,
+        nome: '2º CBM',
+        corporacao: 'CBM',
+        regional: 'SER II',
+        latitude: -23.5655,
+        longitude: -46.6483,
+        efetivo: 95
+    },
+    {
+        id: 5,
+        nome: '1ª GM',
+        corporacao: 'GM',
+        regional: 'Centro',
+        latitude: -23.5455,
+        longitude: -46.6283,
+        efetivo: 200
+    },
+    {
+        id: 6,
+        nome: '3º BPM',
+        corporacao: 'PM',
+        regional: 'SER III',
+        latitude: -23.5755,
+        longitude: -46.6583,
+        efetivo: 520
+    },
+    {
+        id: 7,
+        nome: '3º CBM',
+        corporacao: 'CBM',
+        regional: 'SER IV',
+        latitude: -23.5855,
+        longitude: -46.6683,
+        efetivo: 88
+    }
+];
+
+// DADOS MOCKADOS PARA OCORRÊNCIAS
+const MOCK_OCORRENCIAS_REGIAO = {
+    labels: ['Centro', 'SER I', 'SER II', 'SER III', 'SER IV'],
+    dados: [120, 190, 300, 150, 210]
+};
+
+const MOCK_OCORRENCIAS_PERIODO = {
+    labels: ['00h', '06h', '12h', '18h'],
+    dados: [30, 45, 110, 95]
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const usuario = validarAcesso();
     if(usuario) {
@@ -157,7 +235,7 @@ async function carregarDadosOperacionais(corp = 'todas', reg = 'todas') {
 // ==========================================
 // 4. RENDERIZAÇÃO DE DADOS (GRÁFICOS E KPIS)
 // ==========================================
-function atualizarKPIs(dados) {
+function atualizarKPIs(dados = MOCK_BATALHOES) {
     const totalBat = document.getElementById('total_batalhoes');
     const totalEf = document.getElementById('total_efetivo');
 
@@ -168,7 +246,7 @@ function atualizarKPIs(dados) {
     }
 }
 
-function renderizarMapaMarcadores(dados) {
+function renderizarMapaMarcadores(dados = MOCK_BATALHOES) {
     AppState.layers.batalhoes.clearLayers();
     
     dados.forEach(u => {
@@ -181,84 +259,156 @@ function renderizarMapaMarcadores(dados) {
     });
 }
 
-function renderizarGraficosPrincipais(dados) {
-    // Conta os dados das unidades que vieram da API
-    const contagem = { 'PM': { unid: 0, ef: 0 }, 'CBM': { unid: 0, ef: 0 }, 'GM': { unid: 0, ef: 0 } };
-    dados.forEach(u => {
-        if(contagem[u.corporacao]) {
-            contagem[u.corporacao].unid++;
-            contagem[u.corporacao].ef += (u.efetivo || 0);
-        }
-    });
-
-    const ctxUnid = document.getElementById('bar_chart_unidades');
-    if (ctxUnid) {
-        if (AppState.charts.unidades) AppState.charts.unidades.destroy();
-        AppState.charts.unidades = new Chart(ctxUnid, {
-            type: 'bar',
-            data: {
-                labels: ['Polícia Militar', 'Bombeiros', 'Guarda Municipal'],
-                datasets: [{
-                    label: 'Unidades Ativas',
-                    data: [contagem.PM.unid, contagem.CBM.unid, contagem.GM.unid],
-                    backgroundColor: [CORES.PM, CORES.CBM, CORES.GM],
-                    borderRadius: 4
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-    }
-
-    const ctxEf = document.getElementById('doughnut_efetivo');
-    if (ctxEf) {
-        if (AppState.charts.efetivo) AppState.charts.efetivo.destroy();
-        AppState.charts.efetivo = new Chart(ctxEf, {
-            type: 'doughnut',
-            data: {
-                labels: ['PM', 'CBM', 'GM'],
-                datasets: [{
-                    data: [contagem.PM.ef, contagem.CBM.ef, contagem.GM.ef],
-                    backgroundColor: [CORES.PM, CORES.CBM, CORES.GM]
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-    }
-}
-
-function renderizarGraficosOcorrencias() {
+function renderizarGraficosOcorrencias(dadosRegiao = MOCK_OCORRENCIAS_REGIAO, dadosPeriodo = MOCK_OCORRENCIAS_PERIODO) {
     const ctxRegiao = document.getElementById('bar_ocorrencias_regiao');
     const ctxPeriodo = document.getElementById('radar_ocorrencias_periodo');
 
+    // Gráfico de Barras Horizontais - Ocorrências por Região
     if (ctxRegiao) {
         if (AppState.charts.ocorrenciasRegiao) AppState.charts.ocorrenciasRegiao.destroy();
         AppState.charts.ocorrenciasRegiao = new Chart(ctxRegiao, {
             type: 'bar',
             data: {
-                labels: ['Centro', 'SER I', 'SER II', 'SER III', 'SER IV'],
+                labels: dadosRegiao.labels,
                 datasets: [{
                     label: 'Ocorrências',
-                    data: [120, 190, 300, 150, 210],
-                    backgroundColor: CORES.green, borderRadius: 4
+                    data: dadosRegiao.dados,
+                    backgroundColor: CORES.green || 'rgba(76, 175, 80, 0.8)',
+                    borderRadius: 4,
+                    borderWidth: 1,
+                    borderColor: '#2e7d32'
                 }]
             },
-            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            options: { 
+                indexAxis: 'y', 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.raw} ocorrências`
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Ocorrências'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Região'
+                        }
+                    }
+                }
+            }
         });
     }
 
+    // Gráfico de Linha - Ocorrências por Período
     if (ctxPeriodo) {
         if (AppState.charts.ocorrenciasPeriodo) AppState.charts.ocorrenciasPeriodo.destroy();
         AppState.charts.ocorrenciasPeriodo = new Chart(ctxPeriodo, {
             type: 'line',
             data: {
-                labels: ['00h', '06h', '12h', '18h'],
+                labels: dadosPeriodo.labels,
                 datasets: [{
-                    label: 'Pico de Chamados',
-                    data: [30, 45, 110, 95],
-                    borderColor: CORES.orange, backgroundColor: 'rgba(230, 81, 0, 0.2)', fill: true, tension: 0.4
+                    label: 'Chamados por Período',
+                    data: dadosPeriodo.dados,
+                    borderColor: CORES.orange || '#e65100',
+                    backgroundColor: 'rgba(230, 81, 0, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    pointBackgroundColor: CORES.orange || '#e65100',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
                 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    legend: { 
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 10
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.raw} chamados`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Chamados'
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Horário'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
         });
     }
 }
+
+// Função para simular carregamento de dados da API
+async function carregarDadosMockados() {
+    console.log('🔄 Carregando dados mockados...');
+    
+    // Simula delay de rede
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    // Retorna os dados mockados
+    return {
+        batalhoes: MOCK_BATALHOES,
+        ocorrencias: {
+            regiao: MOCK_OCORRENCIAS_REGIAO,
+            periodo: MOCK_OCORRENCIAS_PERIODO
+        }
+    };
+}
+
+// Exemplo de uso
+async function inicializarDashboardComMock() {
+    try {
+        const dadosMock = await carregarDadosMockados();
+        
+        atualizarKPIs(dadosMock.batalhoes);
+        renderizarMapaMarcadores(dadosMock.batalhoes);
+        renderizarGraficosPrincipais(dadosMock.batalhoes);
+        renderizarGraficosOcorrencias(
+            dadosMock.ocorrencias.regiao, 
+            dadosMock.ocorrencias.periodo
+        );
+        
+        console.log('✅ Dashboard carregado com dados mockados');
+    } catch (error) {
+        console.error('❌ Erro ao carregar dados mockados:', error);
+    }
+}
+
+// Chama a função quando a página carregar
+document.addEventListener('DOMContentLoaded', inicializarDashboardComMock);
