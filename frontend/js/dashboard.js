@@ -6,7 +6,16 @@
 const AppState = {
     map: null,
     layers: { batalhoes: null },
-    charts: { unidades: null, efetivo: null, ocorrenciasRegiao: null, ocorrenciasPeriodo: null }
+    charts: { 
+        unidades: null, 
+        efetivo: null, 
+        ocorrenciasRegiao: null, 
+        ocorrenciasPeriodo: null, 
+        ocorrenciasTipo: null,
+        evolucaoSemanal: null,
+        resolucaoCorp: null,
+        efetivoRegional: null
+    }
 };
 
 const CORES = {
@@ -21,43 +30,47 @@ const CORES = {
 // DADOS MOCKADOS BASEADOS NO regionais.json
 // ==========================================
 const MOCK_BATALHOES = [
-    // SER I (Centro)
-    { id: 1, nome: '1º BPM', corporacao: 'PM', regional: 'SER I', latitude: -3.7275, longitude: -38.5275, efetivo: 450 },
-    { id: 2, nome: '1º CBM', corporacao: 'CBM', regional: 'SER I', latitude: -3.7255, longitude: -38.5255, efetivo: 120 },
-    { id: 3, nome: '1ª GM', corporacao: 'GM', regional: 'SER I', latitude: -3.7295, longitude: -38.5295, efetivo: 200 },
-    
-    // SER II
-    { id: 4, nome: '2º BPM', corporacao: 'PM', regional: 'SER II', latitude: -3.7375, longitude: -38.5375, efetivo: 380 },
-    { id: 5, nome: '2º CBM', corporacao: 'CBM', regional: 'SER II', latitude: -3.7355, longitude: -38.5355, efetivo: 95 },
-    { id: 6, nome: '2ª GM', corporacao: 'GM', regional: 'SER II', latitude: -3.7395, longitude: -38.5395, efetivo: 150 },
-    
-    // SER III
-    { id: 7, nome: '3º BPM', corporacao: 'PM', regional: 'SER III', latitude: -3.7475, longitude: -38.5475, efetivo: 520 },
-    { id: 8, nome: '3º CBM', corporacao: 'CBM', regional: 'SER III', latitude: -3.7455, longitude: -38.5455, efetivo: 110 },
-    { id: 9, nome: '3ª GM', corporacao: 'GM', regional: 'SER III', latitude: -3.7495, longitude: -38.5495, efetivo: 180 },
-    { id: 10, nome: '4º BPM', corporacao: 'PM', regional: 'SER III', latitude: -3.7515, longitude: -38.5515, efetivo: 310 },
-    
-    // SER IV
-    { id: 11, nome: '5º BPM', corporacao: 'PM', regional: 'SER IV', latitude: -3.7575, longitude: -38.5575, efetivo: 290 },
-    { id: 12, nome: '4º CBM', corporacao: 'CBM', regional: 'SER IV', latitude: -3.7555, longitude: -38.5555, efetivo: 88 },
-    { id: 13, nome: '4ª GM', corporacao: 'GM', regional: 'SER IV', latitude: -3.7595, longitude: -38.5595, efetivo: 130 },
-    
-    // SER V
-    { id: 14, nome: '6º BPM', corporacao: 'PM', regional: 'SER V', latitude: -3.7675, longitude: -38.5675, efetivo: 340 },
-    { id: 15, nome: '5º CBM', corporacao: 'CBM', regional: 'SER V', latitude: -3.7655, longitude: -38.5655, efetivo: 75 },
-    { id: 16, nome: '5ª GM', corporacao: 'GM', regional: 'SER V', latitude: -3.7695, longitude: -38.5695, efetivo: 160 },
-    
-    // SERCEFOR (Região Central)
-    { id: 17, nome: '7º BPM', corporacao: 'PM', regional: 'SERCEFOR', latitude: -3.7775, longitude: -38.5775, efetivo: 410 },
-    { id: 18, nome: '6º CBM', corporacao: 'CBM', regional: 'SERCEFOR', latitude: -3.7755, longitude: -38.5755, efetivo: 105 },
-    { id: 19, nome: '6ª GM', corporacao: 'GM', regional: 'SERCEFOR', latitude: -3.7795, longitude: -38.5795, efetivo: 140 },
-    { id: 20, nome: 'Batalhão Especial', corporacao: 'PM', regional: 'SERCEFOR', latitude: -3.7815, longitude: -38.5815, efetivo: 220 }
+    { id: 1, nome: '1ª Cia do 1°BBM (Bombeiros - Jacarecanga)', corporacao: 'CBM', regional: 'SER I', latitude: -3.722, longitude: -38.541, efetivo: 50 },
+    { id: 2, nome: 'Batalhão de Segurança Patrimonial (BSP)', corporacao: 'PM', regional: 'SER I', latitude: -3.724, longitude: -38.543, efetivo: 90 },
+    { id: 3, nome: '20º BPM (Cristo Redentor)', corporacao: 'PM', regional: 'SER I', latitude: -3.715, longitude: -38.565, efetivo: 210 },
+    { id: 4, nome: 'Torre GM Goiabeiras (Barra do Ceará)', corporacao: 'GM', regional: 'SER I', latitude: -3.705, longitude: -38.580, efetivo: 12 },
+    { id: 5, nome: 'Torre GM Vila Velha', corporacao: 'GM', regional: 'SER I', latitude: -3.722, longitude: -38.595, efetivo: 12 },
+    { id: 6, nome: 'Torre GM Barra do Ceará', corporacao: 'GM', regional: 'SER I', latitude: -3.706, longitude: -38.583, efetivo: 12 },
+    { id: 7, nome: 'Batalhão de Policiamento Turístico (BPTUR)', corporacao: 'PM', regional: 'SER II', latitude: -3.726, longitude: -38.498, efetivo: 180 },
+    { id: 8, nome: '1ª CPG - Casa Militar', corporacao: 'PM', regional: 'SER II', latitude: -3.727, longitude: -38.496, efetivo: 60 },
+    { id: 9, nome: '8º BPM (Aldeota)', corporacao: 'PM', regional: 'SER II', latitude: -3.738, longitude: -38.502, efetivo: 240 },
+    { id: 10, nome: '22º BPM (Papicu)', corporacao: 'PM', regional: 'SER II', latitude: -3.736, longitude: -38.480, efetivo: 190 },
+    { id: 11, nome: '2ª CPG - Assembleia Legislativa', corporacao: 'PM', regional: 'SER II', latitude: -3.745, longitude: -38.499, efetivo: 50 },
+    { id: 12, nome: 'BSMar (Cais do Porto)', corporacao: 'CBM', regional: 'SER II', latitude: -3.718, longitude: -38.475, efetivo: 60 },
+    { id: 13, nome: 'CPChoque / COTAM / BOPE', corporacao: 'PM', regional: 'SER II', latitude: -3.746, longitude: -38.461, efetivo: 450 },
+    { id: 14, nome: 'Torre GM Caça e Pesca', corporacao: 'GM', regional: 'SER II', latitude: -3.738, longitude: -38.448, efetivo: 12 },
+    { id: 15, nome: 'Torre GM Vicente Pinzon', corporacao: 'GM', regional: 'SER II', latitude: -3.733, longitude: -38.471, efetivo: 12 },
+    { id: 16, nome: 'Torre GM Iracema', corporacao: 'GM', regional: 'SER II', latitude: -3.722, longitude: -38.516, efetivo: 12 },
+    { id: 17, nome: 'CPRAIO (São Gerardo)', corporacao: 'PM', regional: 'SER III', latitude: -3.732, longitude: -38.555, efetivo: 320 },
+    { id: 18, nome: '18º BPM (Antônio Bezerra)', corporacao: 'PM', regional: 'SER III', latitude: -3.736, longitude: -38.580, efetivo: 200 },
+    { id: 19, nome: 'Torre GM Bonsucesso', corporacao: 'GM', regional: 'SER III', latitude: -3.766, longitude: -38.578, efetivo: 12 },
+    { id: 20, nome: 'Comando de Bombeiro da Capital (CBC)', corporacao: 'CBM', regional: 'SER IV', latitude: -3.753, longitude: -38.533, efetivo: 90 },
+    { id: 21, nome: '1º BBM (Parreão)', corporacao: 'CBM', regional: 'SER IV', latitude: -3.7535, longitude: -38.5335, efetivo: 110 },
+    { id: 22, nome: '6º BPM (Parangaba)', corporacao: 'PM', regional: 'SER IV', latitude: -3.770, longitude: -38.560, efetivo: 230 },
+    { id: 23, nome: 'Inspetoria GOE (Gentilândia)', corporacao: 'GM', regional: 'SER IV', latitude: -3.748, longitude: -38.536, efetivo: 45 },
+    { id: 24, nome: '5ª Cia do 1º BBM (Conjunto Ceará)', corporacao: 'CBM', regional: 'SER V', latitude: -3.765, longitude: -38.600, efetivo: 55 },
+    { id: 25, nome: '17º BPM (Conjunto Ceará)', corporacao: 'PM', regional: 'SER V', latitude: -3.768, longitude: -38.605, efetivo: 210 },
+    { id: 26, nome: 'Torre GM Canindezinho', corporacao: 'GM', regional: 'SER V', latitude: -3.799, longitude: -38.601, efetivo: 12 },
+    { id: 27, nome: 'Regimento de Polícia Montada (RPMONT)', corporacao: 'PM', regional: 'SER VI', latitude: -3.808, longitude: -38.485, efetivo: 150 },
+    { id: 28, nome: '16º BPM (Messejana)', corporacao: 'PM', regional: 'SER VI', latitude: -3.832, longitude: -38.492, efetivo: 240 },
+    { id: 29, nome: 'Torre GM Jangurussu', corporacao: 'GM', regional: 'SER VI', latitude: -3.834, longitude: -38.513, efetivo: 12 },
+    { id: 30, nome: 'Torre GM Pôr do Sol', corporacao: 'GM', regional: 'SER VI', latitude: -3.818, longitude: -38.487, efetivo: 12 },
+    { id: 31, nome: 'Inspetoria IPAM (Itaperi)', corporacao: 'GM', regional: 'SER VI', latitude: -3.791, longitude: -38.542, efetivo: 35 },
+    { id: 32, nome: 'Batalhão de Busca e Salvamento (BBS)', corporacao: 'CBM', regional: 'Centro', latitude: -3.720, longitude: -38.535, efetivo: 80 },
+    { id: 33, nome: '5º BPM (Centro)', corporacao: 'PM', regional: 'Centro', latitude: -3.730, longitude: -38.527, efetivo: 250 },
+    { id: 34, nome: 'Inspetoria GTAM (Centro)', corporacao: 'GM', regional: 'Centro', latitude: -3.728, longitude: -38.533, efetivo: 40 },
+    { id: 35, nome: 'Inspetoria GCICLO (Centro)', corporacao: 'GM', regional: 'Centro', latitude: -3.734, longitude: -38.524, efetivo: 35 }
 ];
 
 // Dados de ocorrências por região (baseado no regionais.json)
 const MOCK_OCORRENCIAS_REGIAO = {
-    labels: ['SER I', 'SER II', 'SER III', 'SER IV', 'SER V', 'SERCEFOR'],
-    dados: [245, 312, 428, 189, 267, 356]
+    labels: ['SER I', 'SER II', 'SER III', 'SER IV', 'SER V', 'SER VI', 'Centro'],
+    dados: [245, 312, 428, 189, 267, 150, 206]
 };
 
 // Dados de ocorrências por período
@@ -72,11 +85,22 @@ const MOCK_OCORRENCIAS_TIPO = {
     dados: [245, 189, 67, 432, 156, 98]
 };
 
+// Dados para Evolução Semanal
+const MOCK_EVOLUCAO_SEMANAL = {
+    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+    dados: [45, 52, 38, 65, 89, 110, 95]
+};
+
+// Dados de Resolução por Corporação (%)
+const MOCK_RESOLUCAO_CORP = {
+    labels: ['PM', 'CBM', 'GM'],
+    dados: [82, 95, 78]
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const usuario = validarAcesso();
     if(usuario) {
         configurarInterface(usuario);
-        configurarMenuLateral();
         configurarMapa();
         configurarFiltros();
         carregarDadosOperacionais(); // Dispara a busca
@@ -116,22 +140,6 @@ function configurarInterface(usuario) {
             window.location.href = 'login.html';
         }
     });
-}
-
-function configurarMenuLateral() {
-    const btnMenu = document.getElementById('hamburger');
-    const btnClose = document.getElementById('sidebar_close');
-    const sidebar = document.getElementById('sidebar_nav');
-    const overlay = document.getElementById('nav_overlay');
-
-    const toggleMenu = () => {
-        sidebar?.classList.toggle('is_open');
-        overlay?.classList.toggle('is_visible');
-    };
-
-    btnMenu?.addEventListener('click', toggleMenu);
-    btnClose?.addEventListener('click', toggleMenu);
-    overlay?.addEventListener('click', toggleMenu);
 }
 
 // ==========================================
@@ -209,7 +217,7 @@ function configurarFiltros() {
 
     // Popular o select de regionais com os valores do geoJSON
     if (selectReg) {
-        const regionais = ['todas', 'SER I', 'SER II', 'SER III', 'SER IV', 'SER V', 'SERCEFOR'];
+        const regionais = ['todas', 'SER I', 'SER II', 'SER III', 'SER IV', 'SER V', 'SER VI', 'Centro'];
         regionais.forEach(reg => {
             const option = document.createElement('option');
             option.value = reg;
@@ -245,7 +253,8 @@ async function carregarDadosOperacionais(corp = 'todas', reg = 'todas') {
         renderizarMapaMarcadores(dados);
         renderizarGraficosPrincipais(dados);
         renderizarGraficosOcorrencias();
-        renderizarGraficosOcorrenciasPorTipo();
+        renderizarGraficosOcorrenciasPorPeriodo();
+        renderizarGraficosSecundarios(dados);
         
         console.log('✅ Dados carregados da API com sucesso!');
     } catch (error) {
@@ -259,7 +268,8 @@ async function carregarDadosOperacionais(corp = 'todas', reg = 'todas') {
         
         // Gráficos de ocorrências (estáticos por enquanto)
         renderizarGraficosOcorrencias();
-        renderizarGraficosOcorrenciasPorTipo();
+        renderizarGraficosOcorrenciasPorPeriodo();
+        renderizarGraficosSecundarios(dadosFiltrados);
         
         console.log(`📊 Dados mockados carregados: ${dadosFiltrados.length} unidades`);
     }
@@ -271,11 +281,22 @@ async function carregarDadosOperacionais(corp = 'todas', reg = 'todas') {
 function atualizarKPIs(dados) {
     const totalBat = document.getElementById('total_batalhoes');
     const totalEf = document.getElementById('total_efetivo');
+    const totalOcorrencias = document.getElementById('total_ocorrencias');
+    const tempoMedio = document.getElementById('tempo_medio');
 
     if(totalBat) totalBat.textContent = dados.length;
     if(totalEf) {
         const soma = dados.reduce((acc, curr) => acc + (curr.efetivo || 0), 0);
         totalEf.textContent = soma.toLocaleString('pt-BR');
+    }
+    if(totalOcorrencias) {
+        // Utilizando a soma do mock de ocorrências por região
+        const somaOcorrencias = MOCK_OCORRENCIAS_REGIAO.dados.reduce((a, b) => a + b, 0);
+        totalOcorrencias.textContent = somaOcorrencias.toLocaleString('pt-BR');
+    }
+    if(tempoMedio) {
+        // Mantendo o tempo médio formatado dinamicamente
+        tempoMedio.innerHTML = `8<span class="kpi_unit">min</span>`;
     }
 }
 
@@ -470,6 +491,97 @@ function renderizarGraficosOcorrenciasPorTipo() {
                 maintainAspectRatio: false,
                 plugins: { legend: { position: 'top' } },
                 scales: { y: { beginAtZero: true, title: { display: true, text: 'Número de Ocorrências' } } }
+            }
+        });
+    }
+}
+
+// ==========================================
+// 6. GRÁFICOS SECUNDÁRIOS
+// ==========================================
+function renderizarGraficosSecundarios(dados) {
+    // 1. Evolução Semanal (Linha)
+    const ctxEvolucao = document.getElementById('line_evolucao_semanal');
+    if (ctxEvolucao) {
+        if (AppState.charts.evolucaoSemanal) AppState.charts.evolucaoSemanal.destroy();
+        AppState.charts.evolucaoSemanal = new Chart(ctxEvolucao, {
+            type: 'line',
+            data: {
+                labels: MOCK_EVOLUCAO_SEMANAL.labels,
+                datasets: [{
+                    label: 'Ocorrências Registradas',
+                    data: MOCK_EVOLUCAO_SEMANAL.dados,
+                    borderColor: CORES.green,
+                    backgroundColor: 'rgba(0, 137, 89, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: CORES.green
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    // 2. Resolução por Corporação (Doughnut)
+    const ctxResolucao = document.getElementById('doughnut_resolucao_corp');
+    if (ctxResolucao) {
+        if (AppState.charts.resolucaoCorp) AppState.charts.resolucaoCorp.destroy();
+        AppState.charts.resolucaoCorp = new Chart(ctxResolucao, {
+            type: 'doughnut',
+            data: {
+                labels: MOCK_RESOLUCAO_CORP.labels,
+                datasets: [{
+                    data: MOCK_RESOLUCAO_CORP.dados,
+                    backgroundColor: [CORES.PM, CORES.CBM, CORES.GM],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { position: 'bottom' },
+                    tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}% de resolução` } }
+                }
+            }
+        });
+    }
+
+    // 3. Efetivo por Regional (Dinâmico, responde aos filtros)
+    const ctxEfetivoReg = document.getElementById('bar_efetivo_regional');
+    if (ctxEfetivoReg) {
+        const contagemRegional = {};
+        // Inicializa as regionais conhecidas para manter a ordem visual
+        ['SER I', 'SER II', 'SER III', 'SER IV', 'SER V', 'SER VI', 'Centro'].forEach(r => contagemRegional[r] = 0);
+        
+        dados.forEach(u => {
+            const r = u.regional || 'Outros';
+            if(contagemRegional[r] !== undefined) contagemRegional[r] += (u.efetivo || 0);
+            else contagemRegional[r] = (u.efetivo || 0);
+        });
+
+        if (AppState.charts.efetivoRegional) AppState.charts.efetivoRegional.destroy();
+        AppState.charts.efetivoRegional = new Chart(ctxEfetivoReg, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(contagemRegional),
+                datasets: [{
+                    label: 'Efetivo Alocado',
+                    data: Object.values(contagemRegional),
+                    backgroundColor: CORES.PM,
+                    borderRadius: 5
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
             }
         });
     }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Agente | Radar de Segurança</title>
     <meta name="description" content="Perfil e credencial digital institucional do agente de segurança.">
-    
+
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/footer.css">
@@ -15,23 +15,99 @@
 
 <body>
 
-    <header class="header">
+    <!-- ====================================================
+       CABEÇALHO PRINCIPAL (SEMÂNTICO)
+  ===================================================== -->
+    <header class="header" role="banner">
+        <button class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false"
+            aria-controls="sidebar_nav">
+            <span></span><span></span><span></span>
+        </button>
+
         <div class="logo_container">
-            <img src="../assets/logotipo_sspds.png" alt="Logomarca da Secretaria da Segurança Pública e Defesa Social" class="header_logo">
-            <h1>Forças de Segurança de Fortaleza</h1>
+            <img src="../assets/logotipo_sspds.png"
+                alt="Logomarca da Secretaria da Segurança Pública e Defesa Social do Ceará" class="header_logo" />
         </div>
-        <nav aria-label="Menu Principal">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="sobre.html">Sobre</a>
-            <a href="usuario.html" aria-current="page">Usuário</a>
-        </nav>
+
+        <h1 class="header_title">Forças de Segurança de Fortaleza</h1>
+
+        <div class="header_user">
+            <div class="user_info">
+                <span class="user_name" id="dash_user_name">Carregando...</span>
+                <span class="user_role" id="dash_user_role">Aguarde</span>
+            </div>
+            <button class="user_avatar" id="btn_logout_dash" aria-label="Sair do sistema" title="Encerrar Sessão">
+                <span class="avatar_initials" id="dash_user_initials">--</span>
+            </button>
+        </div>
     </header>
+
+    <div class="header_accent_bar" aria-hidden="true"></div>
+
+    <!-- ====================================================
+       OVERLAY + SIDEBAR DE NAVEGAÇÃO (SEMÂNTICO)
+  ===================================================== -->
+    <div class="nav_overlay" id="nav_overlay" aria-hidden="true"></div>
+
+    <nav class="sidebar_nav" id="sidebar_nav" aria-label="Menu Principal" aria-hidden="true">
+
+        <div class="sidebar_header">
+            <span class="sidebar_title">Menu Principal</span>
+            <button class="sidebar_close" id="sidebar_close" aria-label="Fechar menu">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+
+        <ul class="sidebar_links">
+            <li>
+                <a href="dashboard.html" class="nav_active" aria-current="page">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="sobre.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                    Sobre
+                </a>
+            </li>
+            <li>
+                <a href="usuario.html">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Usuário
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar_footer">
+            <span>© 2026 SSPDS — CE</span>
+        </div>
+    </nav>
 
     <main class="profile_main_wrapper">
         <section class="profile_container" aria-label="Área do Perfil do Usuário">
-            
+
             <article class="profile_card" aria-labelledby="card_title">
-                
+
                 <header class="profile_card_header" id="user_card_header">
                     <div class="status_badge" aria-label="Status do Agente">
                         <span class="status_dot"></span> ATIVO
@@ -46,13 +122,13 @@
 
                 <div class="profile_card_body">
                     <h3 class="section_subtitle">Informações Funcionais</h3>
-                    
+
                     <div class="info_grid">
                         <div class="info_item">
                             <span class="info_label">Nome Completo</span>
                             <strong class="info_value" id="info_nome">...</strong>
                         </div>
-                        
+
                         <div class="info_item">
                             <span class="info_label">CPF</span>
                             <strong class="info_value" id="info_cpf">...</strong>
@@ -99,7 +175,8 @@
         <div class="footer_top_line"></div>
         <div class="footer_container">
             <section class="footer_brand">
-                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo">
+                <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará"
+                    class="footer_logo">
                 <h2>SSPDS.CE.GOV.BR</h2>
             </section>
             <address class="footer_info">
@@ -130,6 +207,7 @@
     </footer>
 
     <script src="../js/usuario.js"></script>
+    <script src="../js/header.js"></script>
 </body>
 
 </html>
