@@ -80,13 +80,28 @@
     object-fit: contain;
 }
   
-.logo_container h1 {
+.logo_container h1,
+.header_title {
     font-size: 22px;
     font-weight: 600;
     margin: 0;
     color: #ffffff;
     white-space: nowrap;
     letter-spacing: 0.5px;
+    
+    /* Centraliza o título no header de forma absoluta */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Comportamento específico para a página de Login (alinhar à direita) */
+body.login_page .header_title,
+.header_login .header_title {
+    position: static;
+    transform: none;
+    margin-left: auto;
+    text-align: right;
 }
   
 /* ==========================================
@@ -377,10 +392,9 @@ body.sidebar-open {
 }
   
 @media (max-width: 768px) {
-    .logo_container h1 {
-        font-size: 14px;
-        white-space: normal;
-        line-height: 1.2;
+    .logo_container h1,
+    .header_title {
+        display: none; /* Esconde o texto no mobile */
     }
     
     .user_info { 
@@ -411,10 +425,6 @@ body.sidebar-open {
     .sidebar_nav {
         width: 85%;
         left: -85%;
-    }
-    
-    .logo_container h1 {
-        font-size: 12px;
     }
     
     .header_logo {

@@ -119,6 +119,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('login_email').value;
         const senha = document.getElementById('login_password').value;
 
+        // ==========================================
+        // MOCK DE DEMONSTRAÇÃO (OFFLINE)
+        // ==========================================
+        if (email === 'demo@sspds.ce.gov.br' && senha === 'demo123') {
+            const mockUser = {
+                id: 9999,
+                nome: 'Comandante de Demonstração',
+                email: 'demo@sspds.ce.gov.br',
+                corporacao: 'PM',
+                tipo_militar: 'Coronel',
+                nivel_acesso: 'Comando',
+                cpf: '00011122233',
+                telefone: '85988887777'
+            };
+            localStorage.setItem('usuario', JSON.stringify(mockUser));
+            window.location.href = 'dashboard.html';
+            return; // Interrompe a execução para não chamar a API
+        }
+
         try {
             const res = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
