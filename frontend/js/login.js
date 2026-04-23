@@ -112,10 +112,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
 
     // A. LOGIN
+
+
+    // DOM.formLogin?.addEventListener('submit', async (e) => {
+    //     e.preventDefault();
+    //     if (tentativasLogin >= MAX_TENTATIVAS) return UI.exibirMsg('login_error', 'Bloqueio temporário por excesso de tentativas.');
+
+    //     const email = document.getElementById('login_email').value;
+    //     const senha = document.getElementById('login_password').value;
+
+    //     try {
+    //         const res = await fetch('http://localhost:3000/api/login', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ email, senha })
+    //         });
+            
+    //         const data = await res.json();
+
+    //         if (res.ok && data.success) {
+    //             localStorage.setItem('usuario', JSON.stringify(data.user));
+    //             window.location.href = 'dashboard.html';
+    //         } else {
+    //             tentativasLogin++;
+    //             UI.exibirMsg('login_error', data.error || 'Credenciais inválidas.');
+    //         }
+    //     } catch (err) {
+    //         UI.exibirMsg('login_error', '🔴 Servidor indisponível.');
+    //     }
+    // });
+
+
     DOM.formLogin?.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (tentativasLogin >= MAX_TENTATIVAS) return UI.exibirMsg('login_error', 'Bloqueio temporário por excesso de tentativas.');
-
+    
         const email = document.getElementById('login_email').value;
         const senha = document.getElementById('login_password').value;
 
@@ -139,6 +170,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            // SIMULAÇÃO DE CHAMADA API COM MOCK
+            let data;
+            let res;
+            
+            // Verifica se é o usuário mockado válido
+            if (email === MOCK_USUARIO_VALIDO.email && senha === MOCK_USUARIO_VALIDO.senha) {
+                // Simula resposta de sucesso
+                res = { ok: true };
+                data = { 
+                    success: true, 
+                    user: MOCK_USUARIO_VALIDO.user 
+                };
+            } else if (email === MOCK_USUARIO_INVALIDO.email && senha === MOCK_USUARIO_INVALIDO.senha) {
+                // Simula resposta de erro
+                res = { ok: false };
+                data = { 
+                    success: false, 
+                    error: 'Credenciais inválidas.' 
+                };
+            } else {
+                // Simula usuário não encontrado
+                res = { ok: false };
+                data = { 
+                    success: false, 
+                    error: 'Usuário não cadastrado.' 
+                };
+            }
+    
+            // TIMEOUT SIMULANDO LATÊNCIA DE REDE (opcional)
+            await new Promise(resolve => setTimeout(resolve, 800));
+    
+            /* CÓDIGO ORIGINAL COMENTADO PARA REFERÊNCIA
             const res = await fetch('http://localhost:3000/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -146,18 +209,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             const data = await res.json();
-
+            */
+    
             if (res.ok && data.success) {
                 localStorage.setItem('usuario', JSON.stringify(data.user));
-                window.location.href = 'dashboard.html';
+                UI.exibirMsg('login_success', 'Login realizado com sucesso!');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
             } else {
                 tentativasLogin++;
                 UI.exibirMsg('login_error', data.error || 'Credenciais inválidas.');
             }
         } catch (err) {
-            UI.exibirMsg('login_error', '🔴 Servidor indisponível.');
+            console.error('Erro no login mockado:', err);
+            UI.exibirMsg('login_error', '🔴 Erro na simulação de login.');
         }
     });
+
+
+
+
 
     // B. REGISTO
     DOM.formRegister?.addEventListener('submit', async (e) => {
