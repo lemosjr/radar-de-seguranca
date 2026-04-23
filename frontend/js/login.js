@@ -78,6 +78,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    DOM.links.esqueci?.addEventListener('click', (e) => {
+        e.preventDefault();
+        UI.limparMsgs();
+        DOM.formLogin.classList.replace('active', 'hidden');
+        DOM.formRegister.classList.add('hidden'); // Garante que o de registro também suma
+        DOM.formForgot.classList.replace('hidden', 'active');
+    });
+
+    DOM.links.voltar?.addEventListener('click', (e) => {
+        e.preventDefault();
+        UI.limparMsgs();
+        DOM.formForgot.classList.replace('active', 'hidden');
+        DOM.formLogin.classList.replace('hidden', 'active');
+    });
+
     DOM.selCorp?.addEventListener('change', (e) => {
         const patente = DOM.selPatente;
         patente.innerHTML = '<option value="" disabled selected>Selecione o posto/graduação</option>';
@@ -161,6 +176,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (err) {
             UI.exibirMsg('reg_error', '🔴 Erro de rede.');
+        }
+    });
+
+    // C. RECUPERAÇÃO DE SENHA
+    DOM.formForgot?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        UI.limparMsgs();
+        
+        const emailInput = document.getElementById('forgot_email');
+        const email = emailInput.value;
+
+        if (!email) {
+            return UI.exibirMsg('forgot_error', 'Por favor, insira o seu e-mail institucional.');
+        }
+
+        try {
+            const res = await fetch('http://localhost:3000/api/solicitar-recuperacao', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            
+            const data = await res.json();
+
+            // A API sempre retorna sucesso para não expor quais e-mails existem.
+            // A mensagem de sucesso é exibida no mesmo local do erro, mas com cor diferente.
+            if (res.ok && data.success) {
+                emailInput.value = ''; // Limpa o campo
+                UI.exibirMsg('forgot_error', data.message, 'var(--green-primary)');
+            } else {
+                UI.exibirMsg('forgot_error', data.error || 'Erro ao processar a solicitação.');
+            }
+        } catch (err) {
+            UI.exibirMsg('forgot_error', '🔴 Servidor indisponível.');
         }
     });
 });
