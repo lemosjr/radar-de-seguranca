@@ -97,6 +97,25 @@ exports.login = async (req, res) => {
         return res.status(400).json({ success: false, error: 'E-mail e senha são obrigatórios.' });
     }
 
+    // ==========================================
+    // ACESSO DE DEMONSTRAÇÃO (MOCK USER)
+    // ==========================================
+    if (email === 'demo@sspds.ce.gov.br' && senha === 'demo123') {
+        return res.status(200).json({ 
+            success: true, 
+            user: {
+                id: 9999,
+                nome: 'Comandante de Demonstração',
+                email: 'demo@sspds.ce.gov.br',
+                corporacao: 'PM',
+                tipo_militar: 'Coronel',
+                nivel_acesso: 'Comando',
+                cpf: '00011122233',
+                telefone: '85988887777'
+            } 
+        });
+    }
+
     try {
         const result = await pool.query(
             'SELECT id, nome, email, corporacao, tipo_militar, nivel_acesso, senha_hash FROM usuarios WHERE email = $1',

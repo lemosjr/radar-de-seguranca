@@ -1,26 +1,35 @@
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Painel de Controle | Radar de Segurança</title>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="../css/global.css" />
   <link rel="stylesheet" href="../css/header.css" />
   <link rel="stylesheet" href="../css/footer.css" />
   <link rel="stylesheet" href="../css/dashboard.css" />
-  
+
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
+
 <body>
 
-  <header class="header">
-    <button class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="sidebar_nav">
+  <!-- ====================================================
+       CABEÇALHO PRINCIPAL (SEMÂNTICO)
+  ===================================================== -->
+  <header class="header" role="banner">
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false"
+      aria-controls="sidebar_nav">
       <span></span><span></span><span></span>
     </button>
 
     <div class="logo_container">
-      <img src="../assets/logotipo_sspds.png" alt="Logomarca da SSPDS" class="header_logo" />
+      <img src="../assets/logotipo_sspds.png"
+        alt="Logomarca da Secretaria da Segurança Pública e Defesa Social do Ceará" class="header_logo" />
       <h1>Forças de Segurança de Fortaleza</h1>
     </div>
 
@@ -37,14 +46,20 @@
 
   <div class="header_accent_bar" aria-hidden="true"></div>
 
+  <!-- ====================================================
+       OVERLAY + SIDEBAR DE NAVEGAÇÃO (SEMÂNTICO)
+  ===================================================== -->
   <div class="nav_overlay" id="nav_overlay" aria-hidden="true"></div>
 
   <nav class="sidebar_nav" id="sidebar_nav" aria-label="Menu Principal" aria-hidden="true">
+
     <div class="sidebar_header">
       <span class="sidebar_title">Menu Principal</span>
       <button class="sidebar_close" id="sidebar_close" aria-label="Fechar menu">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
     </div>
@@ -52,19 +67,34 @@
     <ul class="sidebar_links">
       <li>
         <a href="dashboard.html" class="nav_active" aria-current="page">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
           Dashboard
         </a>
       </li>
       <li>
         <a href="sobre.html">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
           Sobre
         </a>
       </li>
       <li>
         <a href="usuario.html">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
           Usuário
         </a>
       </li>
@@ -75,34 +105,40 @@
     </div>
   </nav>
 
+  <!-- ====================================================
+       CONTEÚDO PRINCIPAL (SEMÂNTICO)
+  ===================================================== -->
   <main class="dashboard_container">
     <div class="main_layout">
 
-      <aside class="left_sidebar">
-        <article class="info_card info_card--green">
+      <!-- ---- COLUNA ESQUERDA: CARDS INFORMATIVOS ---- -->
+      <aside class="left_sidebar" aria-label="Informações operacionais">
+        <section class="info_card info_card--green">
           <h2 class="section_title">Resumo Geral</h2>
           <p>Total de unidades ativas no sistema integrado de monitoramento.</p>
-        </article>
+        </section>
 
-        <article class="info_card info_card--orange">
+        <section class="info_card info_card--orange">
           <h2 class="section_title">Ocorrências Recentes</h2>
           <p>Dados estratégicos e alertas operacionais são exibidos aqui.</p>
-        </article>
+        </section>
 
-        <article class="info_card info_card--green">
+        <section class="info_card info_card--green">
           <h2 class="section_title">Status Operacional</h2>
           <p>Situação atual das forças em campo e prontidão.</p>
-        </article>
+        </section>
       </aside>
 
-      <section class="center_column">
+      <!-- ---- COLUNA CENTRAL ---- -->
+      <div class="center_column">
 
+        <!-- FILTROS -->
         <section class="filters_top" aria-labelledby="filters_title">
           <div class="filters_header">
             <h2 id="filters_title" class="section_title">Filtros de Busca</h2>
             <button class="btn_filter_reset" id="btn_reset" title="Restaurar todos os filtros">Limpar</button>
           </div>
-          
+
           <form class="filter_row" onsubmit="return false;">
             <div class="filter_group">
               <label for="corporation">Corporação</label>
@@ -117,13 +153,13 @@
               <label for="regional">Regional</label>
               <select id="regional" name="regional">
                 <option value="todas">Todas as Regionais</option>
-                <option value="Centro">Centro</option>
                 <option value="SER I">SER I</option>
                 <option value="SER II">SER II</option>
                 <option value="SER III">SER III</option>
                 <option value="SER IV">SER IV</option>
                 <option value="SER V">SER V</option>
                 <option value="SER VI">SER VI</option>
+                <option value="Centro">Centro</option>
               </select>
             </div>
             <div class="filter_group">
@@ -148,49 +184,70 @@
           </form>
         </section>
 
+        <!-- KPIs -->
         <section class="kpi_grid" aria-label="Indicadores de Desempenho">
-          <article class="kpi_card kpi_card--green">
-            <div class="kpi_icon kpi_icon--green">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          <div class="kpi_card kpi_card--green">
+            <div class="kpi_icon kpi_icon--green" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M9 21V9" />
+              </svg>
             </div>
             <div class="kpi_body">
               <h3>Unidades</h3>
               <p id="total_batalhoes" class="kpi_value">0</p>
             </div>
-          </article>
+          </div>
 
-          <article class="kpi_card kpi_card--green">
-            <div class="kpi_icon kpi_icon--green">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="kpi_card kpi_card--green">
+            <div class="kpi_icon kpi_icon--green" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
             </div>
             <div class="kpi_body">
               <h3>Efetivo</h3>
               <p id="total_efetivo" class="kpi_value">0</p>
             </div>
-          </article>
+          </div>
 
-          <article class="kpi_card kpi_card--orange">
-            <div class="kpi_icon kpi_icon--orange">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div class="kpi_card kpi_card--orange">
+            <div class="kpi_icon kpi_icon--orange" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                <line x1="12" y1="9" x2="12" y2="13" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
             </div>
             <div class="kpi_body">
               <h3>Ocorrências</h3>
               <p id="total_ocorrencias" class="kpi_value">789</p>
             </div>
-          </article>
+          </div>
 
-          <article class="kpi_card kpi_card--orange">
-            <div class="kpi_icon kpi_icon--orange">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div class="kpi_card kpi_card--orange">
+            <div class="kpi_icon kpi_icon--orange" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
             </div>
             <div class="kpi_body">
               <h3>Tempo Médio</h3>
               <p id="tempo_medio" class="kpi_value">8<span class="kpi_unit">min</span></p>
             </div>
-          </article>
+          </div>
         </section>
 
-        <section class="charts_grid" aria-label="Visualizações Gráficas">
+        <!-- GRADE PRINCIPAL DE GRÁFICOS (2×2) -->
+        <section class="charts_grid" aria-label="Visualizações Gráficas Principais">
           <article class="chart_card">
             <h2 class="section_title">Unidades por Corporação</h2>
             <div class="chart_wrapper">
@@ -220,8 +277,33 @@
           </article>
         </section>
 
-      </section>
+        <!-- GRADE SECUNDÁRIA DE GRÁFICOS (3 COLUNAS) -->
+        <section class="charts_grid_secondary" aria-label="Análises Complementares">
+          <article class="chart_card">
+            <h2 class="section_title">Evolução Semanal</h2>
+            <div class="chart_wrapper">
+              <canvas id="line_evolucao_semanal"></canvas>
+            </div>
+          </article>
 
+          <article class="chart_card">
+            <h2 class="section_title">Resolução por Corporação</h2>
+            <div class="chart_wrapper">
+              <canvas id="bar_resolucao_corporacao"></canvas>
+            </div>
+          </article>
+
+          <article class="chart_card">
+            <h2 class="section_title">Efetivo por Regional</h2>
+            <div class="chart_wrapper">
+              <canvas id="bar_efetivo_regional"></canvas>
+            </div>
+          </article>
+        </section>
+
+      </div>
+
+      <!-- ---- COLUNA DIREITA: MAPA ---- -->
       <aside class="map_sidebar">
         <figure class="map_container">
           <figcaption class="map_header">
@@ -234,15 +316,18 @@
     </div>
   </main>
 
-  <footer class="sspds_footer" aria-label="Rodapé Institucional">
+  <!-- ====================================================
+       RODAPÉ INSTITUCIONAL (SEMÂNTICO)
+  ===================================================== -->
+  <footer class="sspds_footer" role="contentinfo" aria-label="Rodapé Institucional">
     <div class="footer_top_line"></div>
     <div class="footer_container">
-      
-      <section class="footer_brand">
+
+      <div class="footer_brand">
         <img src="../assets/logotipo_ceara.png" alt="Logomarca do Governo do Estado do Ceará" class="footer_logo" />
         <h2>SSPDS.CE.GOV.BR</h2>
-      </section>
-      
+      </div>
+
       <address class="footer_info">
         <strong>SECRETARIA DA SEGURANÇA PÚBLICA E DEFESA SOCIAL</strong><br />
         CENTRO INTEGRADO DE SEGURANÇA PÚBLICA (CISP)<br />
@@ -250,13 +335,13 @@
         FORTALEZA, CE, CEP: 60415 390<br />
         TELEFONE: (85) 3194 7420
       </address>
-      
-      <section class="footer_hours">
+
+      <div class="footer_hours">
         <strong>HORÁRIO DE ATENDIMENTO</strong><br />
         08 ÀS 17 HORAS
-      </section>
-      
-      <section class="footer_social">
+      </div>
+
+      <div class="footer_social">
         <strong>NOSSOS CANAIS</strong>
         <ul class="social_icons" aria-label="Redes Sociais">
           <li><a href="#" aria-label="Facebook">f</a></li>
@@ -268,14 +353,16 @@
           © 2017 a 2026, GOVERNO DO ESTADO DO CEARÁ<br />
           TODOS OS DIREITOS RESERVADOS
         </p>
-      </section>
+      </div>
 
     </div>
   </footer>
 
+  <!-- SCRIPTS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/dashboard.js"></script>
-  
+
 </body>
+
 </html>
